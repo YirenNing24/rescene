@@ -165,3 +165,7 @@ bytes maximum), without special-character requirements.
 godot --headless --path . --script tests/auth_keyboard_regression.gd
 python3 tools/test_auth_refresh.py --godot /path/to/godot
 ```
+
+Release 0.1.13 removes the lower-left gameplay instructions and the keyboard
+letters beneath all five hit circles. First-play tutorial text uses touch
+instructions. The hit circles and gameplay controls retain their behavior.

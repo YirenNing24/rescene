@@ -2,7 +2,6 @@ class_name RhythmHighway
 extends Control
 ## Perspective highway and note ribbons, rendered natively in the 2D canvas.
 
-const FONT: FontFile = preload("res://assets/fonts/Montserrat-Medium.otf")
 const TOP_Y: float = 175.0
 const HIT_Y: float = 895.0
 const TOP_WIDTH: float = 290.0
@@ -213,12 +212,6 @@ func _draw_road() -> void:
 	draw_line(band[0], band[1], Color(0.8, 0.7, 1, 0.3), 1.5, true)
 	draw_line(band[3], band[2], Color(0.76, 0.6, 1, 0.1), 8.0, true)
 	draw_line(band[3], band[2], Color(0.8, 0.7, 1, 0.5), 2.0, true)
-	var names: Array[String] = ["D", "F", "SPACE", "J", "K"]
-	for lane: int in 5:
-		var point: Vector2 = project(lane, 0.0)
-		var text: String = names[lane]
-		var text_width: float = FONT.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		draw_string(FONT, Vector2(point.x - text_width * 0.5, HIT_Y + 90), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.76, 0.74, 0.91, 0.65))
 
 
 func _draw_ribbon(note: Dictionary, tint: Color, now: float) -> void:

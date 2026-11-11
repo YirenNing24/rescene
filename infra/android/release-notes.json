@@ -5,5 +5,6 @@
   "0.1.9": "New RESCENE Rhythm launcher icon, including adaptive and themed Android icons. Replaces the default Godot artwork.",
   "0.1.10": "Combo light pillars now have a transparent background on mobile. Removes the dark rectangular panel while preserving the beams, glow and every-10-combo trigger.",
   "0.1.11": "Registration now includes a required agreement checkbox and readable Terms & Conditions and Privacy Policy dialogs. Adds the fan-made, nonprofit notice, scam warning and contact winterape25@gmail.com.",
-  "0.1.12": "Login and registration fields stay visible above the Android keyboard, including confirmation and account recovery. Failed requests preserve entered passwords and show the original error; ordinary passwords with at least 8 characters are accepted."
+  "0.1.12": "Login and registration fields stay visible above the Android keyboard, including confirmation and account recovery. Failed requests preserve entered passwords and show the original error; ordinary passwords with at least 8 characters are accepted.",
+  "0.1.13": "Cleaner touch gameplay: removes the lower-left instructions and keyboard letters beneath the hit circles. The first-play tutorial now uses touch-only instructions."
 }

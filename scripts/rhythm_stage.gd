@@ -378,8 +378,6 @@ func _build_hud() -> void:
 	_feedback = host._label(self, "", Rect2(850, 558, 700, 82), 54, WHITE, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	_feedback.modulate.a = 0.0
 	_count_label = host._label(self, "3", Rect2(780, 396, 840, 160), 112, WHITE, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	var _label_12: Label = host._label(self, "TAP  /  HOLD  /  TRACE", Rect2(62, 929, 332, 25), 14, LILAC, host.BOLD)
-	var _label_13: Label = host._label(self, "Follow the curved ribbon\nwith your finger or mouse.", Rect2(62, 968, 340, 64), 17, MUTED, host.FONT)
 	_time_label = host._label(self, "0:00", Rect2(2060, 988, 280, 30), 17, MUTED, host.FONT, HORIZONTAL_ALIGNMENT_RIGHT)
 	_progress = ProgressBar.new()
 	_progress.show_percentage = false
@@ -561,9 +559,9 @@ static func _format_time(seconds: float) -> String:
 	return "%d:%02d" % [floori(seconds / 60.0), StrictData.integer(seconds) % 60]
 
 func _tutorial_caption() -> void:
-	if song_time < 11.0: _lesson.text = "1 / TAP  ·  Hit the circles as they meet the catchers.\nDesktop: D, F, Space, J, K. Mobile: tap the matching circle."
+	if song_time < 11.0: _lesson.text = "1 / TAP  ·  Tap the matching circle as the note reaches it."
 	elif song_time < 20.0: _lesson.text = "2 / HOLD  ·  Keep pressing until the ribbon ends."
-	elif song_time < 31.0: _lesson.text = "3 / CURVE  ·  Keep your finger down and follow the ribbon.\nDesktop: hold the start key and press each lane the ribbon reaches."
+	elif song_time < 31.0: _lesson.text = "3 / CURVE  ·  Keep your finger down and follow the ribbon."
 	elif song_time < 44.0: _lesson.text = "4 / MOMENTUM  ·  Build a streak for 2×, 3× and 5×.\nA miss resets momentum. Perfect hits activate your card bonuses."
 	else: _lesson.text = "Your album deck combines five members’ bonuses.\nCards gain XP from refinement items; your player earns XP from songs."
 
