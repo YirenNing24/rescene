@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c5momioyb4rav"
+path="res://.godot/imported/RESCENE (리센느) – 우리는 해 [가사 Lyrics].mp3-bff3522cf77300f15520fcb9507f6869.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE (리센느) – 우리는 해 [가사 Lyrics].mp3"
+dest_files=["res://.godot/imported/RESCENE (리센느) – 우리는 해 [가사 Lyrics].mp3-bff3522cf77300f15520fcb9507f6869.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

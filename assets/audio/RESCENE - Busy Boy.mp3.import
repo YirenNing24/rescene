@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0fgcwskk4vrg"
+path="res://.godot/imported/RESCENE - Busy Boy.mp3-233c7fe9075ea1ac73dde115f9259fae.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Busy Boy.mp3"
+dest_files=["res://.godot/imported/RESCENE - Busy Boy.mp3-233c7fe9075ea1ac73dde115f9259fae.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

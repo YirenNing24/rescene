@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-11-09T14:40:30.594437+00:00",
+  "chainId": 421614,
+  "token": "0xea99194cb96917672973eb55350c667c68c04c20",
+  "distributor": "0xb2fd98c13d2c11cc79315706554eacb185bb8743",
+  "initialSupply": "100000000",
+  "convertedExistingEarnings": "178",
+  "confirmedPayoutTransaction": "0xa0e6049cc6957caba0fc1a4647a30c2ea3fad90526387719a7e28670c3ee54cc",
+  "apiWalletBalance": "178",
+  "pending": "0",
+  "checks": [
+    "Engine deployment receipt",
+    "immutable token and treasury bindings",
+    "finite treasury allowance",
+    "canonical reward and ERC-20 Transfer receipt",
+    "authenticated own-wallet balance",
+    "repeat reads did not create another payout"
+  ]
+}

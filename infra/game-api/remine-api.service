@@ -1,0 +1,15 @@
+[Unit]
+Description=REMINE authoritative game API and FalkorDB
+After=network-online.target docker.service
+Requires=docker.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/remine
+ExecStart=/usr/bin/docker compose up -d --wait
+ExecStop=/usr/bin/docker compose stop
+TimeoutStartSec=180
+TimeoutStopSec=40
+[Install]
+WantedBy=multi-user.target

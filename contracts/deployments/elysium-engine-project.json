@@ -1,0 +1,45 @@
+{
+  "project": "rescene-rhythm",
+  "projectId": "7fe1ecf2-b715-43bc-ba03-3f0a1149bc5d",
+  "environment": "production",
+  "allowedChains": [
+    99901
+  ],
+  "gameContracts": [
+    {
+      "name": "RESCENE Collectibles",
+      "address": "0x792508772bc395d038c87e7b7b0d05c55deb0706"
+    },
+    {
+      "name": "RESCENE Marketplace",
+      "address": "0xb5cc39d72012345198bf17c56c1bbb4adad60933"
+    },
+    {
+      "name": "RESCENE Leaderboards",
+      "address": "0xc0bb3f4190d5732878536fc15c75c712e9966d33"
+    },
+    {
+      "name": "Starlight Rewards",
+      "address": "0x0464d7f767babcef6a800ea797ea085d69551081"
+    },
+    {
+      "name": "Energy Drink Shop",
+      "address": "0xba0778c9419f086a2ff8c42f2c353ced3a4e6d22"
+    },
+    {
+      "name": "PULSE LE Individual Cards",
+      "address": "0x4630a55c643ed987a398ee11776ba50cb1712b0a"
+    },
+    {
+      "name": "PULSE Event Refinement Rewards",
+      "address": "0x2d39ea98dfc8de5820b24490aa03d9cabea38b26"
+    },
+    {
+      "name": "RESCENE Starlight",
+      "address": "0x910fc4146af825cb949fad284af62d3896c7cbbc"
+    }
+  ],
+  "treasury": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "balance": "0.000687583890415177",
+  "symbol": "HYPE"
+}

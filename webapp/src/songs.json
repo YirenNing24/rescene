@@ -1,0 +1,322 @@
+[
+  {
+    "id": "6704cd078ba6",
+    "title": "BamBamBam",
+    "artist": "RESCENE",
+    "album": "The First Night With The Duke (Original Television Soundtrack) Pt. 1",
+    "seconds": 201,
+    "cover": "/images/1799585ad034762a.webp",
+    "set_id": "the_first_night_with_the_duke_(original_television_soundtrack)_pt._1",
+    "duration": 100.5191835
+  },
+  {
+    "id": "63e0fd3215f1",
+    "title": "Bloom",
+    "artist": "RESCENE",
+    "album": "lip bomb",
+    "seconds": 176,
+    "cover": "/images/fe6f28611e06e536.webp",
+    "set_id": "lip_bomb",
+    "duration": 88.019592
+  },
+  {
+    "id": "560ecafcdeeb",
+    "title": "Busy Boy",
+    "artist": "RESCENE",
+    "album": "[RESCENE X ???]",
+    "seconds": 150,
+    "cover": "/images/b343da4de6749e21.webp",
+    "set_id": "[rescene_x_???]",
+    "duration": 75.0236735
+  },
+  {
+    "id": "d668154fdb09",
+    "title": "Cotton Candy",
+    "artist": "RESCENE",
+    "album": "Glow Up",
+    "seconds": 205,
+    "cover": "/images/c356091f05b83c66.webp",
+    "set_id": "glow_up",
+    "duration": 102.530612
+  },
+  {
+    "id": "a07e50f062d4",
+    "title": "Counting Star",
+    "artist": "RESCENE",
+    "album": "Counting Star (The Magic Star X RESCENE)",
+    "seconds": 195,
+    "cover": "/images/7fd896483395a786.webp",
+    "set_id": "counting_star_(the_magic_star_x_rescene)",
+    "duration": 97.462857
+  },
+  {
+    "id": "cbee07ca71b1",
+    "title": "CRASH",
+    "artist": "RESCENE",
+    "album": "Glow Up",
+    "seconds": 192,
+    "cover": "/images/c356091f05b83c66.webp",
+    "set_id": "glow_up",
+    "duration": 95.7518365
+  },
+  {
+    "id": "135f5305cef6",
+    "title": "Deja Vu",
+    "artist": "RESCENE",
+    "album": "Dearest",
+    "seconds": 184,
+    "cover": "/images/e5e477c3f26c74ae.webp",
+    "set_id": "dearest",
+    "duration": 92.0163265
+  },
+  {
+    "id": "f2b3fdebb1b3",
+    "title": "Dragon",
+    "artist": "RESCENE",
+    "album": "PULSE",
+    "seconds": 220,
+    "cover": "/images/586ea04269fc2c6f.webp",
+    "set_id": "pulse",
+    "duration": 110.014694
+  },
+  {
+    "id": "ca722c0b0e8b",
+    "title": "Finest Thing",
+    "artist": "RESCENE",
+    "album": "PULSE",
+    "seconds": 140,
+    "cover": "/images/586ea04269fc2c6f.webp",
+    "set_id": "pulse",
+    "duration": 70.0212245
+  },
+  {
+    "id": "bae48c05e24a",
+    "title": "Glow Up",
+    "artist": "RESCENE",
+    "album": "Glow Up",
+    "seconds": 148,
+    "cover": "/images/eaf92bac31663a3d.webp",
+    "set_id": "glow_up",
+    "duration": 74.2138775
+  },
+  {
+    "id": "c9c8615ddffc",
+    "title": "Going on",
+    "artist": "RESCENE",
+    "album": "Glow Up",
+    "seconds": 134,
+    "cover": "/images/c356091f05b83c66.webp",
+    "set_id": "glow_up",
+    "duration": 67.134694
+  },
+  {
+    "id": "3e94e3a74da4",
+    "title": "Heart Drop",
+    "artist": "RESCENE",
+    "album": "Heart Drop",
+    "seconds": 183,
+    "cover": "/images/e9970f334a816551.webp",
+    "set_id": "heart_drop",
+    "duration": 91.52
+  },
+  {
+    "id": "6ba02500273b",
+    "title": "Hello XO",
+    "artist": "RESCENE",
+    "album": "lip bomb",
+    "seconds": 169,
+    "cover": "/images/fe6f28611e06e536.webp",
+    "set_id": "lip_bomb",
+    "duration": 84.5191835
+  },
+  {
+    "id": "144504cd9688",
+    "title": "Higher",
+    "artist": "RESCENE",
+    "album": "Music from THE SPECIALS",
+    "seconds": 180,
+    "cover": "/images/d3ca97660f32f54f.webp",
+    "set_id": "music_from_the_specials",
+    "duration": 89.939592
+  },
+  {
+    "id": "b3d56a546b73",
+    "title": "In my lotion",
+    "artist": "RESCENE",
+    "album": "Glow Up",
+    "seconds": 210,
+    "cover": "/images/c356091f05b83c66.webp",
+    "set_id": "glow_up",
+    "duration": 104.8032655
+  },
+  {
+    "id": "a950208419f4",
+    "title": "Inside Out",
+    "artist": "RESCENE",
+    "album": "PULSE",
+    "seconds": 211,
+    "cover": "/images/586ea04269fc2c6f.webp",
+    "set_id": "pulse",
+    "duration": 105.5216325
+  },
+  {
+    "id": "d156b3488eee",
+    "title": "LOVE ATTACK",
+    "artist": "RESCENE",
+    "album": "SCENEDROME",
+    "seconds": 182,
+    "cover": "/images/926819e1f763d77e.webp",
+    "set_id": "scenedrome",
+    "duration": 90.8016325
+  },
+  {
+    "id": "a844b0766b06",
+    "title": "Love Echo",
+    "artist": "RESCENE",
+    "album": "lip bomb",
+    "seconds": 184,
+    "cover": "/images/fe6f28611e06e536.webp",
+    "set_id": "lip_bomb",
+    "duration": 92.0163265
+  },
+  {
+    "id": "51623539bf1f",
+    "title": "Love Frequency",
+    "artist": "RESCENE",
+    "album": "Love Frequency (Original Soundtrack from Just For Meeting You)",
+    "seconds": 163,
+    "cover": "/images/fed1111de50f06f0.webp",
+    "set_id": "love_frequency_(original_soundtrack_from_just_for_meeting_you)",
+    "duration": 81.515102
+  },
+  {
+    "id": "b7f81b591f14",
+    "title": "Lucky you",
+    "artist": "RESCENE",
+    "album": "SCENEDROME",
+    "seconds": 129,
+    "cover": "/images/926819e1f763d77e.webp",
+    "set_id": "scenedrome",
+    "duration": 64.417959
+  },
+  {
+    "id": "96dce23d7f60",
+    "title": "MEME",
+    "artist": "RESCENE",
+    "album": "PULSE",
+    "seconds": 181,
+    "cover": "/images/57fe6234b46dc83b.webp",
+    "set_id": "pulse",
+    "duration": 90.5
+  },
+  {
+    "id": "d77c0d410cb8",
+    "title": "Mood",
+    "artist": "RESCENE",
+    "album": "Dearest",
+    "seconds": 178,
+    "cover": "/images/e5e477c3f26c74ae.webp",
+    "set_id": "dearest",
+    "duration": 89.0383675
+  },
+  {
+    "id": "ef9458174e5a",
+    "title": "MVP",
+    "artist": "RESCENE",
+    "album": "lip bomb",
+    "seconds": 210,
+    "cover": "/images/fe6f28611e06e536.webp",
+    "set_id": "lip_bomb",
+    "duration": 105.025306
+  },
+  {
+    "id": "6026c854cdd9",
+    "title": "New World",
+    "artist": "RESCENE",
+    "album": "SCENEDROME",
+    "seconds": 178,
+    "cover": "/images/926819e1f763d77e.webp",
+    "set_id": "scenedrome",
+    "duration": 89.1689795
+  },
+  {
+    "id": "57e8df8f93bf",
+    "title": "Pinball",
+    "artist": "RESCENE",
+    "album": "SCENEDROME",
+    "seconds": 193,
+    "cover": "/images/926819e1f763d77e.webp",
+    "set_id": "scenedrome",
+    "duration": 96.509388
+  },
+  {
+    "id": "23007c3625cf",
+    "title": "Pretty Girl",
+    "artist": "RESCENE",
+    "album": "Pretty Girl - Special Single",
+    "seconds": 210,
+    "cover": "/images/f401a240a7362668.webp",
+    "set_id": "pretty_girl_-_special_single",
+    "duration": 105.025306
+  },
+  {
+    "id": "fcf8b3189b74",
+    "title": "Runaway",
+    "artist": "RESCENE",
+    "album": "Runaway",
+    "seconds": 182,
+    "cover": "/images/ea905d977cdaea05.webp",
+    "set_id": "runaway",
+    "duration": 91.0
+  },
+  {
+    "id": "5227552f48f3",
+    "title": "TATA (Feat. MINAMI of RESCENE)",
+    "artist": "Loco, Minami",
+    "album": "TATA (Feat. MINAMI of RESCENE)",
+    "seconds": 164,
+    "cover": "/images/396f59b96c08c731.webp",
+    "set_id": "tata_(feat._minami_of_rescene)",
+    "duration": 81.985306
+  },
+  {
+    "id": "8d39682c1097",
+    "title": "UhUh",
+    "artist": "RESCENE",
+    "album": "Re:Scene",
+    "seconds": 203,
+    "cover": "/images/0ae55fa17f368dd5.webp",
+    "set_id": "re:scene",
+    "duration": 101.3942855
+  },
+  {
+    "id": "38c9a4926480",
+    "title": "With",
+    "artist": "RESCENE",
+    "album": "PULSE",
+    "seconds": 191,
+    "cover": "/images/57fe6234b46dc83b.webp",
+    "set_id": "pulse",
+    "duration": 95.5
+  },
+  {
+    "id": "626b2232aa8c",
+    "title": "YoYo",
+    "artist": "RESCENE",
+    "album": "Re:Scene",
+    "seconds": 210,
+    "cover": "/images/0ae55fa17f368dd5.webp",
+    "set_id": "re:scene",
+    "duration": 105.182041
+  },
+  {
+    "id": "d8f2ba6fe79c",
+    "title": "우리는 해",
+    "artist": "RESCENE",
+    "album": "Special version",
+    "seconds": 155,
+    "cover": "/images/rescene-main-menu.webp",
+    "set_id": "special_version",
+    "duration": 77.5314285
+  }
+]

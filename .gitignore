@@ -1,0 +1,52 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Server-only secrets, runtime data and binaries.
+/backend/.env
+/backend/data/
+/backend/bin/
+/builds/
+
+/backend/.env.admin
+/admin/node_modules/
+/admin/dist/
+/admin/.wrangler/
+/admin/.dev.vars
+
+/webapp/node_modules/
+/webapp/dist/
+/webapp/.wrangler/
+/webapp/test-results/
+/webapp/.dev.vars
+
+# Private configuration and runtime credentials, at any depth.
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars*
+.wrangler/
+*.keystore
+*.jks
+*.pem
+*.key
+*.rdb
+*.aof
+*.sqlite
+*.sqlite3
+
+# Generated outputs, local tools, and redundant source downloads.
+node_modules/
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+.codex-attachments/
+/previews/
+/output/
+/RESCENE MP3-*/
+/*.tar.gz
+
+# Local publication metadata and embedded checkout history.
+.openai/
+/fansite/.git/

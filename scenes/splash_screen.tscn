@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/splash_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/art/rescene-rhythm-splash-wide.png" id="2_art"]
+[ext_resource type="Shader" path="res://shaders/splash_backdrop.gdshader" id="3_blur"]
+[ext_resource type="AudioStream" path="res://assets/audio/with.mp3" id="4_music"]
+[ext_resource type="Script" path="res://scripts/splash_particles.gd" id="5_particles"]
+[ext_resource type="PackedScene" path="res://scenes/auth_screen.tscn" id="6_menu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("3_blur")
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+next_scene = ExtResource("6_menu")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_music")
+volume_db = -8.0
+
+[node name="Backdrop" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_art")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Artwork" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 2400.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("2_art")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Particles" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+clip_contents = true
+script = ExtResource("5_particles")
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+flat = true
+focus_mode = 0
+tooltip_text = "Tap, click, or press Enter to start"
+modulate = Color(1, 1, 1, 0)
+
+[node name="Flash" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8, 0.85, 1, 0)
+
+[node name="Fade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.035, 0.045, 0.075, 1)

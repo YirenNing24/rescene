@@ -1,0 +1,770 @@
+[
+  {
+    "difficulty": 0,
+    "revision": "0x646e332acfc2666fc77b86c5dd15554a059a09d565187c37f58746b8141a3bc3",
+    "songId": "135f5305cef6",
+    "units": 127
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x6e6a9b0f8429fe5e4e781e2b6985343cf567bfb461bea4b29fbb635337f5997a",
+    "songId": "135f5305cef6",
+    "units": 279
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x7ff9dab75cb9d5778d11ef79089e7320a16eda09ff0ce9cce245814e68176349",
+    "songId": "135f5305cef6",
+    "units": 392
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x1f3d010eaa4c5c7fc39ac5d109bf39d94b8aa1886b7977c13bdd1211d53a22c0",
+    "songId": "135f5305cef6",
+    "units": 463
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x50d84f4805bf966ca4fb72d16260891e4e0bf6714cef13f52a1c72da3166781e",
+    "songId": "144504cd9688",
+    "units": 110
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x0ed733cbad75a65bd5cce57d79b7c02f0487682cfc8d9ee6952f122127aa2257",
+    "songId": "144504cd9688",
+    "units": 237
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x7f56e2ecd8572eb3056f0cbbd968f8efff91f14cd64e62ebe3ac735e5f1cc67a",
+    "songId": "144504cd9688",
+    "units": 336
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x7e29e2a80be1c57b72ac32e12bd6ddf9abbfb6305277e4cc4999d5a36dfbbf08",
+    "songId": "144504cd9688",
+    "units": 404
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xfcc94d4c18a7ab2c8c9a3f108404eda88433d8b4abcfcd5cb13dc0338f1bf5ad",
+    "songId": "23007c3625cf",
+    "units": 155
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xe5589745dfdc0b4ff9a2d0af152ef962f5d5da1f7eb00e74218ebf009f827d98",
+    "songId": "23007c3625cf",
+    "units": 345
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x3a317cfb915411fed3ecb4d29ee9f2c5b0d351327396acc7839b1fd385a54779",
+    "songId": "23007c3625cf",
+    "units": 482
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x4f5118018550daf65ac3f3fd41ac5d2a3fd47a0ecbf609e66fe450394d750666",
+    "songId": "23007c3625cf",
+    "units": 554
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xd1906ca3bf1ddbf8fda18dfddf1f6635ac090958cb4987b0734146bbb92ceb01",
+    "songId": "38c9a4926480",
+    "units": 115
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xc9d771b0d2c9d023d143b795964aff0f4b8ac50cde8ec256aa7c09947f7c84e6",
+    "songId": "38c9a4926480",
+    "units": 257
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x4aad24c3a9aafc6ab3382311eaf81831921cabedfa007e51f2e6882a41f7cea5",
+    "songId": "38c9a4926480",
+    "units": 358
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x0a62dc72efed5356ac9d4ce290abf0e38987cfde12c706f7c5a1c619886a83ce",
+    "songId": "38c9a4926480",
+    "units": 427
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x581730d964c6923a764d51a96bc483fe06d06f8ac4cfa10db2cb5c95da4ca454",
+    "songId": "3e94e3a74da4",
+    "units": 134
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xe44b3a3c09c2cb0599c4896ce84088273180af5248bf03e2aae245aaf2806bf9",
+    "songId": "3e94e3a74da4",
+    "units": 300
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xf315e084c9398178cfc08e078b8c45510e8c3a838b6253feb074997be7b492e1",
+    "songId": "3e94e3a74da4",
+    "units": 421
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x747b5d1ff4cfd121c0c879706ef169c341087e285b8b4c22d1880aaf2b6a29bb",
+    "songId": "3e94e3a74da4",
+    "units": 488
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x56000b2264b11412a54ab8de0d7617d082a0a1000560a9b9ea16bd7494576fc1",
+    "songId": "51623539bf1f",
+    "units": 89
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xf07c72db6b8269c17fca8b92d5ef9fa9e01e39f15bfa1bb4f528e12913dd594a",
+    "songId": "51623539bf1f",
+    "units": 196
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x5ff810889f30ac9f4f1f62ec232086b9e0015bcf09131ee813ed55b372eae64b",
+    "songId": "51623539bf1f",
+    "units": 272
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xc58e926d9587596cd7956ee8475068b14ed8043ea2a7d499d128c41b6cf15af5",
+    "songId": "51623539bf1f",
+    "units": 328
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xdae817008efaa7095e4a4091f13a561819766f57335dcb654e33bbe883bec2d0",
+    "songId": "5227552f48f3",
+    "units": 131
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x3f4b29c5513e3a72d87ccd8639c3f4e03b661af93870270cbbcaad38bc86b261",
+    "songId": "5227552f48f3",
+    "units": 293
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xf893af97c3729ad2878bb0cd568f85a7fb3d143b14b76687226614b86b67acf1",
+    "songId": "5227552f48f3",
+    "units": 411
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x5a81e97dd8fa129f0ac01c7538bf22c3f00d00d647d1ded7777f11fe9b7dc37f",
+    "songId": "5227552f48f3",
+    "units": 475
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x313c8b1c18561c0534610ac82ea4d25d013ba2cce32e0a8614b588741f8abb90",
+    "songId": "560ecafcdeeb",
+    "units": 125
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xa1c218d85d8672022209f277168991f7ff43f72097906d53bc4ff49413b830ef",
+    "songId": "560ecafcdeeb",
+    "units": 272
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x44ada6d6ab3890f936debd57b09682971cf7a65896ce38bc10d4ec2ad226d26d",
+    "songId": "560ecafcdeeb",
+    "units": 381
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x578e959de8b2f78fbe74d254e25906aa157a87038346f7702bad4095923fc587",
+    "songId": "560ecafcdeeb",
+    "units": 439
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xc2c7c5da2e393846e2392f13ba71a40940aec2f9e209fcd029dde8078d8ec0ea",
+    "songId": "57e8df8f93bf",
+    "units": 120
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x485d601be46e4a1765d99ce86fd6524ae36c95a627716fa613ca5f754bd3e21a",
+    "songId": "57e8df8f93bf",
+    "units": 267
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xcd62befbb6205b32dbf23d7d69089b2121e4c9a4de8930eeb80a86e071980942",
+    "songId": "57e8df8f93bf",
+    "units": 376
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x764f260fffef07a7000bc8ee680a5f84436a228b0082a1f9359f51a7f03bf593",
+    "songId": "57e8df8f93bf",
+    "units": 436
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xca28d29db199adcff913f519ea1e06e3d872b18eba3774ceef37c7a3f769fa99",
+    "songId": "6026c854cdd9",
+    "units": 97
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x3e3d76df7089d4ad4b9f4800f40703e8ea68279c3076e86f997178ee26ea96aa",
+    "songId": "6026c854cdd9",
+    "units": 218
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x5e7295eb5e1de48cbf7d4caf769e17f1e856d281cf7455c4712efe55da5722d3",
+    "songId": "6026c854cdd9",
+    "units": 305
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x75a56895de2611f829b7ff2080aa6b58230423ee178daa9cc1de23b0b1a08719",
+    "songId": "6026c854cdd9",
+    "units": 350
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x6824d3a8fa6566f14c4e14b143176df6abc36a9f0214548fa9fdf4d921668e57",
+    "songId": "626b2232aa8c",
+    "units": 121
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x81ab017d90d5f912dbf5fb61f18e3ee15e16440db65fa358b4ee1a7052f1d9f2",
+    "songId": "626b2232aa8c",
+    "units": 272
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x40a544d468607f29550db00ea41047da3941ef76a309a8bbe3faf1059e798584",
+    "songId": "626b2232aa8c",
+    "units": 380
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x7fa0a38f6095427f53a0c745e2c74a571130d0627f297faced9f3bde88eb331f",
+    "songId": "626b2232aa8c",
+    "units": 451
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x89e2b8daffc489989a66b08691addaf7ae011d883d91c26a23b946fd9d3b9fa7",
+    "songId": "63e0fd3215f1",
+    "units": 103
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x73ce73572455b7667fa5b5daad7b53fd1d8106b4a8fe6cae05beb68969e7c6d4",
+    "songId": "63e0fd3215f1",
+    "units": 228
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x94af62c2d91ca47cf32d4f54e3284f1a8ac223ba69d7a2601e6f7bf19d9250ac",
+    "songId": "63e0fd3215f1",
+    "units": 318
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xbe86c73a658366ab53101beaaa519adfbcbd1217dc410e6816fae248e3dde8b9",
+    "songId": "63e0fd3215f1",
+    "units": 369
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xd1e96093f8316ea4354ca24cfcf1989c658071c77a0bcd09ee8a9ec47fa97aed",
+    "songId": "6704cd078ba6",
+    "units": 173
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xfe8f027bcdb51c53bdd01fdbeabbd99d22ebfe1aa34e681b4c1b4cca41f04c69",
+    "songId": "6704cd078ba6",
+    "units": 384
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x8a033428de298427ef92a1d948d796cc55c8422268e05d2d9b8eaa37f82fdbe6",
+    "songId": "6704cd078ba6",
+    "units": 535
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x759f8478bb17b29bf9e49c6f2c0a24851d007b0591fe54dde471b2e1560e202d",
+    "songId": "6704cd078ba6",
+    "units": 621
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xdb70cf8ccab99276d01d8a98c225fad541ada4ec820115d57549ab66caf0c743",
+    "songId": "6ba02500273b",
+    "units": 116
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xad94dbf13474dbc70737a336f78c026171436cddf5dd89ea58603ee86f6c0f42",
+    "songId": "6ba02500273b",
+    "units": 259
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xa10fabe78ff862ad5b076999c5a0405b2a7013de89997f752f36f1f98a466133",
+    "songId": "6ba02500273b",
+    "units": 361
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xd62218ab5d8c3dc9dcb3cd2015b5776de43707ffc850d54e8c104fff41cf74c5",
+    "songId": "6ba02500273b",
+    "units": 431
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x96a25ceec297b9d0e46711a4371ce5b3c3f014ef8f06a9ca8dc138a2d60edddd",
+    "songId": "8d39682c1097",
+    "units": 125
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x233bd49bb6579cd77a684dffd8cbab1406babe34bf69610afd678d7f1f66c7d4",
+    "songId": "8d39682c1097",
+    "units": 272
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xd38f080eb12c17faf951b78057ab7d0aab377e08a90aeec1fada9b7ed7c8646d",
+    "songId": "8d39682c1097",
+    "units": 380
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xc37a254aca4071533da7afa4a22bb89ea514e8b0f29caefcfb86826aece939ed",
+    "songId": "8d39682c1097",
+    "units": 456
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x6b6a1adc85276e82a8d9f25badb39649c555edde2662f57f92e37a40ad8989ef",
+    "songId": "96dce23d7f60",
+    "units": 171
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xadc974a0a489120a8688d57f2457f79918091771083595d5a612c2c86c742026",
+    "songId": "96dce23d7f60",
+    "units": 375
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x8696ad98fdfe58c832d15b3564b4371c1a88bbb9fd50ded109244b09b8e19231",
+    "songId": "96dce23d7f60",
+    "units": 526
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x3d8a404b48c38f86c385d78fa19d55462d955a7a132faf0eb37b8b2d1f60ada1",
+    "songId": "96dce23d7f60",
+    "units": 610
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x7e4c35e280e845602da432a725b428bb1b4091aca51380669a4668a035e6fa05",
+    "songId": "a07e50f062d4",
+    "units": 167
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x6d45e128f62e9c85eba234331c11a5f6fffb6ca977fbe3eef42e0bba070edf6c",
+    "songId": "a07e50f062d4",
+    "units": 372
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x7a41bd624c185b8c9b5c9cf9bac58af10bfaefb5369f46f4be2dadff2fb29f0f",
+    "songId": "a07e50f062d4",
+    "units": 521
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x87fe18e45aa5ba1a7662be209a0f58b4f8a037daf1e9fac4ede52ce6fff753be",
+    "songId": "a07e50f062d4",
+    "units": 606
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xc73bce0111494c6076d202389853a3546a73fd92349698738858d097bc30fc54",
+    "songId": "a844b0766b06",
+    "units": 126
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x92ae03669b166d428ea840d243692eaf5e289b30abb80640d2f8aa1c937122d9",
+    "songId": "a844b0766b06",
+    "units": 277
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x61e71f7ddcc95f4ccb4bebef09d4470c006bc5df7e11c262e610d01a8dab381d",
+    "songId": "a844b0766b06",
+    "units": 382
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x041bb6baf3978894b1241d8eaea16ae5db6f45587d01706d5375c52ce2e27264",
+    "songId": "a844b0766b06",
+    "units": 452
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x8bc0966addf272fd0b3b13515497e0555e3cb73a01e86644e965ec5d763cf691",
+    "songId": "a950208419f4",
+    "units": 114
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xdc4529da9028551e985d1c65e7069436df445af31785f65c9a3b933df4443c51",
+    "songId": "a950208419f4",
+    "units": 249
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x667bd2b19ace018807388f1ecfca5b8ece1828bde577c4a4d01f504a7676ad34",
+    "songId": "a950208419f4",
+    "units": 348
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x11e19b789ca79bb2abdd835124e4b34ea01db7916c20cfec4b90fa8a17ab11ef",
+    "songId": "a950208419f4",
+    "units": 419
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x97981806d0ad985f797c0417985c5951c5436a61a99ce5800bdbc9f7bb1c7725",
+    "songId": "b3d56a546b73",
+    "units": 154
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x0af9fbc5c3ee9a178aa25a0400b7d505164059cb88caceadf7f66c3fa1d52746",
+    "songId": "b3d56a546b73",
+    "units": 345
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x9b390e3c14190e67f0ba3900dfd11dbe254d6217ff7152459d9f4da7152b7845",
+    "songId": "b3d56a546b73",
+    "units": 483
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xa5bc0be6eaac1e048d9b6651ce08f2bc396844ebff2317ea0ca8987599435ae6",
+    "songId": "b3d56a546b73",
+    "units": 568
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x563092cb85da8541c9e2895b912fe21062620ae4163d3734637c065378443786",
+    "songId": "b7f81b591f14",
+    "units": 65
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x71ae44b1a9ab51f25f7372e88f5e476b81ca36a72062fe93fe9ce6e94548154d",
+    "songId": "b7f81b591f14",
+    "units": 147
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x2736ee8fc005da7c7132c5cdae69c1e5bbbed14202faec0941de00835a704470",
+    "songId": "b7f81b591f14",
+    "units": 205
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x7f7f109b7d3a33aeb47c8f8f65eef1290b965ff61b8e8738a9e0717a11ca6cac",
+    "songId": "b7f81b591f14",
+    "units": 250
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x3c198f9dc0eacb019349f94d58ba4399c78863217c2a0257379209ba4dfdf255",
+    "songId": "bae48c05e24a",
+    "units": 95
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x70524ed21a3bdd087dbec241c3f836b10595d5ec0dc7bdd6e80f1a325f8349c4",
+    "songId": "bae48c05e24a",
+    "units": 211
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x9a2eb36a01a2be116d63dbdb4a385335418124ee55f9f089a09bfd85a5163052",
+    "songId": "bae48c05e24a",
+    "units": 297
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x0708063bc7d53eeeb626fae39fa18294b3f74c4ef9a0bdfd7e845dc46a86a5c3",
+    "songId": "bae48c05e24a",
+    "units": 343
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x2e6d06a95d8422cc7203badf6d109791ba3d8a27959ea2643ee8ce3332cabcd4",
+    "songId": "c9c8615ddffc",
+    "units": 80
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x10b6c1d3d55f40b4660027ef8a3265d3af44b71cb7268d1a44a780a32db2d820",
+    "songId": "c9c8615ddffc",
+    "units": 177
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x568e388f8b79abfdd629bc040e84c533ede92f92f4a3b87bdeee017e9ce3afde",
+    "songId": "c9c8615ddffc",
+    "units": 249
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x3498ea97a57a19b0134f08bd0be6d8e042ea9a3665e294779cd5b8f62ba1f714",
+    "songId": "c9c8615ddffc",
+    "units": 297
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xa4c2a031db3768e17fb5649965e374813c09b1f6bccc809b31729159dd77934e",
+    "songId": "ca722c0b0e8b",
+    "units": 82
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x775f1c250c434b0953a5c3df480a3033b4f79c84488b52463aa3ecb8710f77b5",
+    "songId": "ca722c0b0e8b",
+    "units": 183
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xd9885823b71d155b6132d8b86a17d02479554d3af497d21896c1d456ed17eb81",
+    "songId": "ca722c0b0e8b",
+    "units": 255
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x68d9af6243a5f1e5daf1f221280f9aa98cf1504b7990ea3654757533826e66e0",
+    "songId": "ca722c0b0e8b",
+    "units": 299
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xb15bfd040697545027965a0979347367950f7879d447a9f2430d5930337bd8f1",
+    "songId": "cbee07ca71b1",
+    "units": 134
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x7aca38d202b0f272490998f36e1ba629852dfbc73270ca067ce3684c4ae4205b",
+    "songId": "cbee07ca71b1",
+    "units": 299
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x95e4d95d65612aaef3a0675ea7b401b51abb3d63bd31f2ab9e9194fa35b37a85",
+    "songId": "cbee07ca71b1",
+    "units": 422
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xe4c4f67b88fc072c99b52ebed365612e58963df062c67929d50b3d8ad40eb939",
+    "songId": "cbee07ca71b1",
+    "units": 496
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x89d81f662e6b2c6251ce86bf0c553428aee0608ac634d8d4a689d3c4b97e0040",
+    "songId": "d156b3488eee",
+    "units": 113
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xe09f10b2e9044aae29b70c405d2c255a233a517f4dce63858c53f1bc6af17af6",
+    "songId": "d156b3488eee",
+    "units": 248
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x56a3d74cbdccbce79a05492b082954e5e6ee52bb47c80e766c62ff722b8a60c0",
+    "songId": "d156b3488eee",
+    "units": 346
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x82390cfdc51fea65814075e87da7261c29ff743945e404d62c11b25d398fb076",
+    "songId": "d156b3488eee",
+    "units": 414
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x00fa06d4e6e3cbf1b9b7dce174c8a289971347609eb690c2a8035bc94a3ad4b3",
+    "songId": "d668154fdb09",
+    "units": 152
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x49ee37845d5fd46f1c3dc80005b0d8754d00ea41b3199ce9d9a1e8cc4a353041",
+    "songId": "d668154fdb09",
+    "units": 333
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xbdd3b3c4e0b5125575421f7e965bb6c032c5fd2f138ca66a9ca1384b2bb14232",
+    "songId": "d668154fdb09",
+    "units": 461
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xcf58a71b9bf7c3bc3d1bfcd39218b768c618160467b2bcae83b30b45761d30d8",
+    "songId": "d668154fdb09",
+    "units": 540
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xbe9605a5fdaf062108532c16e207e3bff1e186b134bd7ee17c9afec092349313",
+    "songId": "d77c0d410cb8",
+    "units": 111
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x6f70496a5df6b29759bbdd2f9117cfe1d89c0dead426aa207148fecb6b7f27f1",
+    "songId": "d77c0d410cb8",
+    "units": 239
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xc5582c2114db0ee93a1c5b313db46ee3f8423e3ad66339ab4782b94249ad7338",
+    "songId": "d77c0d410cb8",
+    "units": 334
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x4a956100e4ce9a0c64261d83d19327eabe76afdc11a0bf1a068858e835e8aca5",
+    "songId": "d77c0d410cb8",
+    "units": 389
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x6cbb1d0ea174a940ccd052729c2406165e6af3b718cf0a1c7d4767a8c15cc6cc",
+    "songId": "d8f2ba6fe79c",
+    "units": 105
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xb6c2be485c4d077a096537103bb416adf7621ebbaabfe48f71477115aa8bf861",
+    "songId": "d8f2ba6fe79c",
+    "units": 230
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x5f849898aa707ef2e3b4de98686a7a4654020e4709728c361f9adb311c57e492",
+    "songId": "d8f2ba6fe79c",
+    "units": 326
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xb4da02c28b9c495f88b1d330d10927ead4b4be00d4f115cdab908ce0abbaa5d8",
+    "songId": "d8f2ba6fe79c",
+    "units": 386
+  },
+  {
+    "difficulty": 0,
+    "revision": "0xf56db765ed3cf8ab8fa618b5f2c329ce3c9c262a620f70463d3e42f9a6ead44a",
+    "songId": "ef9458174e5a",
+    "units": 136
+  },
+  {
+    "difficulty": 1,
+    "revision": "0xdcc7572b3b2f9cb2ec7d4b87725296cb1a3936e886e4798dcbd43ba393540ff3",
+    "songId": "ef9458174e5a",
+    "units": 308
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x91dc2a997a184881dc7927e4b9d57acb89b063ab473af63a6b9b99e404f9d176",
+    "songId": "ef9458174e5a",
+    "units": 431
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xf9196f8f735eea74a7bff17b7f51650ea2484a4ffb94d0cd76d8f0fa66d9033b",
+    "songId": "ef9458174e5a",
+    "units": 508
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x89b976dc81405062fc5a401d12965ef854e95d05e87322879468733224eab64d",
+    "songId": "f2b3fdebb1b3",
+    "units": 190
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x546fb1f4a99252f62c3661ca08f7103a5ac11db40735d6e3155312ef14c9bd3b",
+    "songId": "f2b3fdebb1b3",
+    "units": 420
+  },
+  {
+    "difficulty": 2,
+    "revision": "0xc94066c2ff7d50b8ecf25552b4fb3b4abc9db045460bf2588c277059c4feab86",
+    "songId": "f2b3fdebb1b3",
+    "units": 588
+  },
+  {
+    "difficulty": 3,
+    "revision": "0x3cf0bf05fe89edfcc7e59b6c8d061bec357937e2970f3476839ac55084b16101",
+    "songId": "f2b3fdebb1b3",
+    "units": 680
+  },
+  {
+    "difficulty": 0,
+    "revision": "0x44b90a62d6f39a56dda594f25e72e56b96e14ae93789f94d02d8703b82f73703",
+    "songId": "fcf8b3189b74",
+    "units": 114
+  },
+  {
+    "difficulty": 1,
+    "revision": "0x040a28586851959b6cd3f01b393b4cc404c8ea65a91eb55bbb8e20ee8257b50b",
+    "songId": "fcf8b3189b74",
+    "units": 253
+  },
+  {
+    "difficulty": 2,
+    "revision": "0x6a41e1f65cfe9ce411fe652a127bb008173cd124d53a47ad5d1425765d1324ad",
+    "songId": "fcf8b3189b74",
+    "units": 350
+  },
+  {
+    "difficulty": 3,
+    "revision": "0xc3fb79a2373ab442494988890ba8d55de4e2e649e921b7dea9fcbbf6a9260fec",
+    "songId": "fcf8b3189b74",
+    "units": 410
+  }
+]

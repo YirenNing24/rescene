@@ -1,0 +1,7 @@
+[Unit]
+Description=REMINE private database and media backup
+Requires=remine-api.service
+After=remine-api.service
+[Service]
+Type=oneshot
+ExecStart=/opt/remine/backup.sh

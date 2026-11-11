@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://wi8hglml0rrf"
+path="res://.godot/imported/RESCENE - New World.mp3-8d8d39ecd9d27eca0e25ecb24bde96af.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - New World.mp3"
+dest_files=["res://.godot/imported/RESCENE - New World.mp3-8d8d39ecd9d27eca0e25ecb24bde96af.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

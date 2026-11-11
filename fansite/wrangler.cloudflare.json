@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "remineph-fansite",
+  "account_id": "8355506b306aa26ed64113cdc82cf338",
+  "compatibility_date": "2026-05-15",
+  "assets": {
+    "directory": "./dist/client",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "remineph.online/*",
+      "zone_id": "36d2a038786b0ac66d6ac9ac745d7b43"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

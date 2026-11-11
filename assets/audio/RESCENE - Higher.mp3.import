@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://eeev6wsp2767"
+path="res://.godot/imported/RESCENE - Higher.mp3-7a7200617e6f01de23c58bb67576cea9.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Higher.mp3"
+dest_files=["res://.godot/imported/RESCENE - Higher.mp3-7a7200617e6f01de23c58bb67576cea9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

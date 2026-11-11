@@ -1,0 +1,78 @@
+{
+  "steps": {
+    "mint": {
+      "state": "confirmed",
+      "key": "rescene/energy-drink-launch/mint/v1",
+      "id": "4e26e8ba-8bb4-4062-aa94-1c512268b8fc",
+      "transactionHash": "0x4698551a2edf17ae22fcdb0f50a89f4a6f992e20cd32fa200a27d48e92679371"
+    },
+    "approve-marketplace": {
+      "state": "confirmed",
+      "key": "rescene/energy-drink-launch/approve-marketplace/v1",
+      "id": "61e4fbb8-34a8-415c-8456-bd1b1de932fc",
+      "transactionHash": "0x7acd6e3fbe6abbdcedad14c54862ef095bb1336d3da7d9fc6980fd905c4ec4a1"
+    },
+    "listing": {
+      "state": "failed",
+      "key": "rescene/energy-drink-launch/listing/v1",
+      "id": "7090c0d3-492f-45e9-9342-08fb0bc6666b",
+      "transactionHash": ""
+    },
+    "listing-valid-start": {
+      "state": "confirmed",
+      "key": "rescene/energy-drink-launch/listing-valid-start/v1",
+      "id": "8bb64a54-eda6-453c-ad26-d38595b14878",
+      "transactionHash": "0xe39afc5d6705fe32822ec75a8bd3fd248bca121d5c0e09c1b5bef6b558536b3b"
+    }
+  },
+  "chainId": 421614,
+  "collection": "0xa468d30613fe78692f857f55326a069b157c8b56",
+  "marketplace": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+  "currency": "0xea99194cb96917672973eb55350c667c68c04c20",
+  "tokenId": "0",
+  "listingId": "0",
+  "unitPrice": "100",
+  "unitPriceRaw": "100000000000000000000",
+  "initialStock": 10000,
+  "metadata": {
+    "name": "Energy Drink",
+    "description": "A refreshing boost for your next RESCENE Rhythm scene. Consume one to restore 5 energy, up to the 15-energy cap.",
+    "image": "https://engine.fluentxverse.com/items/energy-drink.png",
+    "attributes": [
+      {
+        "trait_type": "Type",
+        "value": "Consumable"
+      },
+      {
+        "trait_type": "Energy",
+        "value": 5
+      }
+    ]
+  },
+  "metadataURI": "data:application/json;base64,eyJuYW1lIjoiRW5lcmd5IERyaW5rIiwiZGVzY3JpcHRpb24iOiJBIHJlZnJlc2hpbmcgYm9vc3QgZm9yIHlvdXIgbmV4dCBSRVNDRU5FIFJoeXRobSBzY2VuZS4gQ29uc3VtZSBvbmUgdG8gcmVzdG9yZSA1IGVuZXJneSwgdXAgdG8gdGhlIDE1LWVuZXJneSBjYXAuIiwiaW1hZ2UiOiJodHRwczovL2VuZ2luZS5mbHVlbnR4dmVyc2UuY29tL2l0ZW1zL2VuZXJneS1kcmluay5wbmciLCJhdHRyaWJ1dGVzIjpbeyJ0cmFpdF90eXBlIjoiVHlwZSIsInZhbHVlIjoiQ29uc3VtYWJsZSJ9LHsidHJhaXRfdHlwZSI6IkVuZXJneSIsInZhbHVlIjo1fV19",
+  "listingParameters": {
+    "assetContract": "0xa468d30613fe78692f857f55326a069b157c8b56",
+    "tokenId": "0",
+    "quantity": "10000",
+    "currency": "0xea99194cb96917672973eb55350c667c68c04c20",
+    "pricePerToken": "100000000000000000000",
+    "startTimestamp": "1794245293",
+    "endTimestamp": "2082758400",
+    "reserved": false
+  },
+  "verifiedListing": {
+    "listingId": "0",
+    "tokenId": "0",
+    "quantity": "10000",
+    "pricePerToken": "100000000000000000000",
+    "startTimestamp": "1794245297",
+    "endTimestamp": "2082758404",
+    "listingCreator": "0x78646FEDDe207C4574116AC9c455B56E4091C517",
+    "assetContract": "0xA468d30613fe78692f857f55326A069B157c8B56",
+    "currency": "0xea99194CB96917672973Eb55350c667c68C04C20",
+    "tokenType": 1,
+    "status": 1,
+    "reserved": false
+  },
+  "status": "confirmed"
+}

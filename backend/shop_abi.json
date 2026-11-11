@@ -1,0 +1,366 @@
+{
+  "consume": [
+    {
+      "type": "function",
+      "name": "consume",
+      "inputs": [
+        {
+          "name": "consumeId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "player",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    }
+  ],
+  "consumptions": [
+    {
+      "type": "function",
+      "name": "consumptions",
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "fundGas": [
+    {
+      "type": "function",
+      "name": "fundGas",
+      "inputs": [
+        {
+          "name": "actionId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "player",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "payable"
+    }
+  ],
+  "gasGrants": [
+    {
+      "type": "function",
+      "name": "gasGrants",
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "items": [
+    {
+      "type": "function",
+      "name": "items",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "contract IShopItems"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "listingId": [
+    {
+      "type": "function",
+      "name": "listingId",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "market": [
+    {
+      "type": "function",
+      "name": "market",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "contract IShopMarket"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "operator": [
+    {
+      "type": "function",
+      "name": "operator",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "purchase": [
+    {
+      "type": "function",
+      "name": "purchase",
+      "inputs": [
+        {
+          "name": "orderId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "buyer",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "quantity",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    }
+  ],
+  "purchases": [
+    {
+      "type": "function",
+      "name": "purchases",
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "token": [
+    {
+      "type": "function",
+      "name": "token",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "contract IShopToken"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "tokenId": [
+    {
+      "type": "function",
+      "name": "tokenId",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "unitPrice": [
+    {
+      "type": "function",
+      "name": "unitPrice",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    }
+  ],
+  "approve": [
+    {
+      "type": "function",
+      "name": "approve",
+      "stateMutability": "nonpayable",
+      "inputs": [
+        {
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "bool",
+          "name": ""
+        }
+      ]
+    }
+  ],
+  "setApprovalForAll": [
+    {
+      "type": "function",
+      "name": "setApprovalForAll",
+      "stateMutability": "nonpayable",
+      "inputs": [
+        {
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "outputs": []
+    }
+  ],
+  "purchaseCard": [
+    {
+      "type": "function",
+      "name": "purchaseCard",
+      "inputs": [
+        {
+          "name": "orderId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "buyer",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "quantity",
+          "type": "uint256",
+          "internalType": "uint256"
+        },
+        {
+          "name": "itemId",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    }
+  ],
+  "purchaseItem": [
+    {
+      "type": "function",
+      "name": "purchaseItem",
+      "inputs": [
+        {
+          "name": "orderId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "buyer",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "quantity",
+          "type": "uint256",
+          "internalType": "uint256"
+        },
+        {
+          "name": "itemId",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    }
+  ],
+  "enhance": [
+    {
+      "type": "function",
+      "name": "enhance",
+      "inputs": [
+        {
+          "name": "orderId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "player",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "materialId",
+          "type": "uint256",
+          "internalType": "uint256"
+        },
+        {
+          "name": "cardId",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    }
+  ]
+}

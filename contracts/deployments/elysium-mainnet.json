@@ -1,0 +1,123 @@
+{
+  "chainId": 99901,
+  "network": "Elysium Mainnet",
+  "nativeCurrency": "HYPE",
+  "engineProjectId": "7fe1ecf2-b715-43bc-ba03-3f0a1149bc5d",
+  "engineProject": "rescene-rhythm",
+  "adminAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "publisherAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "nativeTokenWrapperAddress": "0xbA876237B0F021A6c6D852d6c26E107997cC5E81",
+  "thirdwebCommit": "0da770f27209774061e118401e8b9796ead97ced",
+  "contracts": {
+    "starlight": {
+      "address": "0x910fc4146AF825cB949fad284aF62d3896c7cBbc",
+      "transactionHash": "0x8f775c2afc2c46e05e5b5c1910ba1b3766254f2d05b3668091cc2881a8638c17",
+      "blockNumber": "4772721",
+      "artifact": "ResceneStarlight"
+    },
+    "erc1155Implementation": {
+      "address": "0xA468d30613fe78692f857f55326A069B157c8B56",
+      "transactionHash": "0xe54b5c604887cb77fd7f7928356b1e27b39b06a16fd1fc211d5f4890751303a2",
+      "blockNumber": "4774226",
+      "artifact": "TokenERC1155"
+    },
+    "erc1155": {
+      "address": "0x792508772Bc395d038c87E7B7b0D05c55DeB0706",
+      "transactionHash": "0xf18f98743d950ba4dbba2b3b77d5d6f98c7862ab5c23884cc6378563e45c8fe3",
+      "blockNumber": "4774228",
+      "artifact": "TWProxy"
+    },
+    "DirectListingsLogic": {
+      "address": "0xA98bAc01D67B55DD03c373224b2b8a8B1006Aa92",
+      "transactionHash": "0xe2a97fc97f7398d6b2fce06dfe3ea161301e3ac9aa17c55319c45ff7eec7608a",
+      "blockNumber": "4774231",
+      "artifact": "DirectListingsLogic"
+    },
+    "EnglishAuctionsLogic": {
+      "address": "0x367240465D96Bc0BD66bACea3659F0d0452314D9",
+      "transactionHash": "0x88221e6863c1a7410d8bbab6538248247f3e841c2b0ca17eaeca11ac65f92561",
+      "blockNumber": "4774234",
+      "artifact": "EnglishAuctionsLogic"
+    },
+    "OffersLogic": {
+      "address": "0x19deFAaA10C452f0c10740790797B851e1ec3aA2",
+      "transactionHash": "0x9c8b602e17c61c9aa0421d0c4f7e2fa5eec6a71fa3ca18d233db4c254347cf2c",
+      "blockNumber": "4774237",
+      "artifact": "OffersLogic"
+    },
+    "marketplaceImplementation": {
+      "address": "0xa3D343eA5bB4C2242B5214588886E9D3C52E0C57",
+      "transactionHash": "0x4b0d9edc664f1da4037eb7c49f7c5c51bfea5ebce83874173730bbdcd41232d7",
+      "blockNumber": "4774241",
+      "artifact": "MarketplaceV3"
+    },
+    "marketplace": {
+      "address": "0xB5CC39D72012345198bf17C56C1bbb4AdaD60933",
+      "transactionHash": "0xecff853f500ebe83fce99269ec99e14c416b290f74d113a5e7f882813059404d",
+      "blockNumber": "4774243",
+      "artifact": "TWProxy"
+    },
+    "leaderboard": {
+      "address": "0xC0Bb3F4190D5732878536fc15c75c712E9966d33",
+      "transactionHash": "0x95ee3ce776336b6f0957b9aeb9c3b9a4824663e144f1843177cdfdb5614d85b0",
+      "blockNumber": "4774246",
+      "artifact": "ResceneLeaderboard"
+    },
+    "starlightRewards": {
+      "address": "0x0464D7f767BabCef6a800EA797EA085d69551081",
+      "transactionHash": "0x79f76acf5083a42bca58fc88b1d8bff32fae545cedbe1660f3c21ca855e8aa5e",
+      "blockNumber": "4774247",
+      "artifact": "StarlightRewards"
+    },
+    "energyShop": {
+      "address": "0xBA0778C9419F086a2ff8C42f2C353ceD3a4E6D22",
+      "transactionHash": "0xa09ff5fee28d1019e230f527cce8796d8707b62c154464689b0297b6d4989192",
+      "blockNumber": "4774250",
+      "artifact": "EnergyDrinkShop"
+    },
+    "pulseCards": {
+      "address": "0x4630a55c643ed987A398ee11776Ba50CB1712b0A",
+      "transactionHash": "0xfe35b966918533439e67e3e2eb627cf58ef53260f44fcc99282f058f3df0e964",
+      "blockNumber": "4774252",
+      "artifact": "PulseCardsLaunch"
+    },
+    "eventRewards": {
+      "address": "0x2d39Ea98DfC8De5820b24490AA03D9CAbEA38b26",
+      "transactionHash": "0xd2d88be23ce08ebbbe0256204267650673266670424a7fcf88af824fad546d7c",
+      "blockNumber": "4774253",
+      "artifact": "EventRefinementRewards"
+    }
+  },
+  "leaderboardRegisteredBoards": 128,
+  "starlight": {
+    "name": "RESCENE Starlight",
+    "symbol": "STARL",
+    "decimals": 18,
+    "initialSupply": "100000000"
+  },
+  "energyDrink": {
+    "tokenId": 0,
+    "listingId": 0,
+    "stock": 10000,
+    "priceSTARL": 100,
+    "energy": 5
+  },
+  "refinementMaterials": [
+    {
+      "tokenId": 11,
+      "stock": 10000
+    },
+    {
+      "tokenId": 12,
+      "stock": 10000
+    },
+    {
+      "tokenId": 13,
+      "stock": 10000
+    }
+  ],
+  "pulseInitialAllocationPerMember": 50,
+  "legacyFirstSceneShopExcluded": true,
+  "gasUsed": "47435330",
+  "verifiedAt": "2026-11-11T14:14:04.639Z"
+}

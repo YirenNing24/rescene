@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d45oq0do25ba"
+path="res://.godot/imported/RESCENE - Mood (Sped Up Version).mp3-11e13135ee5f77924deb87c3431f588d.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Mood (Sped Up Version).mp3"
+dest_files=["res://.godot/imported/RESCENE - Mood (Sped Up Version).mp3-11e13135ee5f77924deb87c3431f588d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

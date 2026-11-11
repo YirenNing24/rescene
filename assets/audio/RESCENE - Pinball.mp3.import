@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c5wr8rgddqpiq"
+path="res://.godot/imported/RESCENE - Pinball.mp3-27e6fa73e07eb0795cf6c6fabcc5dff9.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Pinball.mp3"
+dest_files=["res://.godot/imported/RESCENE - Pinball.mp3-27e6fa73e07eb0795cf6c6fabcc5dff9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

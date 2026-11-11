@@ -1,0 +1,31 @@
+{
+  "status": "live",
+  "network": "Elysium Mainnet",
+  "chainId": 99901,
+  "gasCurrency": "HYPE",
+  "gameCurrency": "STARL",
+  "applicationContracts": 8,
+  "contractCreations": 13,
+  "confirmedTransactions": 145,
+  "registeredBoards": 128,
+  "transactionFeeHYPE": "0.02413292172575",
+  "remainingHYPE": "0.000687583890415177",
+  "projectEnvironment": "production",
+  "allowedChains": [
+    99901
+  ],
+  "apiImage": "remine-api:elysium-20261111",
+  "testPlayersAfterReset": 0,
+  "backup": "/opt/remine/backups/elysium-20261111",
+  "backupSHA256": "4e1890a755c208c7e9c7ffcc5ef9dfa37093f2b347ebb47e150799e3f1213101",
+  "adminWorkerVersion": "71c66f50-6553-4aa4-ba0e-11d1098151a7",
+  "checks": [
+    "145 canonical successful receipts; all chart metadata, roles and stocks verified",
+    "Game backend full race suite passed",
+    "Live independent STARL rewards, PULSE, energy and marketplace readiness reads passed",
+    "Admin TypeScript and production build passed",
+    "Public game API health passed; unauthenticated player route rejected",
+    "Engine project activated with production Elysium-only policy; HYPE wallet balance verified"
+  ],
+  "checkedAt": "2026-11-11T14:20:28.983617+00:00"
+}

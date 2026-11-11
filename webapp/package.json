@@ -1,0 +1,30 @@
+{
+  "name": "rescene-rhythm-web",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5190",
+    "build": "vite build",
+    "check": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "preview": "wrangler dev --port 8790",
+    "deploy": "npm run check && npm run build && wrangler deploy",
+    "test": "node --experimental-strip-types --test worker/gateway.test.mjs",
+    "test:browser": "playwright test"
+  },
+  "dependencies": {
+    "@solidjs/web": "2.0.0-rc.21",
+    "solid-js": "2.0.0-rc.21"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "@solidjs/vite-plugin": "3.0.0-next.57",
+    "@types/node": "22.19.19",
+    "typescript": "5.9.3",
+    "vite": "8.0.13",
+    "wrangler": "4.92.0"
+  }
+}

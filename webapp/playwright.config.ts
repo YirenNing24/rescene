@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./tests',workers:1,timeout:30000,use:{baseURL:process.env.RHYTHM_TEST_ORIGIN ?? 'http://127.0.0.1:8790',channel:'chrome',launchOptions:{args:['--no-sandbox','--disable-dev-shm-usage']}},webServer:process.env.RHYTHM_TEST_ORIGIN?undefined:{command:'node node_modules/wrangler/bin/wrangler.js dev --port 8790 --ip 127.0.0.1',url:'http://127.0.0.1:8790',reuseExistingServer:true},reporter:'list'});

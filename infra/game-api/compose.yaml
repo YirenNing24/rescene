@@ -1,0 +1,38 @@
+name: remine
+services:
+  falkordb:
+    image: falkordb/falkordb@sha256:bef8acb1d8ed9ff8d2ea251767e75c6c05cfa759f7c6bc7e1c122f27d0ea4d7f
+    restart: unless-stopped
+    env_file: [database.env]
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["exec redis-server --loadmodule /var/lib/falkordb/bin/falkordb.so --dir /data --requirepass $$REDIS_PASSWORD --appendonly yes --appendfsync everysec --save 60 1 --maxmemory 768mb --maxmemory-policy noeviction"]
+    environment: {OMP_THREAD_LIMIT: "2"}
+    volumes: ["./database:/data:Z"]
+    mem_limit: 1024m
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=$$REDIS_PASSWORD redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: {driver: json-file, options: {max-size: "10m", max-file: "3"}}
+  api:
+    image: remine-api:elysium-config-20261111
+    build: {context: ., dockerfile: Dockerfile}
+    restart: unless-stopped
+    env_file: [api.env]
+    depends_on: {falkordb: {condition: service_healthy}}
+    ports: ["127.0.0.1:8085:8080", "127.0.0.1:8086:8081"]
+    volumes: ["./data:/app/data:Z", "./releases:/app/releases:ro,Z"]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD", "/app/rescene-api", "--healthcheck"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    logging: {driver: json-file, options: {max-size: "10m", max-file: "3"}}

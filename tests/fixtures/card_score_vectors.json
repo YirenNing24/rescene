@@ -1,0 +1,2207 @@
+[
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 839506
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 853827
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 674074
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 918519
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 881481
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 784691
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 995062
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 905679
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 891852
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840648
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 626049
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840864
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 626173
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 841080
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 626296
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "score": 843086
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "score": 626975
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "score": 846173
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "score": 628272
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ]
+    },
+    "score": 849259
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ]
+    },
+    "score": 629568
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    "score": 840000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "score": 841620
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "score": 843241
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    },
+    "score": 1000000
+  },
+  {
+    "trace": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    },
+    "score": 800000
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    },
+    "score": 844861
+  },
+  {
+    "trace": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 100,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    },
+    "score": 625679
+  },
+  {
+    "trace": "PRGMPPRGPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+    "units": 128,
+    "card": {
+      "id": "test",
+      "level": 0,
+      "version": 2,
+      "perfect_score_bp": 1200,
+      "recovery_ppm": 1200,
+      "skills": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5
+      ]
+    },
+    "score": 1000000
+  }
+]

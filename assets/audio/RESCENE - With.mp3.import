@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://iupr08jff0n7"
+path="res://.godot/imported/RESCENE - With.mp3-32344b4cd74a927522ae695ff88b546f.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - With.mp3"
+dest_files=["res://.godot/imported/RESCENE - With.mp3-32344b4cd74a927522ae695ff88b546f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

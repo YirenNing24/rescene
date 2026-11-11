@@ -1,0 +1,915 @@
+{
+  "chainId": 421614,
+  "router": "0xa9a2add390c43a521532824e75c88eeb437c10bc",
+  "initialAllocationPerMember": 50,
+  "artworkMayBeReissued": true,
+  "adminMintingOutsideAllocation": true,
+  "steps": {
+    "retire-slot-6": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmV0aXJlZCBkcmFmdCBzbG90IiwiZGVzY3JpcHRpb24iOiJOb24tcGxheWFibGUgcmVzZXJ2ZWQgSUQ7IGJ1cm5lZCBkdXJpbmcgUFVMU0UgbGF1bmNoLiJ9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-slot-6",
+      "id": "d361c0f2-2080-4934-bc54-f0e6ad0896f0",
+      "status": "confirmed",
+      "transactionHash": "0x87358bb7666aa30444fdaff39c41d2d863da8e328d4539560b394e1ebce67ad7"
+    },
+    "burn-slot-6": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "burn",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "6",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/burn-slot-6",
+      "id": "43030304-f72b-4a6d-ab56-f086d05baf09",
+      "status": "confirmed",
+      "transactionHash": "0xc64d45250c870140a8f33fa018f1d6d75e5079e9650a410b392b76f79eac6801"
+    },
+    "retire-slot-7": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmV0aXJlZCBkcmFmdCBzbG90IiwiZGVzY3JpcHRpb24iOiJOb24tcGxheWFibGUgcmVzZXJ2ZWQgSUQ7IGJ1cm5lZCBkdXJpbmcgUFVMU0UgbGF1bmNoLiJ9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-slot-7",
+      "id": "09ff103a-cd1c-4745-afcf-1e1e3f9ebcd3",
+      "status": "confirmed",
+      "transactionHash": "0x52073eaa5edebeb1c99e8deed7454e20f0dbeae38483036058752eb02a85bd69"
+    },
+    "burn-slot-7": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "burn",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "7",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/burn-slot-7",
+      "id": "f70bfb27-575f-4005-98f3-3ffe6fdf85ca",
+      "status": "confirmed",
+      "transactionHash": "0x5ec06301c78e87aa54ad5fd7e728d00f40882f24a2754ca61f5c4db5ed2803c3"
+    },
+    "retire-slot-8": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmV0aXJlZCBkcmFmdCBzbG90IiwiZGVzY3JpcHRpb24iOiJOb24tcGxheWFibGUgcmVzZXJ2ZWQgSUQ7IGJ1cm5lZCBkdXJpbmcgUFVMU0UgbGF1bmNoLiJ9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-slot-8",
+      "id": "01268bbf-f70e-4484-9ff6-49e392601f99",
+      "status": "confirmed",
+      "transactionHash": "0x3d0d3dc58cf79d5507420ab2faf417db80b1b93b0fe46afbc2cf8621f7c073c3"
+    },
+    "burn-slot-8": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "burn",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "8",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/burn-slot-8",
+      "id": "0704e4d6-5c99-4c59-b2aa-735e6900f9eb",
+      "status": "confirmed",
+      "transactionHash": "0x60120a4693f7bb82c07e35fee1b355e0b1ab2fc41dcd6693096186071be4ec0c"
+    },
+    "retire-slot-9": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmV0aXJlZCBkcmFmdCBzbG90IiwiZGVzY3JpcHRpb24iOiJOb24tcGxheWFibGUgcmVzZXJ2ZWQgSUQ7IGJ1cm5lZCBkdXJpbmcgUFVMU0UgbGF1bmNoLiJ9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-slot-9",
+      "id": "5b20d0a5-b285-4224-a406-4090736089bc",
+      "status": "confirmed",
+      "transactionHash": "0x1e21f8aeba93cd517a1731cb1bfc6e84761f0a5f658d352aed0876f6fc1c5787"
+    },
+    "burn-slot-9": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "burn",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/burn-slot-9",
+      "id": "db1c385d-d80b-4483-aceb-3392447d6952",
+      "status": "confirmed",
+      "transactionHash": "0x240ff5869f25da333da360007c10b72e83570b04f64d2e7292f97fbcbbba6292"
+    },
+    "retire-slot-10": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmV0aXJlZCBkcmFmdCBzbG90IiwiZGVzY3JpcHRpb24iOiJOb24tcGxheWFibGUgcmVzZXJ2ZWQgSUQ7IGJ1cm5lZCBkdXJpbmcgUFVMU0UgbGF1bmNoLiJ9",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-slot-10",
+      "id": "9b04b1d7-ab00-4b6b-97ca-719e402e3079",
+      "status": "confirmed",
+      "transactionHash": "0x91efd3610781d2a15d21c294091030d4b42aa2ea5e6026abea7400b444a2290d"
+    },
+    "burn-slot-10": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "burn",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "10",
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+              }
+            ],
+            "name": "burn",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/burn-slot-10",
+      "id": "cac2f183-33cf-4d4c-a6ea-0ac7f9bb779a",
+      "status": "confirmed",
+      "transactionHash": "0x8d7211ef148686c97b63ae48cd1d5a8a0bd8c5a7a2eacba377a1c8b23c125784"
+    },
+    "material-11": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmVmaW5lIER1c3QiLCJkZXNjcmlwdGlvbiI6IkFkZHMgMTAwIHJlZmluZW1lbnQgWFAgdG8gYSBtZW1iZXIgY2FyZC4gTGV2ZWwgYXR0ZW1wdHMgbWF5IGZhaWw7IFhQIGlzIHJldGFpbmVkIG9uIGZhaWx1cmUuIiwiYXR0cmlidXRlcyI6W3sidHJhaXRfdHlwZSI6IlJlZmluZW1lbnQgWFAiLCJ2YWx1ZSI6MTAwfV19",
+          "10000"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/material-11",
+      "id": "44c22738-0b54-4ca3-8c62-5f63806aaf1a",
+      "status": "confirmed",
+      "transactionHash": "0x926cd611f438ab6c62173a0c7c08dd7e2c7bcad64f3e2379936b5c2f0944521a"
+    },
+    "material-12": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmVmaW5lIENyeXN0YWwiLCJkZXNjcmlwdGlvbiI6IkFkZHMgMjI1IHJlZmluZW1lbnQgWFAgdG8gYSBtZW1iZXIgY2FyZC4gTGV2ZWwgYXR0ZW1wdHMgbWF5IGZhaWw7IFhQIGlzIHJldGFpbmVkIG9uIGZhaWx1cmUuIiwiYXR0cmlidXRlcyI6W3sidHJhaXRfdHlwZSI6IlJlZmluZW1lbnQgWFAiLCJ2YWx1ZSI6MjI1fV19",
+          "10000"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/material-12",
+      "id": "1642ee50-3331-42e3-bce9-8256749d5ac6",
+      "status": "confirmed",
+      "transactionHash": "0xa844f1ce53ef961e75a0631d19429cf704fa0509ae2a6dc27a2afd07fe376a18"
+    },
+    "material-13": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "mintTo",
+        "args": [
+          "0x78646fedde207c4574116ac9c455b56e4091c517",
+          "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+          "data:application/json;base64,eyJuYW1lIjoiUmVmaW5lIFByaXNtIiwiZGVzY3JpcHRpb24iOiJBZGRzIDQ1MCByZWZpbmVtZW50IFhQIHRvIGEgbWVtYmVyIGNhcmQuIExldmVsIGF0dGVtcHRzIG1heSBmYWlsOyBYUCBpcyByZXRhaW5lZCBvbiBmYWlsdXJlLiIsImF0dHJpYnV0ZXMiOlt7InRyYWl0X3R5cGUiOiJSZWZpbmVtZW50IFhQIiwidmFsdWUiOjQ1MH1dfQ==",
+          "10000"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+              }
+            ],
+            "name": "mintTo",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/material-13",
+      "id": "a67b21d9-b902-4dbd-9c6b-77d38926e918",
+      "status": "confirmed",
+      "transactionHash": "0x5e2f0faec53b84dc092f984109ea73aa098e89549ae38bb50b4d0c91cf14b8ab"
+    },
+    "grant-MINTER_ROLE": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "grantRole",
+        "args": [
+          "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6",
+          "0xa9a2add390c43a521532824e75c88eeb437c10bc"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              }
+            ],
+            "name": "grantRole",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/grant-MINTER_ROLE",
+      "id": "200a6cda-aad3-4433-aa45-cfb2c9b7fe96",
+      "status": "confirmed",
+      "transactionHash": "0xc8d5d8c51f9c6e4fe835ac546d32b2559dd19c91d58700b193d913ed522e0954"
+    },
+    "grant-METADATA_ROLE": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "grantRole",
+        "args": [
+          "0x6bd6b5318a46e5fff572d5e4258a20774aab40cc35ac7680654b9081fcc82f80",
+          "0xa9a2add390c43a521532824e75c88eeb437c10bc"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              }
+            ],
+            "name": "grantRole",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/grant-METADATA_ROLE",
+      "id": "44a30ab8-7963-425a-878e-d5c19d412e01",
+      "status": "confirmed",
+      "transactionHash": "0x4d87fc01380213020f46a1a7354fde2c5c2818a45a796cef9f714ca1843b5aa9"
+    },
+    "approve-material-stock": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "setApprovalForAll",
+        "args": [
+          "0xa9a2add390c43a521532824e75c88eeb437c10bc",
+          "true"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "operator",
+                "type": "address"
+              },
+              {
+                "internalType": "bool",
+                "name": "approved",
+                "type": "bool"
+              }
+            ],
+            "name": "setApprovalForAll",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/approve-material-stock",
+      "id": "a2f21c20-7940-4dc7-8081-363859ae3d35",
+      "status": "confirmed",
+      "transactionHash": "0x60768b23344aabeb392ce27225aaf1a35dabdfdcc9bb31cd6308399703876877"
+    },
+    "retire-first-scene-listing-1": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "cancelListing",
+        "args": [
+          "1"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_listingId",
+                "type": "uint256"
+              }
+            ],
+            "name": "cancelListing",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-first-scene-listing-1",
+      "id": "5a1963a6-55ac-4cb4-933b-d8de11d2c356",
+      "status": "confirmed",
+      "transactionHash": "0x33b0e6983694cfa732fbd3b9c1bc224e860979204a4d5513854ffe19450a83dd"
+    },
+    "retire-first-scene-listing-2": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "cancelListing",
+        "args": [
+          "2"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_listingId",
+                "type": "uint256"
+              }
+            ],
+            "name": "cancelListing",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-first-scene-listing-2",
+      "id": "8ecd52f9-9aa1-450b-b4e8-4eda3f47b8b4",
+      "status": "confirmed",
+      "transactionHash": "0xb332c581e5ce8dcbf67db27af3b3809bd5640ae43aceb26e1515368967d6af61"
+    },
+    "retire-first-scene-listing-3": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "cancelListing",
+        "args": [
+          "3"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_listingId",
+                "type": "uint256"
+              }
+            ],
+            "name": "cancelListing",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-first-scene-listing-3",
+      "id": "54167fb3-4bc7-4aeb-9f8e-fc11beba9c45",
+      "status": "confirmed",
+      "transactionHash": "0x5b3f71c21132e7a5e07caca77950522c4b64c019129967fd35caf42247b791a6"
+    },
+    "retire-first-scene-listing-4": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "cancelListing",
+        "args": [
+          "4"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_listingId",
+                "type": "uint256"
+              }
+            ],
+            "name": "cancelListing",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-first-scene-listing-4",
+      "id": "cdc02778-91fd-4607-a4e0-3e3b91da5dd1",
+      "status": "confirmed",
+      "transactionHash": "0xbdc616d57a5374015cfa1b7063fc2f7aa73d0bc77288a85c63158aebbf44c31e"
+    },
+    "retire-first-scene-listing-5": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "cancelListing",
+        "args": [
+          "5"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "_listingId",
+                "type": "uint256"
+              }
+            ],
+            "name": "cancelListing",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/retire-first-scene-listing-5",
+      "id": "410f577d-0c97-452c-b3f3-727a89b95d2e",
+      "status": "confirmed",
+      "transactionHash": "0x97a2d0edaaa0389b96de19aac92719a9ce908f325909d5f83a82a1017eecbce9"
+    },
+    "open-initial-sale": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa9a2add390c43a521532824e75c88eeb437c10bc",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "setSalesEnabled",
+        "args": [
+          "true"
+        ],
+        "abi": [
+          {
+            "type": "function",
+            "name": "setSalesEnabled",
+            "inputs": [
+              {
+                "name": "enabled",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/pulse-setup-v3/open-initial-sale",
+      "id": "cd1bf122-a3bf-4689-b5f2-602c9807e5d7",
+      "status": "confirmed",
+      "transactionHash": "0xbcfa1b7e4dd93a1901d15a2eb81e139c3366b8882cfac7f8980632716e4acc41"
+    }
+  },
+  "configured": true,
+  "salesEnabled": true
+}

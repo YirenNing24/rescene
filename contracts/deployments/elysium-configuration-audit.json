@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-11-11T14:42:19.051267+00:00",
+  "network": "Elysium Mainnet",
+  "chainId": 99901,
+  "nativeGas": "HYPE",
+  "gameCurrency": "STARL",
+  "backendImage": "remine-api:elysium-config-20261111",
+  "webWorkerVersion": "163845b1-f0fb-4e16-b6fc-3a047d47029a",
+  "engineWorkerVersion": "b543ffbb-111e-4051-a2cf-9e2a77d70516",
+  "changes": [
+    "Coherent mainnet backend defaults verified against deployed contract manifest",
+    "Engine marketplace, template and balance examples updated",
+    "Web wallet and storefront use Elysium labels; retired explorer link removed",
+    "Android build and stored release metadata use Elysium; signed APK bytes unchanged",
+    "Documented historical deployment tools and safe current checks"
+  ],
+  "verification": {
+    "backendRaceSuite": "passed (database tests require FALKORDB_TEST_URL)",
+    "manifestDefaultRegression": "passed",
+    "engineDashboardTypecheck": "passed",
+    "engineDashboardTests": 14,
+    "webTypecheckBuild": "passed",
+    "webGatewayTests": 8,
+    "deployedWebWalletMarketplaceBrowser": "passed with mocked account APIs",
+    "adminMainnetBrowser": "passed with mocked admin APIs",
+    "liveMarketplaceCheckout": "connected/enabled, chain 99901, 1 listing",
+    "livePulse": "roles, bindings, stock and 50/member initial allocation passed",
+    "liveStarlight": "token, distributor, treasury and allowance passed",
+    "enginePublicOriginAuthRPC": "200, chain 99901",
+    "leaderboardPublisher": "connected on 99901",
+    "publicAPIHealth": "200/ok"
+  },
+  "environmentPreserved": true,
+  "databaseReset": false,
+  "onchainTransactionsSent": 0
+}

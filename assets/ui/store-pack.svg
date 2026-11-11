@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="240" viewBox="0 0 280 240">
+<defs><linearGradient id="foil" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e6deff"/><stop offset=".3" stop-color="#9b8ac6"/><stop offset=".55" stop-color="#e1d2e8"/><stop offset=".78" stop-color="#9ab8cd"/><stop offset="1" stop-color="#cec0ef"/></linearGradient><linearGradient id="label" x2="0" y2="1"><stop stop-color="#3c3557"/><stop offset="1" stop-color="#211f38"/></linearGradient></defs>
+<path d="m75 27 130-9 10 194-130 9z" fill="#171625" opacity=".35"/>
+<path d="m64 15 131 0 0 206-131 0z" fill="url(#foil)" stroke="#efeaff" stroke-width="2"/>
+<path d="M65 33h129M65 202h129" stroke="#f6efff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M72 18v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11m8-11v11" stroke="#6f608f" stroke-opacity=".6"/>
+<path d="M76 45h107v143H76z" rx="3" fill="url(#label)" stroke="#ede3ff" stroke-opacity=".55"/>
+<path d="m84 179 90-124M95 187l84-114M76 160l85-116" stroke="#a998d3" stroke-opacity=".15" stroke-width="8"/>
+<circle cx="130" cy="110" r="39" fill="none" stroke="#bba9ea" stroke-opacity=".35"/>
+<circle cx="130" cy="110" r="31" fill="none" stroke="#d9ccff" stroke-opacity=".7"/>
+<path d="m130 81 7 20 21 9-21 8-7 21-8-21-21-8 21-9z" fill="#e9e0ff"/>
+<path d="m158 67 2 6 7 3-7 2-2 7-3-7-6-2 6-3zM99 142l2 4 4 2-4 1-2 5-2-5-4-1 4-2z" fill="#eee9ff"/>
+<text x="130" y="164" font-family="serif" font-size="13" fill="#eee7ff" text-anchor="middle" letter-spacing="2">RESCÉNE</text>
+<text x="130" y="178" font-family="sans-serif" font-size="6" fill="#bdb2d5" text-anchor="middle" letter-spacing="2">A NEW SCENE</text>
+<path d="m66 34 16-1 0 168-16 0z" fill="#fff" opacity=".08"/>
+</svg>

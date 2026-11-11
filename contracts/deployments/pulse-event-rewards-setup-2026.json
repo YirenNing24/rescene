@@ -1,0 +1,44 @@
+{
+  "chainId": 421614,
+  "router": "0x8bf74901be9e857a506097324953346fd4314af2",
+  "steps": {
+    "approve": {
+      "request": {
+        "chainId": 421614,
+        "contractAddress": "0xa468d30613fe78692f857f55326a069b157c8b56",
+        "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+        "functionName": "setApprovalForAll",
+        "args": [
+          "0x8bf74901be9e857a506097324953346fd4314af2",
+          "true"
+        ],
+        "abi": [
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "operator",
+                "type": "address"
+              },
+              {
+                "internalType": "bool",
+                "name": "approved",
+                "type": "bool"
+              }
+            ],
+            "name": "setApprovalForAll",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        "value": "0"
+      },
+      "key": "rescene/event-refinement-2026/approve",
+      "id": "4e82cc96-3969-468e-90ff-f23674ddfb19",
+      "status": "confirmed",
+      "transactionHash": "0x5f69a8bb1b178d4478aa5661afb3d635ae981f95c8c9b689f6c1bffe066e4e58"
+    }
+  },
+  "status": "confirmed"
+}

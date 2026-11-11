@@ -1,0 +1,27 @@
+{
+  "request": {
+    "name": "RESCENE Starlight",
+    "symbol": "STARL",
+    "decimals": 18,
+    "initialSupply": "100000000",
+    "ownerAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+    "chainId": 421614,
+    "description": "RESCENE Rhythm gameplay and daily reward currency. Testnet deployment; rewards are distributed from the project treasury.",
+    "socialUrls": []
+  },
+  "deployment": {
+    "id": "73939ab5-c59f-46df-bc14-293c77d0e685",
+    "appId": "7fe1ecf2-b715-43bc-ba03-3f0a1149bc5d",
+    "name": "RESCENE Starlight",
+    "symbol": "STARL",
+    "decimals": 18,
+    "initialSupply": "100000000",
+    "ownerAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+    "chainId": 421614,
+    "status": "confirmed",
+    "contractAddress": "0xea99194cb96917672973eb55350c667c68c04c20",
+    "transactionHash": "0x741ea5eeba4f63ecbbf25b4795e5754a00863e3b85f33d021ceb26bc0143a613",
+    "createdAt": "2026-11-09T14:20:36Z"
+  },
+  "state": "confirmed"
+}

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bx1cukhlcysht"
+path="res://.godot/imported/RESCENE - Deja Vu (Sped Up Version).mp3-7856a4b4b408d12a95c73ff7fbebe3da.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Deja Vu (Sped Up Version).mp3"
+dest_files=["res://.godot/imported/RESCENE - Deja Vu (Sped Up Version).mp3-7856a4b4b408d12a95c73ff7fbebe3da.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

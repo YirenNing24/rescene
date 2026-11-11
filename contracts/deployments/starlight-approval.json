@@ -1,0 +1,13 @@
+{
+  "id": "9d0ff30d-0c75-43e1-8131-004a06390c07",
+  "status": "confirmed",
+  "transactionHash": "0x772e76d9cb0df9dfdf5e6b22bce8b24f90f2ad4895cf71bb3c9e2b1b18997e26",
+  "chainId": 421614,
+  "contractAddress": "0xea99194cb96917672973eb55350c667c68c04c20",
+  "walletAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "method": "approve",
+  "args": [
+    "0xb2fd98c13d2c11cc79315706554eacb185bb8743",
+    "100000000000000000000000000"
+  ]
+}

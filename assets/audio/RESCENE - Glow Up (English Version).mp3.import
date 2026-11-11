@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bx8dspw1lyktc"
+path="res://.godot/imported/RESCENE - Glow Up (English Version).mp3-afefdc6b0082563b9de8ec7333bb2fc4.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Glow Up (English Version).mp3"
+dest_files=["res://.godot/imported/RESCENE - Glow Up (English Version).mp3-afefdc6b0082563b9de8ec7333bb2fc4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

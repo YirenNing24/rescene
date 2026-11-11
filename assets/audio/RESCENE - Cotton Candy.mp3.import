@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dgb2y7bum35av"
+path="res://.godot/imported/RESCENE - Cotton Candy.mp3-a25e11883198706f1c66fd6d7dfc3416.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Cotton Candy.mp3"
+dest_files=["res://.godot/imported/RESCENE - Cotton Candy.mp3-a25e11883198706f1c66fd6d7dfc3416.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

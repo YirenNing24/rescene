@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://wo7n7fk4bj1l"
+path="res://.godot/imported/RESCENE - UhUh (Japanese Version).mp3-9aab15f35a7dcd304b8a9a114a44cd3a.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - UhUh (Japanese Version).mp3"
+dest_files=["res://.godot/imported/RESCENE - UhUh (Japanese Version).mp3-9aab15f35a7dcd304b8a9a114a44cd3a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

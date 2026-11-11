@@ -1,0 +1,252 @@
+{
+  "chainId": 421614,
+  "network": "Arbitrum Sepolia",
+  "engineProjectId": "7fe1ecf2-b715-43bc-ba03-3f0a1149bc5d",
+  "engineProject": "rescene-rhythm",
+  "adminAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "publisherAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+  "thirdwebCommit": "0da770f27209774061e118401e8b9796ead97ced",
+  "nativeTokenWrapperAddress": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+  "erc1155": {
+    "address": "0xa468d30613fe78692f857f55326a069b157c8b56",
+    "deploymentId": "e5bc61e8-a53c-41c4-9034-3dd18f566d95",
+    "transactionHash": "0x01ea15e380d3af459b37ba8f4f106de03edd0a596c050e2899ca64370d1aa4a0"
+  },
+  "marketplace": {
+    "address": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+    "deploymentId": "1502a875-a7b9-4dc4-b131-d21155570ef0",
+    "transactionHash": "0x690bc6814f26e526712d049d54559e9d8b969cf5c153b1fd9dfb63d85ce7e998"
+  },
+  "leaderboard": {
+    "address": "0xb5cc39d72012345198bf17c56c1bbb4adad60933",
+    "deploymentId": "68616bf9-c367-4c7b-a7e2-da9b298cd8fa",
+    "transactionHash": "0xd433f3f76cb8a32b669a38edcc8dbfdac5580ecf1a65001566efeb2cc723aee6",
+    "registeredBoards": 128,
+    "boardsVerifiedAt": "2026-11-09T02:21:04.629Z"
+  },
+  "starlight": {
+    "name": "RESCENE Starlight",
+    "symbol": "STARL",
+    "decimals": 18,
+    "initialSupply": "100000000",
+    "address": "0xea99194cb96917672973eb55350c667c68c04c20",
+    "deploymentId": "73939ab5-c59f-46df-bc14-293c77d0e685",
+    "transactionHash": "0x741ea5eeba4f63ecbbf25b4795e5754a00863e3b85f33d021ceb26bc0143a613",
+    "treasuryAddress": "0x78646fedde207c4574116ac9c455b56e4091c517",
+    "mintableByOwner": true
+  },
+  "starlightRewards": {
+    "address": "0xb2fd98c13d2c11cc79315706554eacb185bb8743",
+    "transactionHash": "0x08858e22ed5d5bf4df882fc24a59099cca49868121299677718f7d9cac328e98",
+    "source": "src/StarlightRewards.sol",
+    "approvalAmount": "100000000000000000000000000",
+    "approvalTransactionId": "9d0ff30d-0c75-43e1-8131-004a06390c07",
+    "approvalTransactionHash": "0x772e76d9cb0df9dfdf5e6b22bce8b24f90f2ad4895cf71bb3c9e2b1b18997e26"
+  },
+  "energyDrink": {
+    "collection": "0xa468d30613fe78692f857f55326a069b157c8b56",
+    "tokenId": "0",
+    "initialStock": 10000,
+    "listingId": "0",
+    "price": "100",
+    "priceRaw": "100000000000000000000",
+    "currency": "0xea99194cb96917672973eb55350c667c68c04c20",
+    "energy": 5,
+    "shopRouter": "0x5ace042c739c4b49fef8774a7eb2c54136ef55af",
+    "routerTransactionHash": "0x3fa2af1d560cf8cb94c858ef6a9408092f92c635343c0c3ba9ab7df8ef5fb826",
+    "mintTransactionHash": "0x4698551a2edf17ae22fcdb0f50a89f4a6f992e20cd32fa200a27d48e92679371",
+    "listingTransactionHash": "0xe39afc5d6705fe32822ec75a8bd3fd248bca121d5c0e09c1b5bef6b558536b3b"
+  },
+  "memberCards": {
+    "series": "First Scene",
+    "rarity": "SR",
+    "cosmetic": true,
+    "unitPrice": "450",
+    "unitPriceRaw": "450000000000000000000",
+    "shopRouter": "0xa8e3dd8cf231da2bf318e0e6c3486c11b6d1acb7",
+    "routerTransactionHash": "0x007bde1fbd5e78aace4d9440603c153badd7862a23d39a728ef6168a80980eda",
+    "collection": "0xa468d30613fe78692f857f55326a069b157c8b56",
+    "cards": [
+      {
+        "id": "scene_01",
+        "member": "Woni",
+        "tokenId": "1",
+        "listingId": "1",
+        "price": "450",
+        "priceRaw": "450000000000000000000",
+        "initialStock": 10000,
+        "metadata": {
+          "name": "Woni \u00b7 First Scene",
+          "description": "Woni from the First Scene collection. A cosmetic RESCENE Rhythm member card for your profile and stage HUD.",
+          "image": "https://engine.fluentxverse.com/items/cards/woni.jpg",
+          "attributes": [
+            {
+              "trait_type": "Member",
+              "value": "Woni"
+            },
+            {
+              "trait_type": "Series",
+              "value": "First Scene"
+            },
+            {
+              "trait_type": "Rarity",
+              "value": "SR"
+            },
+            {
+              "trait_type": "Type",
+              "value": "Member card"
+            },
+            {
+              "trait_type": "Cosmetic",
+              "value": "Yes"
+            }
+          ]
+        }
+      },
+      {
+        "id": "scene_02",
+        "member": "Liv",
+        "tokenId": "2",
+        "listingId": "2",
+        "price": "450",
+        "priceRaw": "450000000000000000000",
+        "initialStock": 10000,
+        "metadata": {
+          "name": "Liv \u00b7 First Scene",
+          "description": "Liv from the First Scene collection. A cosmetic RESCENE Rhythm member card for your profile and stage HUD.",
+          "image": "https://engine.fluentxverse.com/items/cards/liv.jpg",
+          "attributes": [
+            {
+              "trait_type": "Member",
+              "value": "Liv"
+            },
+            {
+              "trait_type": "Series",
+              "value": "First Scene"
+            },
+            {
+              "trait_type": "Rarity",
+              "value": "SR"
+            },
+            {
+              "trait_type": "Type",
+              "value": "Member card"
+            },
+            {
+              "trait_type": "Cosmetic",
+              "value": "Yes"
+            }
+          ]
+        }
+      },
+      {
+        "id": "scene_03",
+        "member": "Minami",
+        "tokenId": "3",
+        "listingId": "3",
+        "price": "450",
+        "priceRaw": "450000000000000000000",
+        "initialStock": 10000,
+        "metadata": {
+          "name": "Minami \u00b7 First Scene",
+          "description": "Minami from the First Scene collection. A cosmetic RESCENE Rhythm member card for your profile and stage HUD.",
+          "image": "https://engine.fluentxverse.com/items/cards/minami.jpg",
+          "attributes": [
+            {
+              "trait_type": "Member",
+              "value": "Minami"
+            },
+            {
+              "trait_type": "Series",
+              "value": "First Scene"
+            },
+            {
+              "trait_type": "Rarity",
+              "value": "SR"
+            },
+            {
+              "trait_type": "Type",
+              "value": "Member card"
+            },
+            {
+              "trait_type": "Cosmetic",
+              "value": "Yes"
+            }
+          ]
+        }
+      },
+      {
+        "id": "scene_04",
+        "member": "May",
+        "tokenId": "4",
+        "listingId": "4",
+        "price": "450",
+        "priceRaw": "450000000000000000000",
+        "initialStock": 10000,
+        "metadata": {
+          "name": "May \u00b7 First Scene",
+          "description": "May from the First Scene collection. A cosmetic RESCENE Rhythm member card for your profile and stage HUD.",
+          "image": "https://engine.fluentxverse.com/items/cards/may.jpg",
+          "attributes": [
+            {
+              "trait_type": "Member",
+              "value": "May"
+            },
+            {
+              "trait_type": "Series",
+              "value": "First Scene"
+            },
+            {
+              "trait_type": "Rarity",
+              "value": "SR"
+            },
+            {
+              "trait_type": "Type",
+              "value": "Member card"
+            },
+            {
+              "trait_type": "Cosmetic",
+              "value": "Yes"
+            }
+          ]
+        }
+      },
+      {
+        "id": "scene_05",
+        "member": "Zena",
+        "tokenId": "5",
+        "listingId": "5",
+        "price": "450",
+        "priceRaw": "450000000000000000000",
+        "initialStock": 10000,
+        "metadata": {
+          "name": "Zena \u00b7 First Scene",
+          "description": "Zena from the First Scene collection. A cosmetic RESCENE Rhythm member card for your profile and stage HUD.",
+          "image": "https://engine.fluentxverse.com/items/cards/zena.jpg",
+          "attributes": [
+            {
+              "trait_type": "Member",
+              "value": "Zena"
+            },
+            {
+              "trait_type": "Series",
+              "value": "First Scene"
+            },
+            {
+              "trait_type": "Rarity",
+              "value": "SR"
+            },
+            {
+              "trait_type": "Type",
+              "value": "Member card"
+            },
+            {
+              "trait_type": "Cosmetic",
+              "value": "Yes"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

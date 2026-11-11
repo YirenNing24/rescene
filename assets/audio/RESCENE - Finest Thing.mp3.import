@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://rpt5uurth7wn"
+path="res://.godot/imported/RESCENE - Finest Thing.mp3-89af119fa7674f459ff45347c2a2b6c4.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - Finest Thing.mp3"
+dest_files=["res://.godot/imported/RESCENE - Finest Thing.mp3-89af119fa7674f459ff45347c2a2b6c4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

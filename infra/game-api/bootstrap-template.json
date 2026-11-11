@@ -1,0 +1,9 @@
+{
+  "services": {
+    "falkordb": {
+      "command": [
+        "exec redis-server --loadmodule /var/lib/falkordb/bin/falkordb.so --dir /data --requirepass $$REDIS_PASSWORD --appendonly no --save 60 1 --maxmemory 768mb --maxmemory-policy noeviction"
+      ]
+    }
+  }
+}

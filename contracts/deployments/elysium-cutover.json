@@ -1,0 +1,43 @@
+{
+  "chainId": 99901,
+  "network": "Elysium Mainnet",
+  "nativeCurrency": "HYPE",
+  "image": "remine-api:elysium-20261111",
+  "backup": "/opt/remine/backups/elysium-20261111",
+  "backupSHA256": "4e1890a755c208c7e9c7ffcc5ef9dfa37093f2b347ebb47e150799e3f1213101",
+  "before": {
+    "User": 8,
+    "PersonalBest": 7,
+    "Progression": 8,
+    "Wallet": 8,
+    "LeaderboardPublication": 5,
+    "StarlightPayout": 14,
+    "ShopOperation": 7,
+    "LoginSession": 11,
+    "AdminIdentity": 2,
+    "AdminDocument": 0
+  },
+  "after": {
+    "User": 0,
+    "PersonalBest": 0,
+    "Progression": 0,
+    "Wallet": 0,
+    "LeaderboardPublication": 0,
+    "StarlightPayout": 0,
+    "ShopOperation": 0,
+    "LoginSession": 0,
+    "AdminIdentity": 2,
+    "AdminDocument": 0
+  },
+  "activatedAt": "2026-11-11T14:15:30.041941+00:00",
+  "contracts": {
+    "starlight": "0x910fc4146af825cb949fad284af62d3896c7cbbc",
+    "erc1155": "0x792508772bc395d038c87e7b7b0d05c55deb0706",
+    "marketplace": "0xb5cc39d72012345198bf17c56c1bbb4adad60933",
+    "leaderboard": "0xc0bb3f4190d5732878536fc15c75c712e9966d33",
+    "starlightRewards": "0x0464d7f767babcef6a800ea797ea085d69551081",
+    "energyShop": "0xba0778c9419f086a2ff8c42f2c353ced3a4e6d22",
+    "pulseCards": "0x4630a55c643ed987a398ee11776ba50cb1712b0a",
+    "eventRewards": "0x2d39ea98dfc8de5820b24490aa03d9cabea38b26"
+  }
+}

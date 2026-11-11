@@ -1,0 +1,18 @@
+name: rescene-rhythm
+services:
+  falkordb:
+    image: falkordb/falkordb@sha256:bef8acb1d8ed9ff8d2ea251767e75c6c05cfa759f7c6bc7e1c122f27d0ea4d7f
+    restart: unless-stopped
+    # Development only: local host access, no public database port or browser.
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - accounts:/data
+    command: ["redis-server", "--loadmodule", "/var/lib/falkordb/bin/falkordb.so", "--dir", "/data", "--appendonly", "yes", "--appendfsync", "everysec", "--save", "60", "1"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  accounts:

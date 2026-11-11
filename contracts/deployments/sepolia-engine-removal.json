@@ -1,0 +1,115 @@
+{
+  "projectId": "7fe1ecf2-b715-43bc-ba03-3f0a1149bc5d",
+  "project": "rescene-rhythm",
+  "removed": [
+    {
+      "id": "1502a875-a7b9-4dc4-b131-d21155570ef0",
+      "name": "RESCENE Marketplace",
+      "chainId": 421614,
+      "address": "0xa3d343ea5bb4c2242b5214588886e9d3c52e0c57",
+      "kind": "templateDeployments"
+    },
+    {
+      "id": "68616bf9-c367-4c7b-a7e2-da9b298cd8fa",
+      "name": "RESCENE Leaderboards",
+      "chainId": 421614,
+      "address": "0xb5cc39d72012345198bf17c56c1bbb4adad60933",
+      "kind": "templateDeployments"
+    },
+    {
+      "id": "e5bc61e8-a53c-41c4-9034-3dd18f566d95",
+      "name": "RESCENE Collectibles",
+      "chainId": 421614,
+      "address": "0xa468d30613fe78692f857f55326a069b157c8b56",
+      "kind": "templateDeployments"
+    },
+    {
+      "id": "73939ab5-c59f-46df-bc14-293c77d0e685",
+      "name": "RESCENE Starlight",
+      "chainId": 421614,
+      "address": "0xea99194cb96917672973eb55350c667c68c04c20",
+      "kind": "erc20Deployments"
+    },
+    {
+      "id": "b0b5ef39-fc97-41d9-b8e1-d25c13583f25",
+      "name": "PULSE Event Refinement Rewards",
+      "chainId": 421614,
+      "address": "0x8bf74901be9e857a506097324953346fd4314af2",
+      "kind": "importedContracts"
+    },
+    {
+      "id": "59b0de73-a8b3-4733-a90e-4e49eff6f5d9",
+      "name": "PULSE LE Individual Cards",
+      "chainId": 421614,
+      "address": "0xa9a2add390c43a521532824e75c88eeb437c10bc",
+      "kind": "importedContracts"
+    },
+    {
+      "id": "76cbc54d-5d26-42fe-b937-01f13d018a0b",
+      "name": "First Scene Member Card Shop",
+      "chainId": 421614,
+      "address": "0xa8e3dd8cf231da2bf318e0e6c3486c11b6d1acb7",
+      "kind": "importedContracts"
+    },
+    {
+      "id": "cbedeaf5-8b06-473a-92b1-ec401e60c345",
+      "name": "Energy Drink Shop",
+      "chainId": 421614,
+      "address": "0x5ace042c739c4b49fef8774a7eb2c54136ef55af",
+      "kind": "importedContracts"
+    },
+    {
+      "id": "c5ad7366-f990-4e99-a693-e066062c719b",
+      "name": "Starlight Rewards",
+      "chainId": 421614,
+      "address": "0xb2fd98c13d2c11cc79315706554eacb185bb8743",
+      "kind": "importedContracts"
+    }
+  ],
+  "remainingVisibleContracts": [
+    {
+      "name": "RESCENE Collectibles",
+      "chainId": 99901,
+      "address": "0x792508772bc395d038c87e7b7b0d05c55deb0706"
+    },
+    {
+      "name": "RESCENE Marketplace",
+      "chainId": 99901,
+      "address": "0xb5cc39d72012345198bf17c56c1bbb4adad60933"
+    },
+    {
+      "name": "RESCENE Leaderboards",
+      "chainId": 99901,
+      "address": "0xc0bb3f4190d5732878536fc15c75c712e9966d33"
+    },
+    {
+      "name": "Starlight Rewards",
+      "chainId": 99901,
+      "address": "0x0464d7f767babcef6a800ea797ea085d69551081"
+    },
+    {
+      "name": "Energy Drink Shop",
+      "chainId": 99901,
+      "address": "0xba0778c9419f086a2ff8c42f2c353ced3a4e6d22"
+    },
+    {
+      "name": "PULSE LE Individual Cards",
+      "chainId": 99901,
+      "address": "0x4630a55c643ed987a398ee11776ba50cb1712b0a"
+    },
+    {
+      "name": "PULSE Event Refinement Rewards",
+      "chainId": 99901,
+      "address": "0x2d39ea98dfc8de5820b24490aa03d9cabea38b26"
+    },
+    {
+      "name": "RESCENE Starlight",
+      "chainId": 99901,
+      "address": "0x910fc4146af825cb949fad284af62d3896c7cbbc"
+    }
+  ],
+  "elysiumVerifiedUnchanged": true,
+  "sepoliaVisible": 0,
+  "backup": "/release/rescene-sepolia-removal-backup.json",
+  "completedAt": "2026-11-11T14:34:02.599Z"
+}

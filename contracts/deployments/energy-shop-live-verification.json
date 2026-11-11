@@ -1,0 +1,13 @@
+{
+  "chainId": 421614,
+  "consumeTransaction": "0x0443a692f6c27486d7f11c4f8f63dde8a4ba0efe91bd591d1c8627e372a4e25e",
+  "duplicateRequestsDidNotChargeOrGrantTwice": true,
+  "energyAfter": 14,
+  "energyBefore": 9,
+  "finalInventory": 0,
+  "fundingTransaction": "0x2220903fd73b3934833a6b9fe9e9609cc15005d62a045ad92fd0f5ce1f455da8",
+  "itemId": "0",
+  "price": "100",
+  "purchaseTransaction": "0x0e20661e87866f4ea84519026c9023e4adc2d9a2084a68d8c80e56f86fc54ba7",
+  "testWallet": "0xbedfb469e055720b87594044f9409c850565d6fb"
+}

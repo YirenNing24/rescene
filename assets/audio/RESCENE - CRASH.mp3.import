@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b3ik5bvewle54"
+path="res://.godot/imported/RESCENE - CRASH.mp3-73dd52f7b0f965e4e2c9b7df59f9d4b4.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/RESCENE - CRASH.mp3"
+dest_files=["res://.godot/imported/RESCENE - CRASH.mp3-73dd52f7b0f965e4e2c9b7df59f9d4b4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

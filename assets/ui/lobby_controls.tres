@@ -1,0 +1,175 @@
+[gd_resource type="Theme" load_steps=14 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/Montserrat-Medium.otf" id="1_font"]
+[ext_resource type="FontFile" path="res://assets/fonts/Montserrat-SemiBold.otf" id="2_bold"]
+[ext_resource type="Texture2D" path="res://assets/ui/chevron-down.svg" id="3_arrow"]
+[ext_resource type="Texture2D" path="res://assets/ui/choice-checked.svg" id="4_checked"]
+[ext_resource type="Texture2D" path="res://assets/ui/choice-empty.svg" id="5_unchecked"]
+
+[sub_resource type="StyleBoxFlat" id="OptionNormal"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.105, 0.105, 0.205, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.66, 0.94, 0.48)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="OptionHover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.18, 0.16, 0.29, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 0.73, 1, 0.85)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="OptionPressed"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.25, 0.21, 0.38, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.82, 0.77, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="OptionFocus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.92, 1, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="OptionDisabled"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.09, 0.09, 0.16, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5, 0.48, 0.65, 0.25)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxFlat" id="PopupPanel"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.075, 0.075, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.66, 0.61, 0.88, 0.7)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+corner_detail = 16
+anti_aliasing_size = 1.5
+shadow_color = Color(0.015, 0.015, 0.04, 0.4)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="PopupHover"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.26, 0.22, 0.4, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_left = 11
+corner_radius_bottom_right = 11
+corner_detail = 16
+anti_aliasing_size = 1.5
+
+[sub_resource type="StyleBoxLine" id="PopupSeparator"]
+color = Color(0.7, 0.65, 0.9, 0.2)
+thickness = 1
+
+[resource]
+OptionButton/colors/font_color = Color(0.96, 0.945, 1, 1)
+OptionButton/colors/font_hover_color = Color(1, 0.98, 1, 1)
+OptionButton/colors/font_pressed_color = Color(0.96, 0.945, 1, 1)
+OptionButton/colors/font_hover_pressed_color = Color(0.96, 0.945, 1, 1)
+OptionButton/colors/font_focus_color = Color(0.96, 0.945, 1, 1)
+OptionButton/colors/font_disabled_color = Color(0.57, 0.55, 0.68, 1)
+OptionButton/constants/arrow_margin = 22
+OptionButton/constants/h_separation = 16
+OptionButton/constants/modulate_arrow = 1
+OptionButton/fonts/font = ExtResource("2_bold")
+OptionButton/font_sizes/font_size = 21
+OptionButton/icons/arrow = ExtResource("3_arrow")
+OptionButton/styles/normal = SubResource("OptionNormal")
+OptionButton/styles/hover = SubResource("OptionHover")
+OptionButton/styles/pressed = SubResource("OptionPressed")
+OptionButton/styles/disabled = SubResource("OptionDisabled")
+OptionButton/styles/focus = SubResource("OptionFocus")
+OptionButton/styles/normal_mirrored = SubResource("OptionNormal")
+OptionButton/styles/hover_mirrored = SubResource("OptionHover")
+OptionButton/styles/pressed_mirrored = SubResource("OptionPressed")
+OptionButton/styles/disabled_mirrored = SubResource("OptionDisabled")
+PopupMenu/colors/font_color = Color(0.88, 0.86, 0.95, 1)
+PopupMenu/colors/font_hover_color = Color(1, 0.98, 1, 1)
+PopupMenu/colors/font_disabled_color = Color(0.5, 0.48, 0.62, 1)
+PopupMenu/colors/font_accelerator_color = Color(0.7, 0.67, 0.83, 1)
+PopupMenu/colors/font_separator_color = Color(0.7, 0.67, 0.83, 1)
+PopupMenu/constants/h_separation = 14
+PopupMenu/constants/v_separation = 22
+PopupMenu/constants/item_start_padding = 12
+PopupMenu/constants/item_end_padding = 18
+PopupMenu/constants/indent = 12
+PopupMenu/fonts/font = ExtResource("1_font")
+PopupMenu/font_sizes/font_size = 21
+PopupMenu/icons/checked = ExtResource("4_checked")
+PopupMenu/icons/unchecked = ExtResource("5_unchecked")
+PopupMenu/icons/radio_checked = ExtResource("4_checked")
+PopupMenu/icons/radio_unchecked = ExtResource("5_unchecked")
+PopupMenu/icons/checked_disabled = ExtResource("5_unchecked")
+PopupMenu/icons/unchecked_disabled = ExtResource("5_unchecked")
+PopupMenu/icons/radio_checked_disabled = ExtResource("5_unchecked")
+PopupMenu/icons/radio_unchecked_disabled = ExtResource("5_unchecked")
+PopupMenu/styles/panel = SubResource("PopupPanel")
+PopupMenu/styles/hover = SubResource("PopupHover")
+PopupMenu/styles/separator = SubResource("PopupSeparator")
