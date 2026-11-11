@@ -11,6 +11,7 @@ const MUTED: Color = Color("b7b9d5")
 const LILAC: Color = Color("d8ceff")
 
 var _canvas: Control
+var _panel: Panel
 var _username: LineEdit
 var _password: LineEdit
 var _confirm: LineEdit
@@ -93,6 +94,7 @@ func _build() -> void:
 	scam_notice.name = "ScamNotice"
 	var _label_7: Label = _label(_canvas, "01  /  YOUR BACKSTAGE PASS", Rect2(117, 985, 1100, 30), 16, MUTED)
 	var panel: Panel = Panel.new()
+	_panel = panel
 	panel.add_theme_stylebox_override("panel", _style(Color(0.063, 0.068, 0.14, 0.94), Color(0.77, 0.73, 1, 0.48), 32))
 	_at(_canvas, panel, Rect2(1390, 75, 890, 930))
 	_login_tab = _button(panel, "LOG IN", Rect2(55, 40, 380, 64), func() -> void: _set_mode(false))
@@ -212,12 +214,30 @@ func _process(_delta: float) -> void:
 
 func _resize_for_keyboard() -> void:
 	if _scroll == null: return
-	var actual_height: float = maxf(1.0, DisplayServer.window_get_size().y)
-	var covered: float = StrictData.number(_keyboard_height) / actual_height * size.y / _canvas.scale.y
-	_scroll.size.y = clampf(1080.0 - covered - 363.0 - 44.0, 170.0, 620.0)
+	var screen_bottom: float = float(DisplayServer.window_get_size().y - _keyboard_height)
+	var visible_bottom: float = (_canvas.get_screen_transform().affine_inverse() * Vector2(0.0, screen_bottom)).y
+	_fit_keyboard(visible_bottom, _keyboard_height > 0)
+	_reveal_focused_field.call_deferred()
+
+func _fit_keyboard(visible_bottom: float, keyboard_open: bool) -> void:
+	# Move the form itself above the IME: shrinking below the large title leaves
+	# almost no room in landscape. Keep the native fields at their normal size.
+	_title.visible = not keyboard_open
+	_subtitle.visible = not keyboard_open
+	_panel.position.y = 24.0 if keyboard_open else 75.0
+	_panel.size.y = maxf(1.0, visible_bottom - 40.0) if keyboard_open else 930.0
+	_login_tab.position.y = 16.0 if keyboard_open else 40.0
+	_register_tab.position.y = _login_tab.position.y
+	_scroll.position.y = 128.0 if keyboard_open else 363.0
+	_scroll.size.y = maxf(1.0, minf(1080.0, visible_bottom) - _scroll.position.y - 24.0) if keyboard_open else 620.0
+
+func _reveal_focused_field() -> void:
+	# Containers settle on the next frame after resize/focus/IME changes.
+	await get_tree().process_frame
+	if not is_inside_tree(): return
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null and _scroll.is_ancestor_of(focused):
-		_scroll.ensure_control_visible.call_deferred(focused)
+		_scroll.ensure_control_visible(focused)
 
 func _set_mode(register: bool, force: bool = false) -> void:
 	if _pending: return
@@ -409,4 +429,5 @@ func _field(parent: Node, title: String, placeholder: String, secret: bool) -> L
 	input.add_theme_stylebox_override("normal", _style(Color(0.10,0.10,0.19), Color(0.50,0.48,0.68)))
 	input.add_theme_stylebox_override("focus", _style(Color(0.14,0.12,0.24), LILAC))
 	group.add_child(input)
+	var _focus_connection: int = input.focus_entered.connect(func() -> void: _reveal_focused_field.call_deferred())
 	return input

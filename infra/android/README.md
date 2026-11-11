@@ -151,3 +151,17 @@ The web companion uses the same document file and agreement payload.
 godot --path . --script tests/legal_registration_regression.gd
 cd webapp && npx playwright test tests/legal.spec.ts
 ```
+
+Release 0.1.12 moves the authentication form above the Android keyboard and
+temporarily collapses its heading. Focus changes scroll each field into view,
+including confirmation and recovery, and closing the keyboard restores the
+original layout. Screen-to-canvas conversion accounts for display scaling.
+Failed login/registration requests retain entered passwords and the server's
+message. Retapping the active tab preserves input; simultaneous IME/button
+submissions are deduplicated. Passwords still require 8+ characters (72 UTF-8
+bytes maximum), without special-character requirements.
+
+```sh
+godot --headless --path . --script tests/auth_keyboard_regression.gd
+python3 tools/test_auth_refresh.py --godot /path/to/godot
+```
