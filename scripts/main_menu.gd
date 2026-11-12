@@ -613,6 +613,7 @@ func _open_settings() -> void:
 	var _int_56: int = effects.toggled.connect(func(value: bool) -> void:
 		_effects_on = value
 		_particles.visible = value
+		GameServices.menu_touches().set_enabled(value)
 		_save_profile()
 	)
 	var haptics: CheckButton = CheckButton.new()

@@ -26,3 +26,7 @@ static func photos() -> ProfileMediaService:
 static func social() -> SocialService:
 	var tree: SceneTree = Engine.get_main_loop() as SceneTree
 	return tree.root.get_node("Social") as SocialService
+
+static func menu_touches() -> MenuTouchFeedback:
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	return tree.root.get_node("MenuTouches") as MenuTouchFeedback

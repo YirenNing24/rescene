@@ -65,6 +65,10 @@ var _connection_backgrounded: bool = false
 var deck_showcase: DeckShowcase
 
 
+func _enter_tree() -> void:
+	GameServices.menu_touches().set_gameplay_active(get_instance_id(), true)
+
+
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -141,6 +145,7 @@ func _request_progression_ticket(attempt: int) -> void:
 
 
 func _exit_tree() -> void:
+	GameServices.menu_touches().set_gameplay_active(get_instance_id(), false)
 	if not test_mode and not _progression_run.is_empty() and (phase != "results" or _failed): GameServices.progression().abandon_run.call_deferred(_progression_run)
 	if is_instance_valid(audio):
 		audio.stop()
