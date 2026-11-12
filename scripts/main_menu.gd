@@ -54,6 +54,21 @@ var _preview_timer: Timer
 var _preview_end_seconds: float = 0.0
 var _stage: RhythmStage
 var _stage_surface: MobileStageSurface
+var _card_viewer: CardArtworkViewer
+
+
+func card_viewer_open() -> bool:
+	return is_instance_valid(_card_viewer) and not _card_viewer.is_queued_for_deletion()
+
+
+func _open_card_artwork(item_id: String, source: Node) -> void:
+	if is_instance_valid(_stage) or MarketCatalog.find_item(item_id).is_empty(): return
+	if is_instance_valid(_card_viewer): return
+	_card_viewer = CardArtworkViewer.new()
+	_card_viewer.host = self
+	_card_viewer.item_id = item_id
+	var _source_exiting: int = source.tree_exiting.connect(_card_viewer.close, CONNECT_ONE_SHOT)
+	add_child(_card_viewer)
 
 
 func _ready() -> void:
@@ -811,7 +826,8 @@ func _icon(parent: Node, icon_name: String, rect: Rect2, tint: Color = WHITE) ->
 
 func _icon_button(parent: Node, icon_name: String, rect: Rect2, action: Callable) -> Button:
 	var button: Button = _button(parent, "", rect, action, false, false)
-	var _texturerect_67: TextureRect = _icon(button, icon_name, Rect2((rect.size - Vector2(30, 30)) * 0.5, Vector2(30, 30)))
+	var image: TextureRect = _icon(button, icon_name, Rect2((rect.size - Vector2(30, 30)) * 0.5, Vector2(30, 30)))
+	image.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_KEEP_SIZE)
 	button.tooltip_text = icon_name.capitalize()
 	return button
 

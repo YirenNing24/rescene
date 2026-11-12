@@ -1,4 +1,50 @@
 import {test,expect,type Page} from '@playwright/test';
+
+test('card images enlarge above checkout and collection without submitting actions', async ({page}) => {
+  const writes=await setup(page);
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/');
+  for(const size of [{width:1440,height:900},{width:390,height:844}]){
+    await page.setViewportSize(size);
+    await navigate(page,'Marketplace');
+    await page.locator('.product-art').getByRole('button',{name:'Enlarge Woni · PULSE',exact:true}).click();
+    let viewer=page.getByRole('dialog',{name:'Card artwork: Woni · PULSE',exact:true});
+    await expect(viewer).toBeVisible();
+    await expect(viewer.locator('img')).toHaveAttribute('src','/images/cards/v1/pulse/woni.webp');
+    const art=await viewer.locator('img').boundingBox();
+    expect(art!.height).toBeGreaterThan(size.height*.75);
+    expect(await noOverflow(page)).toBe(true);
+    await page.screenshot({path:'../previews/card-artwork-web-'+size.width+'.png'});
+    await viewer.click({position:{x:2,y:size.height/2}});
+    await expect(viewer).toHaveCount(0);
+    await page.getByRole('button',{name:/450 STARL/}).click();
+    const checkout=page.getByRole('dialog').filter({has:page.getByRole('button',{name:'Confirm purchase',exact:true})});
+    await checkout.getByRole('button',{name:'Enlarge Woni · PULSE',exact:true}).click();
+    await expect(viewer).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(viewer).toHaveCount(0);
+    await expect(checkout).toBeVisible();
+    await expect(checkout.getByRole('combobox')).toHaveValue('1');
+    await page.keyboard.press('Escape');
+    await navigate(page,'Collection');
+    await page.locator('.deck-slot.filled').getByRole('button',{name:'Enlarge Woni · PULSE #14',exact:true}).click();
+    viewer=page.getByRole('dialog',{name:'Card artwork: Woni · PULSE #14',exact:true});
+    await expect(viewer).toBeVisible();
+    await viewer.getByRole('button',{name:'Close card artwork'}).click();
+    await page.locator('.deck-slot.filled .deck-card-info').click();
+    await page.locator('.card-detail').getByRole('button',{name:'Enlarge Woni · PULSE #14',exact:true}).click();
+    await expect(viewer).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('tab',{name:'Refine',exact:true})).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.getByRole('tab',{name:'Member cards',exact:true}).click();
+    await page.locator('.owned-card').first().getByRole('button',{name:'Enlarge Woni · PULSE #14',exact:true}).click();
+    await expect(viewer).toBeVisible();
+    await page.keyboard.press('Escape');
+  }
+  expect(writes.some(write=>['/shop/purchase','/collection/action','/collection/quote'].includes(write.path))).toBe(false);
+  expect(errors).toEqual([]);
+});
 const id='a'.repeat(32),friend='b'.repeat(32);const user={id,username:'web_test',created_at:'2026-11-10',wallet:{address:'0x'+'1'.repeat(40),status:'ready',custody:'managed'}};
 const card={id:'pulse_14',template_id:'scene_01',member:'Woni',member_index:0,name:'Woni · PULSE #14',category:'cards',quantity:1,rarity:'LE',level:2,stars:2,locked:false,equipped:true,training_xp:25,level_cost:25,success_chance_bp:10000,star_progress:0,star_cost:4,skill:'Overture',skill_description:'Begin with a little momentum.',stats:{perfect_score_bp:800,recovery_ppm:800}};
 const progress={day:'2026-11-10',level:3,xp:500,level_xp:100,level_cost:400,starlight:700,clears:10,best_accuracy:9500,max_combo:120,full_combos:3,energy:{current:10,max:15,next_recovery_in_seconds:1800},daily_login:{date:'2026-11-10',completed:0,next_day:1,claimed_today:false,rewards:Array.from({length:7},(_,i)=>({day:i+1,xp:50,starlight:30}))},missions:[{id:'daily_one',name:"Today's opening act",description:'Clear one song.',scope:'daily',target:1,progress:1,xp:75,starlight:50,claimed:false}],unlocks:[{id:'first_scene',name:'First Scene',kind:'title',requirement:'Start here',unlocked:true,equipped:true,color:'d6c3ff'}]};
@@ -15,7 +61,7 @@ function noOverflow(page:Page){return page.evaluate(()=>document.documentElement
 test('guest lobby, no playback, song search and APK destination',async({page})=>{const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await setup(page,true);await page.goto('/');await expect(page.locator('.lobby')).toBeVisible();await expect(page.getByRole('link',{name:/Download APK/})).toHaveAttribute('href','/download');await navigate(page,'Songs');await expect(page.locator('.song-row')).toHaveCount(29);await page.getByRole('textbox',{name:'Search song'}).fill('With');await expect(page.locator('.song-row')).toHaveCount(1);await expect(page.locator('audio,video,canvas')).toHaveCount(0);await expect(page.getByRole('link',{name:'Play on Android'})).toHaveAttribute('href','/download');expect(errors).toEqual([]);});
 test('responsive account screens keep real values and have no horizontal overflow',async({page})=>{const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await setup(page);await page.goto('/');await expect(page.getByText('web_test',{exact:true})).toBeVisible();for(const size of [{width:1440,height:960},{width:390,height:844},{width:360,height:800}]){await page.setViewportSize(size);for(const name of ['Lobby','Collection','Marketplace','Rewards','Songs','Rankings','Community']){await navigate(page,name);await page.waitForTimeout(100);expect(await noOverflow(page),name+' '+size.width).toBe(true);if(size.width===390&&name!=='Songs')await page.screenshot({path:'../previews/webapp-'+name.toLowerCase()+'-mobile.png',fullPage:true});}await page.locator('.player-button').click();await expect(page.getByRole('heading',{name:'Player profile.'})).toBeVisible();expect(await noOverflow(page),'Profile '+size.width).toBe(true);}expect(errors).toEqual([]);});
 test('checkout binds price and a stable request; item use is separately confirmed',async({page})=>{const writes=await setup(page);await page.goto('/');await navigate(page,'Marketplace');await page.getByRole('button',{name:/450 STARL/}).click();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'Confirm purchase'}).click();await expect.poll(()=>writes.some(w=>w.path==='/shop/purchase')).toBe(true);const purchase=writes.find(w=>w.path==='/shop/purchase')!;expect(purchase.body).toMatchObject({item_id:'scene_01',quantity:1,expected_total:'450'});expect(purchase.body.request_id).toMatch(/^[a-f0-9]{32}$/);await navigate(page,'Collection');await page.getByRole('tab',{name:'Items',exact:true}).click();await page.getByRole('button',{name:'Use · +5 energy'}).click();expect(writes.some(w=>w.path==='/inventory/consume')).toBe(false);await page.getByRole('button',{name:'Confirm · use 1 drink'}).click();await expect.poll(()=>writes.some(w=>w.path==='/inventory/consume')).toBe(true);expect(writes.find(w=>w.path==='/inventory/consume')!.body).toMatchObject({item_id:'energy_drink',quantity:1});});
-test('refinement uses server quote; sacrifice previews explicit permanent-loss warning',async({page})=>{const writes=await setup(page);await page.goto('/');await navigate(page,'Collection');await page.locator('.deck-slot.filled').click();await page.getByRole('tab',{name:'Refine',exact:true}).click();await page.getByLabel('Refinement bundle').selectOption('starlight_dust');await page.getByRole('button',{name:'Review refinement'}).click();await expect(page.getByRole('heading',{name:'Review your card action'})).toBeVisible();await page.getByRole('button',{name:'Confirm action',exact:true}).click();await expect.poll(()=>writes.some(w=>w.path==='/collection/action')).toBe(true);expect(writes.find(w=>w.path==='/collection/action')!.body).toMatchObject({kind:'refine',card_id:'pulse_14',item_id:'starlight_dust',quote_hash:'quote-hash',acknowledge_warning:true});await page.locator('.deck-slot.filled').click();await page.getByRole('tab',{name:'Stars',exact:true}).click();await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Review · sacrifice 1 cards'}).click();await expect(page.getByText('Every donor will be permanently destroyed.')).toBeVisible();await expect(page.getByRole('button',{name:'Confirm · permanently sacrifice'})).toBeVisible();});
+test('refinement uses server quote; sacrifice previews explicit permanent-loss warning',async({page})=>{const writes=await setup(page);await page.goto('/');await navigate(page,'Collection');await page.locator('.deck-slot.filled .deck-card-info').click();await page.getByRole('tab',{name:'Refine',exact:true}).click();await page.getByLabel('Refinement bundle').selectOption('starlight_dust');await page.getByRole('button',{name:'Review refinement'}).click();await expect(page.getByRole('heading',{name:'Review your card action'})).toBeVisible();await page.getByRole('button',{name:'Confirm action',exact:true}).click();await expect.poll(()=>writes.some(w=>w.path==='/collection/action')).toBe(true);expect(writes.find(w=>w.path==='/collection/action')!.body).toMatchObject({kind:'refine',card_id:'pulse_14',item_id:'starlight_dust',quote_hash:'quote-hash',acknowledge_warning:true});await page.locator('.deck-slot.filled .deck-card-info').click();await page.getByRole('tab',{name:'Stars',exact:true}).click();await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Review · sacrifice 1 cards'}).click();await expect(page.getByText('Every donor will be permanently destroyed.')).toBeVisible();await expect(page.getByRole('button',{name:'Confirm · permanently sacrifice'})).toBeVisible();});
 test('mission claim binds server date, chat and challenge use existing APIs',async({page})=>{const writes=await setup(page);await page.goto('/');await navigate(page,'Rewards');await page.getByRole('tab',{name:'Missions',exact:true}).click();await page.getByRole('button',{name:'Claim reward',exact:true}).click();await expect.poll(()=>writes.some(w=>w.path==='/missions/daily_one/claim')).toBe(true);expect(writes.find(w=>w.path==='/missions/daily_one/claim')!.body).toEqual({day:'2026-11-10'});await navigate(page,'Community');await page.getByRole('button',{name:'Chat with remine_friend'}).click();await page.getByRole('textbox',{name:'Message',exact:true}).fill('Hello REMINE');await page.getByRole('button',{name:'Send',exact:true}).click();await expect.poll(()=>writes.some(w=>w.path.endsWith('/messages'))).toBe(true);await page.keyboard.press('Escape');await page.getByRole('button',{name:'Challenge remine_friend',exact:true}).click();await page.getByRole('button',{name:'Send challenge'}).click();await expect.poll(()=>writes.some(w=>w.path==='/challenges')).toBe(true);expect(writes.find(w=>w.path==='/challenges')!.body.player_id).toBe(friend);});
 
 test('event missions display and submit server-authorized claim on desktop and mobile',async({page})=>{const writes=await setup(page);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await navigate(page,'Events');await expect(page.getByRole('heading',{name:'Your PULSE missions'})).toBeVisible();await expect(page.getByRole('heading',{name:'Finest Thing'})).toBeVisible();await page.getByRole('button',{name:'Collect reward',exact:true}).click();await expect.poll(()=>writes.some(w=>w.path==='/events/pulse_first_scene_2026/missions/opening/claim')).toBe(true);expect(writes.find(w=>w.path==='/events/pulse_first_scene_2026/missions/opening/claim')!.body).toEqual({});for(const size of [{width:1440,height:900},{width:390,height:844},{width:360,height:800}]){await page.setViewportSize(size);expect(await noOverflow(page)).toBe(true);await page.screenshot({path:'../previews/pulse-event-web-'+size.width+'.png',fullPage:true});}expect(errors).toEqual([]);});
@@ -48,7 +94,7 @@ test('release filters keep artwork and equipment payload matched to the album', 
   await page.getByLabel('Release',{exact:true}).selectOption('scenedrome');
   await page.getByRole('tab',{name:'Member cards',exact:true}).click();
   await expect(page.locator('.owned-card')).toHaveCount(1);
-  await page.locator('.owned-card').click();
+  await page.locator('.owned-card').getByRole('button',{name:/Manage /}).click();
   await expect(page.locator('.detail-card-art')).toHaveAttribute('src','/images/cards/v1/scenedrome/woni.webp');
   await page.getByRole('button',{name:'Equip to Woni slot'}).click();
   expect(writes.find(w=>w.path==='/collection/quote')?.body.set_id).toBe('scenedrome');

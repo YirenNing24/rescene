@@ -13,5 +13,6 @@
   "0.1.17": "Wider gameplay road with proportionally larger notes, catchers, ribbons and effects. The equipped-card panel is smaller and stays clear of the road; touch mapping follows the wider lanes.",
   "0.1.18": "Brief vibration when a note is missed, with a saved Miss Vibration toggle in Settings. Simultaneous misses produce one short pulse.",
   "0.1.19": "Removes the soundtrack songs BamBamBam, Love Frequency and Higher from the song library and APK audio. The library now contains 29 songs.",
-  "0.1.20": "Adds quick lilac touch ripples and small sparkles throughout menus and dialogs. Menu touch effects are disabled during song gameplay and follow the Particle Effects setting."
+  "0.1.20": "Adds quick lilac touch ripples and small sparkles throughout menus and dialogs. Menu touch effects are disabled during song gameplay and follow the Particle Effects setting.",
+  "0.1.21": "Tap card artwork to open a larger, uncropped view in the shop, Collection, equipped decks, profile and featured previews. Close it with Back, the centered close button, or a tap outside the card."
 }

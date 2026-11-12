@@ -37,7 +37,7 @@ func _ready() -> void:
 	var _pressed: int = pressed.connect(_open_release)
 
 func advance() -> void:
-	if not is_visible_in_tree() or is_instance_valid(host._dialog): return
+	if not is_visible_in_tree() or is_instance_valid(host._dialog) or host.card_viewer_open(): return
 	release_index = (release_index + 1) % CardReleases.RELEASES.size()
 	_show_release(true)
 
@@ -61,11 +61,10 @@ func _show_release(animate: bool) -> void:
 	var order: Array[int] = [0, 4, 1, 3, 2]
 	for member: int in order:
 		var distance: float = float(absi(member - 2))
-		var card: TextureRect = TextureRect.new()
-		card.texture = load(CardReleases.artwork({"set_id": str(release.set_id), "member_name": SongSets.MEMBERS[member]})) as Texture2D
-		card.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-		card.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		card.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var card: MemberCardArt = MemberCardArt.new()
+		card.host = host
+		card.item_id = CardReleases.template_id(release, member)
+		card.previewable = true
 		host._at(_fan, card, Rect2(10 + member * 56, distance * 6, 88, 136))
 		card.pivot_offset = Vector2(44, 125)
 		card.rotation = float(member - 2) * 0.055

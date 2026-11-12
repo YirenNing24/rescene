@@ -163,6 +163,7 @@ func _feature() -> void:
 		var artwork: MarketArtwork = MarketArtwork.new()
 		artwork.host = host
 		artwork.item = MarketCatalog.find_item(str(["scene_01", "le_scenedrome_03", "le_dearest_05"][index]))
+		artwork.previewable = true
 		host._at(_hero, artwork, Rect2(width - 800 + index * 142, -7 + absf(float(index - 1)) * 10.0, 235, 225))
 	var _badge: Label = host._label(_hero, "45 LE CARDS\nNINE RELEASES", Rect2(width - 330, 28, 270, 60), 18, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_RIGHT)
 
@@ -202,7 +203,7 @@ func _render_products() -> void:
 	_empty.visible = _products.is_empty()
 	_scroll = MarketGridScroll.new()
 	_scroll.name = "MarketplaceGrid"
-	_scroll.interaction_allowed = func() -> bool: return not is_instance_valid(_detail)
+	_scroll.interaction_allowed = func() -> bool: return not is_instance_valid(_detail) and not host.card_viewer_open()
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -215,10 +216,15 @@ func _render_products() -> void:
 	var tile_width: float = (grid_width - 16.0 - 60.0) / 4.0
 	_scroll.tile_width = tile_width
 	_scroll.column_step = tile_width + 20.0
+	_scroll.artwork_rect = Rect2(25, 42, tile_width - 50, 178)
 	var top: float = title_y + 55.0
 	host._at(body, _scroll, Rect2(350, top, grid_width, 991.0 - top))
 	var _tap_connection: int = _scroll.item_tapped.connect(func(index: int) -> void:
 		if index >= 0 and index < _products.size(): open_item(_products[index]))
+	var _art_connection: int = _scroll.item_art_tapped.connect(func(index: int) -> void:
+		if index < 0 or index >= _products.size(): return
+		if str(_products[index].category) == "cards": host._open_card_artwork(str(_products[index].id), _scroll)
+		else: open_item(_products[index]))
 	_grid = VBoxContainer.new()
 	_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -277,6 +283,7 @@ func open_item(item: Dictionary) -> void:
 	var artwork: MarketArtwork = MarketArtwork.new()
 	artwork.host = host
 	artwork.item = item
+	artwork.previewable = str(item.category) == "cards"
 	host._at(window, artwork, Rect2(45, 92, 384, 448))
 	var _series: Label = host._label(window, "RESCÉNE  /  MARKETPLACE", Rect2(65, 591, 344, 27), 13, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	var accent: Color = Color(str(item.accent))

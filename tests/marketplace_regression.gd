@@ -41,7 +41,7 @@ func verify() -> void:
 		check(StrictData.integer(market._products[index - 1].price) <= StrictData.integer(market._products[index].price), "Ascending price sort")
 	market._sort.item_selected.emit(0)
 	await process_frame
-	await mouse_tap(Vector2(80, 100))
+	await mouse_tap(Vector2(80, 245))
 	check(is_instance_valid(market._detail) and str(market._selected.id) == "scene_01", "Native mouse tap must open the correct grid cell")
 	check(market._checkout.disabled, "Preview checkout must remain disabled")
 	market.set_quantity(3)

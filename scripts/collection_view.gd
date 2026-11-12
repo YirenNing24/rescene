@@ -83,6 +83,7 @@ func _deck_grid() -> void:
 		var _member: Label = host._label(tile, SongSets.MEMBERS[index].to_upper(), Rect2(20, 21, width - 40, 30), 16, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 		if not details.is_empty():
 			var art: MemberCardArt = MemberCardArt.new(); art.host = host; art.item_id = id
+			art.previewable = true
 			host._at(tile, art, Rect2(18, 66, width - 36, 385))
 			var _level: Label = host._label(tile, "LV. %d   %s" % [StrictData.integer(details.get("level", 1)), _star_text(StrictData.integer(details.get("stars", 1)))], Rect2(20, 473, width - 40, 30), 20, host.WHITE, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 			var _skill: Label = host._label(tile, str(details.get("skill", "")), Rect2(20, 520, width - 40, 27), 16, host.LILAC, host.FONT, HORIZONTAL_ALIGNMENT_CENTER)
@@ -102,9 +103,13 @@ func _inventory_grid() -> void:
 		var _hint: Label = host._label(body, "Each member has their own slot. Cards from other song sets stay in their own inventory.", Rect2(150, 580, host._width - 300, 45), 19, host.MUTED, host.FONT, HORIZONTAL_ALIGNMENT_CENTER)
 		return
 	var scroll: MarketGridScroll = MarketGridScroll.new(); scroll.name = "IndividualCardInventory"
+	scroll.interaction_allowed = func() -> bool: return not host.card_viewer_open()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	var width: float = (host._width - 180 - 96) / 5.0
 	scroll.tile_width = width; scroll.column_step = width + 20.0; scroll.row_height = 565.0; scroll.row_step = 585.0; scroll.row_count = ceili(float(cards.size()) / 5.0); scroll.item_count = cards.size(); scroll.columns = 5
+	scroll.artwork_rect = Rect2(14, 12, width - 28, 398)
+	var _art_tap: int = scroll.item_art_tapped.connect(func(index: int) -> void:
+		if index >= 0 and index < cards.size(): host._open_card_artwork(str(cards[index].id), scroll))
 	var _tap: int = scroll.item_tapped.connect(func(index: int) -> void:
 		if index >= 0 and index < cards.size(): selected_id = str(cards[index].id); _enhancing = false; _stars = false; _donors.clear(); _render())
 	host._at(body, scroll, Rect2(90, 335, host._width - 180, 620))
@@ -126,6 +131,7 @@ func _archive_grid() -> void:
 		var id: String = "legacy_scene_%02d" % (index + 1)
 		var tile: Button = host._button(body, "", Rect2(90 + index * (width + 22), 335, width, 595), func() -> void: selected_id = id; _render())
 		var art: MemberCardArt = MemberCardArt.new(); art.host = host; art.item_id = id
+		art.previewable = true
 		host._at(tile, art, Rect2(18, 20, width - 36, 450))
 		var _name: Label = host._label(tile, SongSets.MEMBERS[index], Rect2(22, 487, width - 44, 35), 27, host.WHITE, host.BOLD)
 		var _owned: Label = host._label(tile, "%d OWNED / COSMETIC" % GameServices.commerce().owned(id), Rect2(22, 540, width - 44, 28), 16, host.LILAC)
@@ -135,6 +141,7 @@ func _detail() -> void:
 	var details: Dictionary = commerce.item_details(selected_id)
 	var item: Dictionary = MarketCatalog.find_item(selected_id)
 	var art: MemberCardArt = MemberCardArt.new(); art.host = host; art.item_id = selected_id
+	art.previewable = true
 	host._at(body, art, Rect2(100, 326, 620, 635))
 	var _name: Label = host._label(body, str(details.get("member", item.get("member_name", ""))), Rect2(790, 330, 1000, 78), 62, host.WHITE, host.SERIF)
 	var level: int = StrictData.integer(details.get("level", 1))

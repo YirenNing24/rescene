@@ -8,12 +8,25 @@ const PHOTOS: Array[Texture2D] = [
 ]
 var host: ResceneMainMenu
 var item_id: String = "scene_01"
+var previewable: bool = false
 var _frame: Control
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var _connection: int = resized.connect(_render)
 	_render()
+	if previewable:
+		var enlarge: Button = Button.new()
+		enlarge.name = "EnlargeCardArtwork"
+		enlarge.tooltip_text = "View card larger"
+		enlarge.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		for style: String in ["normal", "pressed"]:
+			enlarge.add_theme_stylebox_override(style, StyleBoxEmpty.new())
+		enlarge.add_theme_stylebox_override("hover", host._style(Color(host.LILAC, 0.035), Color.TRANSPARENT, 12))
+		enlarge.add_theme_stylebox_override("focus", host._style(Color.TRANSPARENT, Color(host.LILAC, 0.7), 12))
+		add_child(enlarge)
+		enlarge.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		var _enlarge: int = enlarge.pressed.connect(func() -> void: host._open_card_artwork(item_id, self))
 
 func _render() -> void:
 	if host == null or size.x < 1.0 or size.y < 1.0: return

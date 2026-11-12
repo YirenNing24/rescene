@@ -1,4 +1,4 @@
-import { onSettled } from 'solid-js';
+import { createSignal, onSettled } from 'solid-js';
 import type { JSX } from '@solidjs/web';
 import { Icon } from './Icons';
 import { photoURL } from './api';
@@ -13,6 +13,15 @@ export function Modal(props: {title: string; onClose: () => void; children: JSX.
   let ref!: HTMLDialogElement;
   onSettled(() => { ref.showModal(); return () => ref.close(); });
   return <dialog ref={ref} class={props.wide?'modal wide':'modal'} onCancel={e=>{e.preventDefault();props.onClose();}} onClick={e=>{if(e.target===ref)props.onClose();}}><div class="modal-inner"><header><div><p class="eyebrow">RESCENE / RHYTHM</p><h2>{props.title}</h2></div><button class="icon-button" aria-label="Close dialog" onClick={props.onClose}><Icon name="close"/></button></header>{props.children}</div></dialog>;
+}
+export function CardArtwork(props: {src: string; name: string; imageClass?: string; loading?: 'lazy'|'eager'}) {
+  const [expanded,setExpanded]=createSignal(false);
+  return <><button type="button" class="card-art-trigger" aria-label={'Enlarge '+props.name} onClick={e=>{e.stopPropagation();setExpanded(true);}}><img class={props.imageClass} src={props.src} alt={props.name} loading={props.loading}/></button>{expanded()&&<CardLightbox src={props.src} name={props.name} onClose={()=>setExpanded(false)}/>}</>;
+}
+function CardLightbox(props: {src: string; name: string; onClose: () => void}) {
+  let ref!: HTMLDialogElement;
+  onSettled(()=>{ref.showModal();return ()=>ref.close();});
+  return <dialog ref={ref} class="card-lightbox" aria-label={'Card artwork: '+props.name} onCancel={e=>{e.preventDefault();e.stopPropagation();props.onClose();}} onClick={e=>{e.stopPropagation();if(e.target===ref)props.onClose();}}><button type="button" class="icon-button card-lightbox-close" aria-label="Close card artwork" onClick={props.onClose}><Icon name="close" size={26}/></button><img src={props.src} alt={props.name}/><p>{props.name}</p></dialog>;
 }
 export function SectionTitle(props: {eyebrow: string; title: string; text?: string; children?: JSX.Element}) {
   return <header class="section-title"><div><p class="eyebrow">{props.eyebrow}</p><h1>{props.title}</h1>{props.text && <p>{props.text}</p>}</div>{props.children}</header>;

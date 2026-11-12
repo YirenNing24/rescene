@@ -152,6 +152,7 @@ func _showcase() -> void:
 	if not equipped.is_empty() and not MarketCatalog.find_item(equipped).is_empty():
 		frame.clip_children = CanvasItem.CLIP_CHILDREN_DISABLED
 		var card: MemberCardArt = MemberCardArt.new(); card.name = "FavoriteCollectible"; card.host = host; card.item_id = equipped
+		card.previewable = true
 		host._at(frame, card, Rect2(50, 60, width - 100, 615))
 		var item: Dictionary = MarketCatalog.find_item(equipped)
 		var _favorite: Label = host._label(frame, "FAVORITE CARD  /  " + str(item.get("member_name", "")).to_upper(), Rect2(48, 703, width - 96, 28), 15, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)

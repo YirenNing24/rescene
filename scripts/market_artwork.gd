@@ -9,6 +9,7 @@ const DRINK: Texture2D = preload("res://assets/art/items/energy-drink.png")
 
 var host: ResceneMainMenu
 var item: Dictionary = {}
+var previewable: bool = false
 var _art: Control
 
 func _ready() -> void:
@@ -24,6 +25,7 @@ func _render() -> void:
 	add_child(_art)
 	if str(item.category) == "cards":
 		var card: MemberCardArt = MemberCardArt.new(); card.host = host; card.item_id = str(item.id)
+		card.previewable = previewable
 		host._at(_art, card, Rect2(Vector2.ZERO, size))
 		return
 	var factor: float = minf(size.x / 300.0, size.y / 240.0)
