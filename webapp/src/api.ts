@@ -1,3 +1,4 @@
+import releases from './card-releases.json';
 export class ApiError extends Error {
   constructor(message: string, public status: number) { super(message); }
 }
@@ -16,5 +17,10 @@ export const photoURL = (url?: string): string => url ? '/api'+url.replace(/^\/a
 export const number = (n?: number | string): string => n===undefined ? '—' : Number(n).toLocaleString(undefined,{maximumFractionDigits:2});
 export const title = (value: string): string => value.replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());
 export const members: string[] = ['Woni','Liv','Minami','May','Zena'];
-export const cardImage = (member?: string): string => '/images/card-'+(member ?? 'woni').toLowerCase()+'.webp';
+export const cardReleases = releases;
+export const cardImage = (member?: string, setID = 'pulse'): string => {
+  const release = releases.find(r=>r.set_id===setID);
+  const name = (member ?? 'woni').toLowerCase();
+  return release && members.some(m=>m.toLowerCase()===name) ? '/images/cards/v1/'+release.slug+'/'+name+'.webp' : '';
+};
 export const isCard = (id: string): boolean => id.startsWith('pulse_');

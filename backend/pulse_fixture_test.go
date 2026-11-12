@@ -15,17 +15,19 @@ import (
 )
 
 type pulseFixture struct {
-	f        *shopFixture
-	store    *graphStore
-	owner    string
-	cards    map[int64]pulseCard
-	deck     [5]int64
-	jobs     map[string]shopJob
-	txs      map[string]enginePublicationTx
-	outcomes map[string]int64
-	next     int64
-	sales    bool
-	bad      bool
+	f            *shopFixture
+	store        *graphStore
+	owner        string
+	cards        map[int64]pulseCard
+	deck         [5]int64
+	releaseDecks map[int][5]int64
+	sold         [45]int64
+	jobs         map[string]shopJob
+	txs          map[string]enginePublicationTx
+	outcomes     map[string]int64
+	next         int64
+	sales        bool
+	bad          bool
 }
 
 func newPulseTest(t *testing.T) (*graphStore, *api, *pulseFixture, *fiber.App, string, string) {
@@ -33,7 +35,7 @@ func newPulseTest(t *testing.T) (*graphStore, *api, *pulseFixture, *fiber.App, s
 	f.cfg.PulseRouter = "0x" + strings.Repeat("a", 40)
 	f.cfg.LegacyCardsRouter = "0x" + strings.Repeat("b", 40)
 	f.balance = 100000
-	p := &pulseFixture{f: f, store: s, owner: owner, cards: map[int64]pulseCard{}, jobs: map[string]shopJob{}, txs: map[string]enginePublicationTx{}, outcomes: map[string]int64{}, next: 14, sales: true}
+	p := &pulseFixture{f: f, store: s, owner: owner, cards: map[int64]pulseCard{}, releaseDecks: map[int][5]int64{}, jobs: map[string]shopJob{}, txs: map[string]enginePublicationTx{}, outcomes: map[string]int64{}, next: 14, sales: true}
 	f.pulse = p
 	a.config = f.cfg
 	a.shop.client = newShopClient(f.cfg)
@@ -47,7 +49,7 @@ func newPulseTest(t *testing.T) (*graphStore, *api, *pulseFixture, *fiber.App, s
 func (p *pulseFixture) add(member int, level, stars int) int64 {
 	id := p.next
 	p.next++
-	p.cards[id] = pulseCard{TokenID: id, Member: member, Rarity: 5, BaseScoreBP: 800, BaseRecoveryBP: 8, Skill: member + 1, Level: level, Stars: stars, Revision: 1}
+	p.cards[id] = pulseCard{TokenID: id, Member: member % 5, SetIndex: member/5 + 1, Rarity: 5, BaseScoreBP: 800, BaseRecoveryBP: 8, Skill: member%5 + 1, Level: level, Stars: stars, Revision: 1}
 	p.f.cardOwned[id] = 1
 	return id
 }
@@ -55,7 +57,11 @@ func (p *pulseFixture) current(id int64) pulseCard {
 	c := p.cards[id]
 	c.ScoreBP = c.BaseScoreBP * (10000 + (c.Level-1)*2000/99) / 10000
 	c.RecoveryPPM = c.BaseRecoveryBP * 100 * (10000 + (c.Level-1)*2000/99) / 10000
-	if c.Member >= 0 && c.Member < 5 && p.deck[c.Member] == id && id > 0 {
+	deck := p.deck
+	if c.SetIndex > 1 {
+		deck = p.releaseDecks[c.SetIndex]
+	}
+	if c.Member >= 0 && c.Member < 5 && deck[c.Member] == id && id > 0 {
 		c.Flags |= 2
 	}
 	return c
@@ -133,6 +139,23 @@ func (p *pulseFixture) serve(w http.ResponseWriter, r *http.Request) bool {
 			_ = json.NewEncoder(w).Encode(map[string]any{"jsonrpc": "2.0", "id": 1, "result": "0x" + hexWord(value)})
 			return true
 		}
+		if call.To == "0xcA11bde05977b3631167028862bE2a173976CA11" && strings.HasPrefix(call.Data, selector("aggregate((address,bytes)[])")) {
+			values := []int64{0}
+			if p.sales {
+				values[0] = 1
+			}
+			values = append(values, p.sold[:]...)
+			values = append(values, 10000, 10000, 10000)
+			encoded := "0x" + hexWord(100) + hexWord(64) + hexWord(int64(len(values)))
+			for i := range values {
+				encoded += hexWord(int64(len(values)*32 + i*64))
+			}
+			for _, v := range values {
+				encoded += hexWord(32) + hexWord(v)
+			}
+			_ = json.NewEncoder(w).Encode(map[string]any{"jsonrpc": "2.0", "id": 1, "result": encoded})
+			return true
+		}
 		if call.To != p.f.cfg.PulseRouter {
 			return false
 		}
@@ -143,7 +166,14 @@ func (p *pulseFixture) serve(w http.ResponseWriter, r *http.Request) bool {
 		switch {
 		case d == selector("unitPrice()"):
 			result = "0x" + hex.EncodeToString(starlightRaw(450).FillBytes(make([]byte, 32)))
+		case d == selector("RELEASE_COUNT()"):
+			result = "0x" + hexWord(9)
+		case strings.HasPrefix(d, selector("cardSet(uint256)")):
+			result = "0x" + hexWord(int64(max(1, p.cards[arg(0)].SetIndex)))
+		case strings.HasPrefix(d, selector("initialLESold(uint256)")):
+			result = "0x" + hexWord(p.sold[arg(0)])
 		case d == selector("VERSION()"):
+
 			result = "0x" + hexWord(2)
 		case d == selector("operator()"):
 			result = "0x" + addressWord(p.f.cfg.StarlightTreasury)
@@ -172,7 +202,11 @@ func (p *pulseFixture) serve(w http.ResponseWriter, r *http.Request) bool {
 			result = encoded
 		case strings.HasPrefix(d, selector("deck(address,uint256)")):
 			encoded := "0x"
-			for _, id := range p.deck {
+			deck := p.deck
+			if arg(1) > 1 {
+				deck = p.releaseDecks[int(arg(1))]
+			}
+			for _, id := range deck {
 				if p.f.cardOwned[id] < 1 {
 					id = 0
 				}
@@ -243,6 +277,7 @@ func (p *pulseFixture) apply(j *shopJob) {
 	switch j.Kind {
 	case "pulse_buy":
 		id := p.add(j.Pulse.Request.Member, 1, 1)
+		p.sold[j.Pulse.Request.Member]++
 		c = p.cards[id]
 		c.BaseScoreBP = j.Pulse.Score
 		c.BaseRecoveryBP = j.Pulse.Recovery
@@ -297,7 +332,14 @@ func (p *pulseFixture) apply(j *shopJob) {
 		c.Revision++
 		p.cards[token] = c
 	case "pulse_equip":
-		p.deck[j.Pulse.Request.Member] = token
+		number := releaseNumber(j.Pulse.Request.SetID)
+		if number == 1 {
+			p.deck[j.Pulse.Request.Member] = token
+		} else {
+			deck := p.releaseDecks[number]
+			deck[j.Pulse.Request.Member] = token
+			p.releaseDecks[number] = deck
+		}
 		p.outcomes[j.Key] = int64(j.Pulse.Request.Member)
 	}
 }

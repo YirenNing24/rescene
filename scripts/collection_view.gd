@@ -50,7 +50,7 @@ func _render() -> void:
 		selected_set = str(SongSets.SETS[index].id); selected_id = ""; selected_member = -1; inventory_mode = false; archived = false; _quote.clear(); _render())
 	host._at(body, selector, Rect2(790, 188, 410, 64))
 	var _inventory: Button = host._button(body, "SET DECK" if inventory_mode else "ALL SET CARDS", Rect2(1224, 188, 310, 64), func() -> void: inventory_mode = not inventory_mode; selected_id = ""; selected_member = -1; archived = false; _render())
-	var _archive: Button = host._button(body, "PULSE DECK" if archived else "ARCHIVE", Rect2(host._width - 676, 188, 218, 64), func() -> void: archived = not archived; selected_id = ""; _render())
+	var _archive: Button = host._button(body, "SET DECK" if archived else "ARCHIVE", Rect2(host._width - 676, 188, 218, 64), func() -> void: archived = not archived; selected_id = ""; _render())
 	var _shop: Button = host._button(body, "MARKETPLACE  →", Rect2(host._width - 434, 188, 364, 64), host._open_marketplace)
 	var set_data: Dictionary = SongSets.find_set(selected_set)
 	var songs: Array = StrictData.array(set_data.get("songs", []))
@@ -139,7 +139,7 @@ func _detail() -> void:
 	var _name: Label = host._label(body, str(details.get("member", item.get("member_name", ""))), Rect2(790, 330, 1000, 78), 62, host.WHITE, host.SERIF)
 	var level: int = StrictData.integer(details.get("level", 1))
 	var stars: int = StrictData.integer(details.get("stars", 1))
-	var _identity: Label = host._label(body, "FIRST SCENE / COSMETIC" if archived else "PULSE  /  #%s   ·   LV. %d / 100   ·   %s" % [str(details.get("token_id", "")), level, _star_text(stars)], Rect2(796, 425, host._width - 940, 32), 19, host.LILAC, host.BOLD)
+	var _identity: Label = host._label(body, "FIRST SCENE / COSMETIC" if archived else "%s  /  #%s   ·   LV. %d / 100   ·   %s" % [str(details.get("series", "")), str(details.get("token_id", "")), level, _star_text(stars)], Rect2(796, 425, host._width - 940, 32), 19, host.LILAC, host.BOLD)
 	if archived:
 		var _archive_note: Label = host._label(body, "Original First Scene collectibles remain in your wallet.\nThey do not provide gameplay bonuses or PULSE deck slots.", Rect2(796, 550, host._width - 940, 120), 24, host.MUTED)
 		return

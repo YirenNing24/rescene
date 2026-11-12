@@ -34,3 +34,23 @@ test('wallet and marketplace display Elysium without retired explorer links', as
   await navigate(page, 'Marketplace');
   await expect(page.getByText('Transactions use Elysium Mainnet.', {exact: false})).toBeVisible();
 });
+
+test('release filters keep artwork and equipment payload matched to the album', async ({page}) => {
+  const writes=await setup(page);
+  const scene={...card,id:'pulse_88',template_id:'le_scenedrome_01',name:'Woni · SCENEDROME #88',set_id:'scenedrome',series:'SCENEDROME',equipped:false};
+  await page.route('**/api/inventory',route=>route.fulfill({json:{enabled:true,items:[card,scene],decks:{pulse:['pulse_14','','','',''],scenedrome:['','','','','']},operation:null}}));
+  await page.route('**/api/shop/catalog',route=>route.fulfill({json:{catalog:[product,{...product,id:'le_scenedrome_01',name:'Woni · SCENEDROME',set_id:'scenedrome',series:'SCENEDROME'}],checkout_enabled:true}}));
+  await page.goto('/');await navigate(page,'Marketplace');
+  await page.getByLabel('Release',{exact:true}).selectOption('scenedrome');
+  await expect(page.locator('.product')).toHaveCount(1);
+  await expect(page.locator('.product-art img')).toHaveAttribute('src','/images/cards/v1/scenedrome/woni.webp');
+  await navigate(page,'Collection');
+  await page.getByLabel('Release',{exact:true}).selectOption('scenedrome');
+  await page.getByRole('tab',{name:'Member cards',exact:true}).click();
+  await expect(page.locator('.owned-card')).toHaveCount(1);
+  await page.locator('.owned-card').click();
+  await expect(page.locator('.detail-card-art')).toHaveAttribute('src','/images/cards/v1/scenedrome/woni.webp');
+  await page.getByRole('button',{name:'Equip to Woni slot'}).click();
+  expect(writes.find(w=>w.path==='/collection/quote')?.body.set_id).toBe('scenedrome');
+  await page.screenshot({path:'../previews/scenedrome-web-card-detail.png',fullPage:true});
+});

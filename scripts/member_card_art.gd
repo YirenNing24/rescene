@@ -21,7 +21,7 @@ func _render() -> void:
 	var item: Dictionary = MarketCatalog.find_item(item_id)
 	if item.is_empty() or str(item.get("category", "")) != "cards": return
 	if not StrictData.boolean(item.get("legacy", false)):
-		var path: String = "res://assets/art/cards/pulse-le/%s.png" % str(item.get("member_name", "")).to_lower()
+		var path: String = CardReleases.artwork(item)
 		if ResourceLoader.exists(path):
 			_frame = Control.new(); _frame.mouse_filter = Control.MOUSE_FILTER_IGNORE; add_child(_frame)
 			var artwork: TextureRect = TextureRect.new()

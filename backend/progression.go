@@ -475,7 +475,7 @@ func (a *api) startRun(c fiber.Ctx) error {
 		var deck []*cardLoadout
 		var deckIDs []string
 		setID := songSets[body.SongID]
-		if a.config.PulseRouter != "" && setID == "pulse" {
+		if a.config.PulseRouter != "" && (setID == "pulse" || a.config.CardReleases && releaseNumber(setID) > 0) {
 			if p.ShopActive != "" {
 				return nil, badProgress("Your card/item action is still processing. Please wait before starting.")
 			}
@@ -484,10 +484,10 @@ func (a *api) startRun(c fiber.Ctx) error {
 				return nil, progressError{503, "Your card ownership is updating."}
 			}
 			ctx, cancel := context.WithTimeout(c.Context(), 12*time.Second)
-			deck, deckIDs, err = a.shop.client.pulseDeck(ctx, 0, wallet.Address)
+			deck, deckIDs, err = a.shop.client.pulseDeck(ctx, 0, wallet.Address, setID)
 			cancel()
 			if err != nil {
-				return nil, progressError{503, "Your PULSE deck is updating. Please retry."}
+				return nil, progressError{503, "Your song-set deck is updating. Please retry."}
 			}
 			busy, err := a.pulseBusy(deckIDs, c.Locals("user").(user).ID, "")
 			if err != nil {

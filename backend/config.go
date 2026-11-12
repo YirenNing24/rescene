@@ -35,6 +35,7 @@ type config struct {
 	CardsRouter                                                                               string
 	LegacyCardsRouter                                                                         string
 	PulseRouter                                                                               string
+	CardReleases                                                                              bool
 	MediaDir                                                                                  string
 	AdminKey, AdminOwner, AdminBootstrap                                                      string
 }
@@ -75,6 +76,10 @@ func loadConfig() (config, error) {
 	}
 	c.CardsRouter = strings.ToLower(os.Getenv("CARDS_ROUTER_ADDRESS"))
 	c.PulseRouter = strings.ToLower(os.Getenv("PULSE_CARDS_ADDRESS"))
+	c.CardReleases, shopErr = strconv.ParseBool(env("CARD_RELEASES_ENABLED", "false"))
+	if shopErr != nil || c.CardReleases && c.PulseRouter == "" {
+		return c, errors.New("CARD_RELEASES_ENABLED requires a card router and a boolean value")
+	}
 	c.EventRewardRouter = strings.ToLower(os.Getenv("EVENT_REWARD_ROUTER_ADDRESS"))
 	if c.EventRewardRouter != "" && (!validHex(c.EventRewardRouter, 20) || !c.ShopEnabled) {
 		return c, errors.New("Event rewards require an enabled shop and a valid router address")

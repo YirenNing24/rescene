@@ -1,0 +1,56 @@
+[
+  {
+    "number": 1,
+    "set_id": "pulse",
+    "name": "PULSE",
+    "slug": "pulse"
+  },
+  {
+    "number": 2,
+    "set_id": "re:scene",
+    "name": "Re:Scene",
+    "slug": "re-scene"
+  },
+  {
+    "number": 3,
+    "set_id": "scenedrome",
+    "name": "SCENEDROME",
+    "slug": "scenedrome"
+  },
+  {
+    "number": 4,
+    "set_id": "glow_up",
+    "name": "Glow Up",
+    "slug": "glow-up"
+  },
+  {
+    "number": 5,
+    "set_id": "dearest",
+    "name": "Dearest",
+    "slug": "dearest"
+  },
+  {
+    "number": 6,
+    "set_id": "lip_bomb",
+    "name": "lip bomb",
+    "slug": "lip-bomb"
+  },
+  {
+    "number": 7,
+    "set_id": "pretty_girl_-_special_single",
+    "name": "Pretty Girl",
+    "slug": "pretty-girl"
+  },
+  {
+    "number": 8,
+    "set_id": "runaway",
+    "name": "Runaway",
+    "slug": "runaway"
+  },
+  {
+    "number": 9,
+    "set_id": "[rescene_x_???]",
+    "name": "Busy Boy",
+    "slug": "busy-boy"
+  }
+]

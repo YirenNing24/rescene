@@ -169,3 +169,9 @@ python3 tools/test_auth_refresh.py --godot /path/to/godot
 Release 0.1.13 removes the lower-left gameplay instructions and the keyboard
 letters beneath all five hit circles. First-play tutorial text uses touch
 instructions. The hit circles and gameplay controls retain their behavior.
+
+Release 0.1.14 integrates all 45 approved LE composites across nine releases.
+Marketplace release filters, collection artwork and gameplay showcase use the
+same member/release identities as the backend and on-chain registry. New card
+sales cost 450 STARL and are capped at 50 per member per release in the initial
+allocation. See docs/card-releases.md for migration, traits and equipment rules.

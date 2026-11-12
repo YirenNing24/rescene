@@ -304,6 +304,13 @@ func (a *api) shopCatalog(c fiber.Ctx) error {
 			return e
 		}
 	}
+	if a.config.CardReleases {
+		products, err := a.shop.client.releaseCatalog(ctx, block)
+		if err != nil {
+			return failure(c, 503, "catalog_unavailable", "The shop is updating. Please retry shortly.")
+		}
+		return releaseCatalogResponse(c, products)
+	}
 	ids := a.shop.client.itemIDs()
 	products := make([]any, len(ids))
 	errs := make([]error, len(ids))
@@ -343,7 +350,7 @@ func catalogProduct(ctx context.Context, client *shopClient, block, on int64) (f
 		}
 		product["initial_allocation"], product["initial_sold"], product["stock"] = 50, sold, max(int64(0), 50-sold)
 		product["artwork_may_be_reissued"], product["admin_issuance_outside_allocation"] = true, true
-		product["available"], product["max_quantity"], product["generation"], product["set_id"] = on == 1 && sold < 50, 1, "individual_randomized", "pulse"
+		product["available"], product["max_quantity"], product["generation"], product["set_id"] = on == 1 && sold < 50, 1, "individual_randomized", cardReleaseFor(card).SetID
 		delete(product, "token_id")
 		product["drop_rates"] = map[string]any{"rarity": "LE", "score_percent_values": []int{7, 8, 9, 10}, "recovery_rating_values": []int{7, 8, 9, 10}, "each_stat_value_chance_bp": 2500, "skill_chance_bp": 10000, "skill_ids": []int{1, 2, 3, 4, 5, 6}, "skill_weights": []int{1, 1, 1, 1, 1, 1}}
 		return product, nil
@@ -430,7 +437,9 @@ func (a *api) getInventory(c fiber.Ctx) error {
 			}
 		}
 		items = append(items, unique...)
-		decks["pulse"] = deck
+		for setID, ids := range deck {
+			decks[setID] = ids
+		}
 	}
 	key := p.ShopActive
 	if key == "" {

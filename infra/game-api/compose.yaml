@@ -17,7 +17,7 @@ services:
       retries: 10
     logging: {driver: json-file, options: {max-size: "10m", max-file: "3"}}
   api:
-    image: remine-api:elysium-config-20261111
+    image: remine-api:card-releases-20261112
     build: {context: ., dockerfile: Dockerfile}
     restart: unless-stopped
     env_file: [api.env]

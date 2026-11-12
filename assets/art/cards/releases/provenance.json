@@ -1,0 +1,497 @@
+[
+  {
+    "set_id": "pulse",
+    "member": "Woni",
+    "source": "output/cards/pulse-le-set-tight-corners/woni-pulse-le-v5.png",
+    "source_sha256": "3441be29e3639b13eb47850e4b78ca94bab7c133e017739d6bf90eb4ddc59427",
+    "runtime_sha256": "b9a72160be83e031fdea1b3b606c34705ec635578a047aca793f61cdc63cab4e",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pulse",
+    "member": "Liv",
+    "source": "output/cards/pulse-le-set-tight-corners/liv-pulse-le-v5.png",
+    "source_sha256": "15fcd96b3bd2d233dbdd0b3ffda78ce7b5c7d7748defdd1442252af247b723a1",
+    "runtime_sha256": "8e644a572bc4cd91bc16c917d7beda270ae7925829098f9dde253b9f2be4c43e",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pulse",
+    "member": "Minami",
+    "source": "output/cards/pulse-le-set-tight-corners/minami-pulse-le-v5.png",
+    "source_sha256": "1b1f69a90de0929851b2c986cd0089fcd9b24f5716aa14a5385fb08ee5950474",
+    "runtime_sha256": "b813712ad194cd49bfc2cc86ba110caa96e99ba360f143a319c6e2ad7ee98fac",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pulse",
+    "member": "May",
+    "source": "output/cards/pulse-le-set-tight-corners/may-pulse-le-v5.png",
+    "source_sha256": "c416bab211c53c37c178bb102f2c6b465b0e5cecd0cbb58f959ccc47f0acf3d9",
+    "runtime_sha256": "882efa04ab675125962c0a2dc81c0157f6acbc48580d15218d43c1e707a5a6ed",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pulse",
+    "member": "Zena",
+    "source": "output/cards/pulse-le-set-tight-corners/zena-pulse-le-v5.png",
+    "source_sha256": "f3c55f2e8f3627c1acb1d0a9efb412aa4f39d4e4b0a512f98dd0848cb471c534",
+    "runtime_sha256": "3db91465a800491f6e839e5eabc6586ec47c7b096922c86992aa47e6b2260547",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "re:scene",
+    "member": "Woni",
+    "source": "output/cards/four-album-le-sets-v2/re-scene/woni-re-scene-le-v2.png",
+    "source_sha256": "92456e04554ff99e8eaa17e952c9b407c9b1839664879cd6bcee8675cb550231",
+    "runtime_sha256": "e97cef41e4a9c2c99d5c4431946b0ac97bc1e20112c81834431aa5ff4258ad15",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "re:scene",
+    "member": "Liv",
+    "source": "output/cards/four-album-le-sets-v2/re-scene/liv-re-scene-le-v2.png",
+    "source_sha256": "faa239484b14817812a294a15e38ceba03df0790dc7a650d8c75eb5f7d5773d2",
+    "runtime_sha256": "c8818ebc07520ed05324198b1995ecfc5ea1e7e6403f33cf5e7467bfddc1c054",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "re:scene",
+    "member": "Minami",
+    "source": "output/cards/four-album-le-sets-v2/re-scene/minami-re-scene-le-v2.png",
+    "source_sha256": "222a2acf44a929b6db579b0e18f77309aba556032bb046b3e34ae4a0c331258d",
+    "runtime_sha256": "9eee034c02f34da4a63796bed710ced43e147e16a876f6add71c1035031318c2",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "re:scene",
+    "member": "May",
+    "source": "output/cards/four-album-le-sets-v2/re-scene/may-re-scene-le-v2.png",
+    "source_sha256": "a9abad6b561bac609a7713bc473786ef00bb5754971c209d03d46cef4f801ab0",
+    "runtime_sha256": "1a6ebdd46548210b4acfdecd3e73efc7d66b4b75b50dd753a4e5791715528283",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "re:scene",
+    "member": "Zena",
+    "source": "output/cards/four-album-le-sets-v2/re-scene/zena-re-scene-le-v2.png",
+    "source_sha256": "0898db44aca73c82653ea8a9c23a600ef697b1d28f60a07132500af809542c44",
+    "runtime_sha256": "724f913bea6698a45c946f6f95a5dddd14f892dbe43a7132ae9b30551efdfca7",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "scenedrome",
+    "member": "Woni",
+    "source": "output/cards/scenedrome/member-set/uniform-v2/woni-scenedrome-le-v2.png",
+    "source_sha256": "bd5965afb353d6a74eaa5cf203c2d64f0c3444961219bcefe1aed0b6a186dde5",
+    "runtime_sha256": "daf9bb1d868e755a4a46198d887327760717ba8e720dfec2f850189dee5f69df",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "scenedrome",
+    "member": "Liv",
+    "source": "output/cards/scenedrome/member-set/uniform-v2/liv-scenedrome-le-v2.png",
+    "source_sha256": "4f8ee4f41cf31c9251ef5c8d4722600d60f492f768668dd047af9fee62eea4a2",
+    "runtime_sha256": "33dec37ffb7a8bee46df6cc508e1a1a7dd85976559a54ba7efe9a77c3e1fad8b",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "scenedrome",
+    "member": "Minami",
+    "source": "output/cards/scenedrome/member-set/uniform-v2/minami-scenedrome-le-v2.png",
+    "source_sha256": "73ec4e96d04b1b30c1cd7887b48e1cb318255370ce0e6f9b90675f06874e63dc",
+    "runtime_sha256": "fa230a5ddd438f3e9c6616bad5280e275343550c587aab4057cb8a2051f970c5",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "scenedrome",
+    "member": "May",
+    "source": "output/cards/scenedrome/member-set/uniform-v2/may-scenedrome-le-v2.png",
+    "source_sha256": "4a240de0162458dbfb5be52c4869cf9396d07c5d61743c4be4cb8800a19a8f9e",
+    "runtime_sha256": "e7b20dd835d5c04008363db2c12b24f131793624bfc84669414b0c4cf72f2e29",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "scenedrome",
+    "member": "Zena",
+    "source": "output/cards/scenedrome/member-set/uniform-v2/zena-scenedrome-le-v2.png",
+    "source_sha256": "8865cd8a6452690c4452d545200650ae8134a57718fecc6ab039decc4f264a82",
+    "runtime_sha256": "3c21ddada22a288f6684462c138f78e26a386c4416f8a03779748d1e93cc6d81",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "glow_up",
+    "member": "Woni",
+    "source": "output/cards/four-album-le-sets-v2/glow-up/woni-glow-up-le-v2.png",
+    "source_sha256": "3ee1ca486ff23fdba423c3f2c106a824f06f8a00dea476658913af3e72621f4f",
+    "runtime_sha256": "1d86bcb8bacdacee05c25f893c4c39859442eeab3d7dfe64996621d87b48f8e7",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "glow_up",
+    "member": "Liv",
+    "source": "output/cards/four-album-le-sets-v2/glow-up/liv-glow-up-le-v2.png",
+    "source_sha256": "a01b1871b3776d4a016a5b4ea5de7b3863e6567fcae80661709e1653cafc9829",
+    "runtime_sha256": "293159d966fc5336621dda7dbe3fce402321d4004b26e0d6e26d8fef80276e0b",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "glow_up",
+    "member": "Minami",
+    "source": "output/cards/four-album-le-sets-v2/glow-up/minami-glow-up-le-v2.png",
+    "source_sha256": "808891d0ceb17252c532a3ec48add3a2119a64f6da148e8eb06a3d3b7164e4a5",
+    "runtime_sha256": "624f334c2de633b02bbfdc444c96915b5cfa6097048a727f3a77abe087ddbfb0",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "glow_up",
+    "member": "May",
+    "source": "output/cards/four-album-le-sets-v2/glow-up/may-glow-up-le-v2.png",
+    "source_sha256": "77aaaf3854ef7e88a3a902ab84fd597ec2123ad3ad761ac8908c5ce27d9fa517",
+    "runtime_sha256": "4dc31f259e006a4bfe4a6e4d11f23511c8b7a77a3435a44bbd7f3909f1cf64bd",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "glow_up",
+    "member": "Zena",
+    "source": "output/cards/four-album-le-sets-v2/glow-up/zena-glow-up-le-v2.png",
+    "source_sha256": "7bbaaa3768161d445ad734f359dda208de305d9debf6b90e231c43c0e520a050",
+    "runtime_sha256": "9e9ef0731a91a179729cfa1d95c58533708bd282dd9ee25d7f8a259a7f90700a",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "dearest",
+    "member": "Woni",
+    "source": "output/cards/four-album-le-sets-v2/dearest/woni-dearest-le-v2.png",
+    "source_sha256": "16699084d32719018f6b03ebe03256f09a86e19897b119783312c927e737bb2b",
+    "runtime_sha256": "f68e2df67cff58f2ba7b35bace67ccf2c20f3e10e147e5c8ffdfdf93d437f2a1",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "dearest",
+    "member": "Liv",
+    "source": "output/cards/four-album-le-sets-v2/dearest/liv-dearest-le-v2.png",
+    "source_sha256": "fbeb8e5016e056f90312bfc8a8c424d047780654e442a1edcbddd5b723c728ce",
+    "runtime_sha256": "1a85ead4a80cfa6d4179d1deaddc818871645fa7857df1afac322e3b7084aea8",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "dearest",
+    "member": "Minami",
+    "source": "output/cards/four-album-le-sets-v2/dearest/minami-dearest-le-v2.png",
+    "source_sha256": "766d48d2d8179cb24475ae509fe0c530500c23efe89fbe0f87e3c345c2e0c2d2",
+    "runtime_sha256": "ce6f97a833ec84fcce541ac55323c237a77a2ebd9b73530184209ad375907a90",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "dearest",
+    "member": "May",
+    "source": "output/cards/four-album-le-sets-v2/dearest/may-dearest-le-v2.png",
+    "source_sha256": "d047af15414d90c23c7810535313c4ae12e6abd0266c9ea436515eac5d039aae",
+    "runtime_sha256": "2056fa5154665a30c746be32cccd0a0a7f275e263b1849136c446eb6ed800cdf",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "dearest",
+    "member": "Zena",
+    "source": "output/cards/four-album-le-sets-v2/dearest/zena-dearest-le-v2.png",
+    "source_sha256": "e350d1bfd2a829c417db4fd04618a0b1a86b9ca84721a1bc96a2c241f8a1a456",
+    "runtime_sha256": "70961be41d3afc4230629ac88f1b35c2315427fbfd71f331790177820a7d93ad",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "lip_bomb",
+    "member": "Woni",
+    "source": "output/cards/four-album-le-sets-v2/lip-bomb/woni-lip-bomb-le-v2.png",
+    "source_sha256": "c6c52d7e289a04e65c48b0dc57c049789784bd4e44e1ed20aff1e71792df8b27",
+    "runtime_sha256": "c2c221664040a9c9d8bcea7cb319c99f223b34d335a65ccddd4673452e325486",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "lip_bomb",
+    "member": "Liv",
+    "source": "output/cards/four-album-le-sets-v2/lip-bomb/liv-lip-bomb-le-v2.png",
+    "source_sha256": "2b1718acab5d59329b8809db1b0dc942468080c6376a90eec720c05efef0da5e",
+    "runtime_sha256": "14d34337fbd4bd7e9764a110fce4eb664624254f7ebe8cf54e8ea17492448428",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "lip_bomb",
+    "member": "Minami",
+    "source": "output/cards/four-album-le-sets-v2/lip-bomb/minami-lip-bomb-le-v2.png",
+    "source_sha256": "1bd80f959d32aafc7ac06a55f21fb2898171502749f7c5b3523a0bdb7524c73f",
+    "runtime_sha256": "ead5c30f507721958a0e11363f1a5e5373b40d80cc16d5f428be610741639824",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "lip_bomb",
+    "member": "May",
+    "source": "output/cards/four-album-le-sets-v2/lip-bomb/may-lip-bomb-le-v2.png",
+    "source_sha256": "4811804a05c4517e58b202ee66e0a6097b9ff26d27d7474d69559667d23ab409",
+    "runtime_sha256": "3335f96a9beb7e0790a587965982c90d87bb988f395b3fed3453cd97045cff21",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "lip_bomb",
+    "member": "Zena",
+    "source": "output/cards/four-album-le-sets-v2/lip-bomb/zena-lip-bomb-le-v2.png",
+    "source_sha256": "449e99319e0dc63ef83414092a90d64f4897cbaa7a4be285098279c139e33760",
+    "runtime_sha256": "82697567211086308d0fbc0ea6ecef14a964d0836de69665eddb7da02373e44f",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pretty_girl_-_special_single",
+    "member": "Woni",
+    "source": "output/cards/singles-le-member-sets/pretty-girl/woni-pretty-girl-le-v1.png",
+    "source_sha256": "82233ea41503470d0a6bbace7973dd9749f0ad89cda0552848cc30fdd210688e",
+    "runtime_sha256": "67a746c563fc4d9c506262c8876b45a06596113e2ff47fd52bacda0c814a1990",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pretty_girl_-_special_single",
+    "member": "Liv",
+    "source": "output/cards/singles-le-member-sets/pretty-girl/liv-pretty-girl-le-v1.png",
+    "source_sha256": "e71352a2a0f427cfb30e7b3cfd030949212e57071d0ef3f2d50410ce80d7cdb2",
+    "runtime_sha256": "e55082679d3c3022d8fcdba982920f76487c09857cdf2b19783c01358612e3ed",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pretty_girl_-_special_single",
+    "member": "Minami",
+    "source": "output/cards/singles-le-member-sets/pretty-girl/minami-pretty-girl-le-v1.png",
+    "source_sha256": "29f669b798d0fef5e0a571f632b7f1a446dee7fdfef02ddbd0537e313850cb86",
+    "runtime_sha256": "6ee4c10464447037f8e8b248eaea68277e81e87c0ab4a488f6181e40a9503c06",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pretty_girl_-_special_single",
+    "member": "May",
+    "source": "output/cards/singles-le-member-sets/pretty-girl/may-pretty-girl-le-v1.png",
+    "source_sha256": "54a328b00f9e25868331af3b254db3241469d4a70b02207281eb1982ac916bb0",
+    "runtime_sha256": "7e0343c0dc0c73ee37b27d8a3daeded46375a663d87f1b8e6e7e44b09d6c6a49",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "pretty_girl_-_special_single",
+    "member": "Zena",
+    "source": "output/cards/singles-le-member-sets/pretty-girl/zena-pretty-girl-le-v1.png",
+    "source_sha256": "58f70463a4cdb8e6d08493fff9bd01a6435a1fe0adbcdb5ce61e52a0c3a568ae",
+    "runtime_sha256": "b3460c611f936705442ee7df95da1eb633fca36701fa738f88f7d9944834660d",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "runaway",
+    "member": "Woni",
+    "source": "output/cards/singles-le-member-sets/runaway/woni-runaway-le-v1.png",
+    "source_sha256": "d553b45f8945ac7ff350447759947787260ce9b177ba1382dea34422ba35df72",
+    "runtime_sha256": "f690b31ad4e521673ad055e98b68c308c3636bca90c3af93bd34931e6c0a1dfb",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "runaway",
+    "member": "Liv",
+    "source": "output/cards/singles-le-member-sets/runaway/liv-runaway-le-v1.png",
+    "source_sha256": "06dc1304272b861923861eeeb4fb7b618eb013002335d2ea993da43fc5002254",
+    "runtime_sha256": "814d232eafc448234bfb3e6ff5c530a21d8a60261bd2278f38d6e0df9548c947",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "runaway",
+    "member": "Minami",
+    "source": "output/cards/singles-le-member-sets/runaway/minami-runaway-le-v1.png",
+    "source_sha256": "5d33d917395a2610beb2cb1d6c12c795d22d2eadd0fdb2ab33ff613b4a751e28",
+    "runtime_sha256": "84a93329ab0c2f42e9e1677d36a022affd99e8268f7af6fea0d916ea14318a2f",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "runaway",
+    "member": "May",
+    "source": "output/cards/singles-le-member-sets/runaway/may-runaway-le-v1.png",
+    "source_sha256": "a5be795605e4a14ad7c12da976061f882613d3d004cb3870543faed49a6e0f7e",
+    "runtime_sha256": "d7501ebfb9660bc695756cfe25abf6fed1a09fffe9b4248c8cf15ab46e3a3b64",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "runaway",
+    "member": "Zena",
+    "source": "output/cards/singles-le-member-sets/runaway/zena-runaway-le-v1.png",
+    "source_sha256": "a56de98f6de377b3623050752b6b52574f36b717491b4326c7005a8353f99b62",
+    "runtime_sha256": "8813c1127bfea2dbefad44ec825faf53a6f06825cadf26d06cf443d680248d79",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "[rescene_x_???]",
+    "member": "Woni",
+    "source": "output/cards/singles-le-member-sets/busy-boy/woni-busy-boy-le-v1.png",
+    "source_sha256": "1ea318b71aa5c266b269873061c85bd2212b38840d971c7058813165440080ca",
+    "runtime_sha256": "f62b14310620826f07748b0154e7e6dc0ccda64a60927ededcc28e0269090ff7",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "[rescene_x_???]",
+    "member": "Liv",
+    "source": "output/cards/singles-le-member-sets/busy-boy/liv-busy-boy-le-v1.png",
+    "source_sha256": "4628f11b9ed3c25b662c8068afc53a0c1a7616e161d7ed872900da9925f3ffb6",
+    "runtime_sha256": "81ac2bd2ea2176991e70a1f1d3f72532763037ec3de944b20248424173e3dcc7",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "[rescene_x_???]",
+    "member": "Minami",
+    "source": "output/cards/singles-le-member-sets/busy-boy/minami-busy-boy-le-v1.png",
+    "source_sha256": "95eb3ba42478c3e357848158e858a7f474ca2f51ad1edd459e37f5019fe59daf",
+    "runtime_sha256": "24524be02fad7ff34ff4e9d55b72404a51c8019a1ccb22d484f2e5dc0fee0bdb",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "[rescene_x_???]",
+    "member": "May",
+    "source": "output/cards/singles-le-member-sets/busy-boy/may-busy-boy-le-v1.png",
+    "source_sha256": "197de13836e915bc128a9f103f1746575ea801f5aaf627f28863d83d4c7aecee",
+    "runtime_sha256": "4b69cf4e22ab5fa5541b8c37b72b0db736f1f58252d4fe06071c481123f1ecf5",
+    "dimensions": [
+      662,
+      1024
+    ]
+  },
+  {
+    "set_id": "[rescene_x_???]",
+    "member": "Zena",
+    "source": "output/cards/singles-le-member-sets/busy-boy/zena-busy-boy-le-v1.png",
+    "source_sha256": "4c1cbc228a74390eafe2f1b753016fe5b3b40b754026f0ca7071189534ddc55d",
+    "runtime_sha256": "131abe467017364b19bbf3b5a347ecc027e15307baf6eb59caa75966c5b1bcec",
+    "dimensions": [
+      662,
+      1024
+    ]
+  }
+]

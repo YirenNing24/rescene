@@ -79,6 +79,7 @@ contract PulseCards {
     }
 
     function setSalesEnabled(bool enabled) external onlyOperator {
+        require(!enabled || _canOpenSales(), "migration incomplete");
         salesEnabled = enabled;
         emit SalesEnabled(enabled);
     }
@@ -118,7 +119,7 @@ contract PulseCards {
     }
 
     function flags(address player, uint256 id) public view returns (uint256) {
-        return (locked[player][id] ? 1 : 0) | (decks[player][1][cards[id].member] == id ? 2 : 0)
+        return (locked[player][id] ? 1 : 0) | (decks[player][_setForCard(id)][cards[id].member] == id ? 2 : 0)
             | (listed[player][id] ? 4 : 0) | (inUseUntil[player][id] > block.timestamp ? 8 : 0);
     }
 
@@ -133,7 +134,7 @@ contract PulseCards {
         bytes32 digest = keccak256(abi.encode(uint256(1), player, member, scoreBP, recoveryBP, skill));
         if (_retry(actionId, digest)) return;
         require(salesEnabled, "sales closed");
-        require(member < 5 && initialLESold[member] < INITIAL_LE_ALLOCATION, "allocation exhausted");
+        require(_validPurchaseMember(member) && initialLESold[member] < INITIAL_LE_ALLOCATION, "allocation exhausted");
         initialLESold[member]++;
         require(token.transferFrom(player, operator, unitPrice), "payment failed");
         uint256 id = _generate(player, member, 5, scoreBP, recoveryBP, skill);
@@ -191,7 +192,7 @@ contract PulseCards {
         uint256 scoreBP,
         uint256 recoveryBP,
         uint256 skill
-    ) internal returns (uint256 id) {
+    ) internal virtual returns (uint256 id) {
         require(player != address(0) && member < 5 && rarity <= 5 && skill <= 6, "invalid card");
         uint256[6] memory lo = [uint256(1), 2, 3, 5, 7, 7];
         uint256[6] memory hi = [uint256(2), 3, 5, 7, 10, 10];
@@ -322,10 +323,10 @@ contract PulseCards {
         nonReentrant
     {
         if (_retry(actionId, keccak256(abi.encode(uint256(6), player, setId, member, id)))) return;
-        require(setId == 1 && member < 5, "invalid deck");
+        require(_validSet(setId) && member < 5, "invalid deck");
         if (id > 0) {
             _owned(player, id);
-            require(cards[id].member == member && flags(player, id) & 12 == 0, "card unavailable");
+            require(_setForCard(id) == setId && cards[id].member == member && flags(player, id) & 12 == 0, "card unavailable");
         }
         decks[player][setId][member] = id;
         emit CardAction(actionId, player, id, 6, member);
@@ -411,17 +412,27 @@ contract PulseCards {
                     string.concat(
                         '{"name":"',
                         names[c.member],
-                        " - PULSE #",
+                        string.concat(" - ", _seriesName(id), " #"),
                         _decimal(id),
-                        '","description":"Individual RESCENE Rhythm member card. Refinement-only XP. Each sacrificed card counts as one donor. Trusted-server random traits. Skill rules v2.","image":"https://engine.fluentxverse.com/items/pulse-le/',
-                        files[c.member],
-                        '.png","attributes":[',
+                        '","description":"Individual RESCENE Rhythm member card. Refinement-only XP. Each sacrificed card counts as one donor. Trusted-server random traits. Skill rules v2.","image":"',
+                        _imageURL(id, files[c.member]),
+                        '","attributes":[',
                         attrs,
                         "]}"
                     )
                 )
             )
         );
+    }
+
+    // Hooks preserve the PULSE v2 ABI and behavior while allowing a release-aware registry.
+    function _setForCard(uint256) internal view virtual returns (uint256) { return 1; }
+    function _validSet(uint256 setId) internal view virtual returns (bool) { return setId == 1; }
+    function _validPurchaseMember(uint256 member) internal view virtual returns (bool) { return member < 5; }
+    function _canOpenSales() internal view virtual returns (bool) { return true; }
+    function _seriesName(uint256) internal view virtual returns (string memory) { return "PULSE"; }
+    function _imageURL(uint256, string memory member) internal view virtual returns (string memory) {
+        return string.concat("https://engine.fluentxverse.com/items/pulse-le/", member, ".png");
     }
 
     function _decimal(uint256 value) internal pure returns (string memory) {

@@ -17,7 +17,7 @@ func verify() -> void:
 	menu._open_destination("SHOP")
 	market = menu._dialog as MarketplaceView
 	await create_timer(0.2).timeout
-	check(market != null and market._products.size() == 12, "Shop must open the full marketplace catalog")
+	check(market != null and market._products.size() == 52, "Shop must open the full marketplace catalog")
 	check(is_instance_valid(menu._energy_label), "Marketplace must retain the existing resource HUD")
 	for category: String in ["cards", "packs", "upgrades", "energy"]:
 		market._category_buttons[category].pressed.emit()

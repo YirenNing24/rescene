@@ -24,11 +24,11 @@ var memberCards = []memberCard{
 }
 
 func cardByID(id string) (memberCard, bool) {
-	for _, card := range memberCards {
+	for _, card := range allMemberCards() {
 		if card.ID == id {
 			return card, true
 		}
-		if "legacy_"+card.ID == id {
+		if card.TokenID <= 10 && "legacy_"+card.ID == id {
 			card.ID = id
 			card.TokenID -= 5
 			card.Legacy = true
@@ -68,7 +68,7 @@ func (c *shopClient) forItem(id string) (*shopClient, error) {
 	}
 	card, cardOK := cardByID(id)
 	material, matOK := materialByID(id)
-	if (!cardOK && !matOK) || !c.cfg.CardsEnabled {
+	if (!cardOK && !matOK) || !c.cfg.CardsEnabled || cardOK && card.TokenID > 10 && !c.cfg.CardReleases {
 		return nil, errors.New("card_unavailable")
 	}
 	clone := *c
@@ -96,7 +96,7 @@ func (c *shopClient) itemIDs() []string {
 			}
 			return ids
 		}
-		for _, card := range memberCards {
+		for _, card := range c.cardsForSale() {
 			ids = append(ids, card.ID)
 		}
 		for _, material := range cardMaterials {
@@ -135,11 +135,12 @@ func (c *shopClient) itemView() fiber.Map {
 		return fiber.Map{"id": material.ID, "name": material.Name, "category": "upgrades", "training_xp": material.XP, "token_id": fmt.Sprint(material.TokenID)}
 	}
 	if card, ok := cardByID(c.itemID); ok {
-		series, rarity := "PULSE", "LE"
+		release := cardReleaseFor(card)
+		series, rarity := release.Name, "LE"
 		if card.Legacy {
 			series, rarity = "First Scene", "SR"
 		}
-		return fiber.Map{"id": card.ID, "name": card.Member + " · " + series, "member": card.Member, "category": "cards", "rarity": rarity, "series": series, "legacy": card.Legacy, "token_id": fmt.Sprint(card.TokenID)}
+		return fiber.Map{"id": card.ID, "name": card.Member + " · " + series, "member": card.Member, "category": "cards", "rarity": rarity, "series": series, "set_id": release.SetID, "art_slug": release.Slug, "legacy": card.Legacy, "token_id": fmt.Sprint(card.TokenID)}
 	}
 	return fiber.Map{"id": "energy_drink", "name": "Energy Drink", "category": "energy", "energy": 5, "token_id": fmt.Sprint(c.cfg.ShopTokenID)}
 }

@@ -432,6 +432,7 @@ func _open_marketplace(saved: Dictionary = {}) -> void:
 	market.host = self
 	market.size = _canvas.size
 	market.category = str(saved.get("category", "featured"))
+	market.release_id = str(saved.get("release_id", ""))
 	market.query = str(saved.get("query", ""))
 	market.sort_index = StrictData.integer(saved.get("sort_index", 0))
 	_dialog = market

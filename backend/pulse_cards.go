@@ -28,6 +28,7 @@ var songSets = func() map[string]string {
 }()
 
 type pulseCard struct {
+	SetIndex       int   `json:"release_number"`
 	TokenID        int64 `json:"token_id"`
 	Member         int   `json:"member_index"`
 	Rarity         int   `json:"rarity_index"`
@@ -102,7 +103,12 @@ func combinedPulseCards(cards []*cardLoadout) *cardLoadout {
 	return team
 }
 func (p pulseCard) view() map[string]any {
-	return map[string]any{"id": pulseID(p.TokenID), "template_id": fmt.Sprintf("scene_%02d", p.Member+1), "token_id": strconv.FormatInt(p.TokenID, 10), "category": "cards", "set_id": "pulse", "series": "PULSE", "rarity": pulseRarities[p.Rarity], "member": pulseMembers[p.Member], "member_name": pulseMembers[p.Member], "member_index": p.Member, "name": pulseMembers[p.Member] + " · PULSE #" + strconv.FormatInt(p.TokenID, 10), "quantity": 1, "level": p.Level, "max_level": 100, "training_xp": p.XP, "level_xp": p.XP, "level_cost": cardLevelCost(p.Level), "success_chance_bp": cardLevelChance(p.Level), "stars": p.Stars, "star_progress": p.Progress, "star_cost": p.Stars * 2, "revision": p.Revision, "locked": p.Flags&1 != 0, "equipped": p.Flags&2 != 0, "listed": p.Flags&4 != 0, "in_use": p.Flags&8 != 0, "skill": pulseSkillNames[p.Skill], "skill_id": p.Skill, "skill_description": pulseSkillDescription(p.Skill, p.Stars), "base_score_bp": p.BaseScoreBP, "base_recovery_bp": p.BaseRecoveryBP, "stats": p.loadout()}
+	number := p.SetIndex
+	if number == 0 {
+		number = 1
+	}
+	release := releaseByNumber(number)
+	return map[string]any{"id": pulseID(p.TokenID), "template_id": releaseTemplate(number, p.Member), "token_id": strconv.FormatInt(p.TokenID, 10), "category": "cards", "set_id": release.SetID, "series": release.Name, "art_slug": release.Slug, "rarity": pulseRarities[p.Rarity], "member": pulseMembers[p.Member], "member_name": pulseMembers[p.Member], "member_index": p.Member, "name": pulseMembers[p.Member] + " · " + release.Name + " #" + strconv.FormatInt(p.TokenID, 10), "quantity": 1, "level": p.Level, "max_level": 100, "training_xp": p.XP, "level_xp": p.XP, "level_cost": cardLevelCost(p.Level), "success_chance_bp": cardLevelChance(p.Level), "stars": p.Stars, "star_progress": p.Progress, "star_cost": p.Stars * 2, "revision": p.Revision, "locked": p.Flags&1 != 0, "equipped": p.Flags&2 != 0, "listed": p.Flags&4 != 0, "in_use": p.Flags&8 != 0, "skill": pulseSkillNames[p.Skill], "skill_id": p.Skill, "skill_description": pulseSkillDescription(p.Skill, p.Stars), "base_score_bp": p.BaseScoreBP, "base_recovery_bp": p.BaseRecoveryBP, "stats": p.loadout()}
 }
 func (c *shopClient) pulseRead(ctx context.Context, block int64, signature, words string) (string, error) {
 	var out string
@@ -135,7 +141,18 @@ func (c *shopClient) pulseCard(ctx context.Context, block int64, wallet string, 
 			return pulseCard{}, err
 		}
 	}
-	p := pulseCard{token, int(values[0]), int(values[1]), int(values[2]), int(values[3]), int(values[4]), int(values[5]), int(values[6]), int(values[7]), int(values[8]), values[9], values[10] != 0, int(values[11]), int(values[12]), int(values[13])}
+	p := pulseCard{SetIndex: 1, TokenID: token, Member: int(values[0]), Rarity: int(values[1]), BaseScoreBP: int(values[2]), BaseRecoveryBP: int(values[3]), Skill: int(values[4]), XP: int(values[5]), Level: int(values[6]), Stars: int(values[7]), Progress: int(values[8]), Revision: values[9], Burned: values[10] != 0, Flags: int(values[11]), ScoreBP: int(values[12]), RecoveryPPM: int(values[13])}
+	if c.cfg.CardReleases {
+		raw, err = c.pulseRead(ctx, block, "cardSet(uint256)", hexWord(token))
+		if err != nil {
+			return p, err
+		}
+		number, e := wordInt(raw, 0)
+		if e != nil || number < 1 || number > 9 {
+			return p, errors.New("invalid card release")
+		}
+		p.SetIndex = int(number)
+	}
 	if p.Level < 1 || p.Level > 100 || p.Member < 0 || p.Member > 4 || p.Rarity < 0 || p.Rarity > 5 || p.Stars < 1 || p.Stars > 5 || p.Skill < 0 || p.Skill > 6 || p.XP < 0 || p.Progress < 0 || p.Revision < 1 || p.ScoreBP < 0 || p.ScoreBP > 1200 || p.RecoveryPPM < 0 || p.RecoveryPPM > 1200 {
 		return p, errors.New("invalid card state")
 	}
@@ -150,7 +167,7 @@ func (c *shopClient) pulseOwned(ctx context.Context, block int64, wallet string,
 	n, err := uint256Hex(raw)
 	return err == nil && n.IsInt64() && n.Int64() == 1, err
 }
-func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string) ([]*cardLoadout, []string, error) {
+func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string, sets ...string) ([]*cardLoadout, []string, error) {
 	if block == 0 {
 		var err error
 		block, err = c.pulseBlock(ctx)
@@ -158,7 +175,14 @@ func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string) 
 			return nil, nil, err
 		}
 	}
-	raw, err := c.pulseRead(ctx, block, "deck(address,uint256)", addressWord(wallet)+hexWord(1))
+	number := 1
+	if len(sets) > 0 {
+		number = releaseNumber(sets[0])
+	}
+	if number < 1 || number > 1 && !c.cfg.CardReleases {
+		return nil, nil, errors.New("unsupported card release")
+	}
+	raw, err := c.pulseRead(ctx, block, "deck(address,uint256)", addressWord(wallet)+hexWord(int64(number)))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -179,7 +203,7 @@ func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string) 
 		if err != nil {
 			return nil, nil, err
 		}
-		if card.Member != i || card.Burned {
+		if card.Member != i || card.Burned || card.SetIndex != 0 && card.SetIndex != number {
 			return nil, nil, errors.New("invalid deck member")
 		}
 		cards[i] = card.loadout()
@@ -190,7 +214,7 @@ func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string) 
 
 // Enumerate registered immutable token identities, then filter by confirmed
 // ERC-1155 balances. Transfers carry the existing registry state to the new owner.
-func (c *shopClient) pulseInventory(ctx context.Context, wallet string) ([]any, []string, error) {
+func (c *shopClient) pulseInventory(ctx context.Context, wallet string) ([]any, map[string][]string, error) {
 	block, err := c.pulseBlock(ctx)
 	if err != nil {
 		return nil, nil, err
@@ -252,29 +276,41 @@ func (c *shopClient) pulseInventory(ctx context.Context, wallet string) ([]any, 
 			}
 		}
 	}
-	raw, err = c.pulseRead(ctx, block, "deck(address,uint256)", addressWord(wallet)+hexWord(1))
-	if err != nil {
-		return nil, nil, err
+	decks := map[string][]string{}
+	releases := cardReleases[:1]
+	if c.cfg.CardReleases {
+		releases = cardReleases
 	}
-	if len(raw) != 322 {
-		return nil, nil, errors.New("invalid deck")
+	for _, release := range releases {
+		raw, err = c.pulseRead(ctx, block, "deck(address,uint256)", addressWord(wallet)+hexWord(int64(release.Number)))
+		if err != nil {
+			return nil, nil, err
+		}
+		if len(raw) != 322 {
+			return nil, nil, errors.New("invalid deck")
+		}
+		deck := make([]string, 5)
+		for member := 0; member < 5; member++ {
+			token, e := wordInt(raw, member)
+			if e != nil {
+				return nil, nil, e
+			}
+			if token == 0 {
+				continue
+			}
+			card, ok := known[token]
+			number := card.SetIndex
+			if number == 0 {
+				number = 1
+			}
+			if !ok || card.Member != member || card.Burned || number != release.Number {
+				return nil, nil, errors.New("invalid owned deck member")
+			}
+			deck[member] = pulseID(token)
+		}
+		decks[release.SetID] = deck
 	}
-	deck := make([]string, 5)
-	for member := 0; member < 5; member++ {
-		token, e := wordInt(raw, member)
-		if e != nil {
-			return nil, nil, e
-		}
-		if token == 0 {
-			continue
-		}
-		card, ok := known[token]
-		if !ok || card.Member != member || card.Burned {
-			return nil, nil, errors.New("invalid owned deck member")
-		}
-		deck[member] = pulseID(token)
-	}
-	return result, deck, nil
+	return result, decks, nil
 }
 
 //go:embed pulse_abi.json

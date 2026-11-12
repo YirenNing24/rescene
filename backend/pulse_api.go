@@ -176,10 +176,10 @@ func (a *api) pulsePreview(ctx context.Context, p progression, wallet string, bo
 		}
 	case "lock":
 	case "equip":
-		if body.SetID != "pulse" || body.Member < 0 || body.Member > 4 {
-			return intent, badProgress("Choose a valid PULSE member slot.")
+		if releaseNumber(body.SetID) == 0 || body.SetID != "pulse" && !a.config.CardReleases || body.Member < 0 || body.Member > 4 {
+			return intent, badProgress("Choose a valid song-set member slot.")
 		}
-		if body.CardID != "" && target.Member != body.Member {
+		if body.CardID != "" && (target.Member != body.Member || max(1, target.SetIndex) != releaseNumber(body.SetID)) {
 			return intent, badProgress("This card belongs in a different member slot.")
 		}
 		if p.Active != nil && time.Now().UnixMilli()-p.Active.StartedAt < int64((2*time.Hour).Milliseconds()) {
@@ -331,8 +331,8 @@ func (a *api) buyPulseCard(c fiber.Ctx, itemID, requestID, total string, quantit
 		return badProgress("Individual cards are generated one at a time for 450 STARL.")
 	}
 	card, ok := cardByID(itemID)
-	if !ok || card.Legacy {
-		return badProgress("Choose a PULSE card.")
+	if !ok || card.Legacy || card.TokenID > 10 && !a.config.CardReleases {
+		return badProgress("Choose an available member card.")
 	}
 	owner := c.Locals("user").(user).ID
 	key := shopKey(a.config, owner, requestID)
@@ -363,7 +363,7 @@ func (a *api) buyPulseCard(c fiber.Ctx, itemID, requestID, total string, quantit
 	}
 	enabled, err := wordInt(raw, 0)
 	if err != nil || enabled != 1 {
-		return badProgress("PULSE card sales are not open yet.")
+		return badProgress("Card sales are not open yet.")
 	}
 	balance, err := a.shop.client.star.balance(ctx, wallet.Address)
 	if err != nil {

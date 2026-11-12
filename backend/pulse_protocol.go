@@ -45,6 +45,13 @@ func (c *shopClient) pulsePreflight(ctx context.Context) error {
 	if err != nil || version != 2 {
 		return errors.New("card contract version mismatch")
 	}
+	if c.cfg.CardReleases {
+		raw, e := c.pulseRead(ctx, block, "RELEASE_COUNT()", "")
+		n, decodeErr := wordInt(raw, 0)
+		if e != nil || decodeErr != nil || n != 9 {
+			return errors.New("card release contract mismatch")
+		}
+	}
 	priceRaw, err := c.pulseRead(ctx, block, "unitPrice()", "")
 	if err != nil {
 		return err
@@ -133,7 +140,7 @@ func pulseSpec(c *shopClient, j shopJob) (shopCall, error) {
 		args = append(args, fmt.Sprint(token), fmt.Sprint(p.Request.Locked), fmt.Sprint(p.Revision))
 	case "pulse_equip":
 		method = "equip"
-		args = append(args, "1", fmt.Sprint(p.Request.Member), fmt.Sprint(token))
+		args = append(args, fmt.Sprint(releaseNumber(p.Request.SetID)), fmt.Sprint(p.Request.Member), fmt.Sprint(token))
 	default:
 		return shopCall{}, errPulseState
 	}
@@ -174,7 +181,7 @@ func pulseDigest(j shopJob) (string, error) {
 		}
 		words = hexWord(5) + addressWord(j.Wallet) + hexWord(token) + hexWord(value) + hexWord(p.Revision)
 	case "pulse_equip":
-		words = hexWord(6) + addressWord(j.Wallet) + hexWord(1) + hexWord(int64(p.Request.Member)) + hexWord(token)
+		words = hexWord(6) + addressWord(j.Wallet) + hexWord(int64(releaseNumber(p.Request.SetID))) + hexWord(int64(p.Request.Member)) + hexWord(token)
 	default:
 		return "", errPulseState
 	}

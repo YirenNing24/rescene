@@ -3,6 +3,8 @@ extends MenuDestination
 ## Only server-listed items may open checkout. Concept products stay previews.
 
 var category: String = "featured"
+var release_id: String = ""
+var _release_filter: OptionButton
 var query: String = ""
 var sort_index: int = 0
 var _products: Array[Dictionary] = []
@@ -42,7 +44,21 @@ func _ready() -> void:
 	_section = host._label(body, "", Rect2(350, 535, 1000, 34), 24, host.WHITE, host.BOLD)
 	_count = host._label(body, "", Rect2(host._width - 500, 540, 430, 27), 14, host.MUTED, host.FONT, HORIZONTAL_ALIGNMENT_RIGHT)
 	_empty = host._label(body, "No items found.\nTry another search or category.", Rect2(550, 500, host._width - 800, 140), 28, host.MUTED, host.FONT, HORIZONTAL_ALIGNMENT_CENTER)
-	_footer = host._label(body, "Collect PULSE cards, refinement items and Energy Drinks with Starlight. Card packs are previews.", Rect2(350, 1008, host._width - 430, 25), 13, host.MUTED)
+	_footer = host._label(body, "Collect release-specific LE cards, refinement items and Energy Drinks. Card packs are previews.", Rect2(350, 1008, host._width - 430, 25), 13, host.MUTED)
+	var releases: OptionButton = OptionButton.new()
+	_release_filter = releases
+	releases.name = "MarketReleaseFilter"
+	releases.fit_to_longest_item = false
+	releases.add_item("All releases")
+	for entry: Dictionary in CardReleases.RELEASES:
+		releases.add_item(str(entry.name))
+		if str(entry.set_id) == release_id: releases.select(releases.item_count - 1)
+	releases.add_theme_font_size_override("font_size", 18)
+	host._at(body, releases, Rect2(host._width - 1000, 527, 450, 48))
+	var _release_connection: int = releases.item_selected.connect(func(index: int) -> void:
+		release_id = "" if index == 0 else str(CardReleases.RELEASES[index-1].set_id)
+		if index > 0: category = "cards"
+		_render_products())
 	_render_products()
 	_refresh_marketplace.call_deferred()
 	var _commerce_connection: int = GameServices.commerce().changed.connect(_commerce_changed)
@@ -53,7 +69,7 @@ func _ready() -> void:
 func _commerce_changed() -> void:
 	if not is_instance_valid(_footer): return
 	var commerce: CommerceService = GameServices.commerce()
-	_footer.text = commerce.message if not commerce.message.is_empty() else "Collect PULSE cards, refinement items and Energy Drinks with Starlight. Card packs are previews."
+	_footer.text = commerce.message if not commerce.message.is_empty() else "Collect release-specific LE cards, refinement items and Energy Drinks. Card packs are previews."
 	var signature: String = JSON.stringify(commerce.catalog)
 	if signature != _catalog_signature:
 		_catalog_signature = signature
@@ -74,7 +90,7 @@ func _update_checkout() -> void:
 	if available:
 		_total_label.text = str(_quantity * StrictData.integer(product.get("price", 0)))
 		if _confirming: _notice.text = "Pay %s STARL for %d × %s? Tap Confirm to purchase." % [_total_label.text, _quantity, str(_selected.get("name", "item"))]
-		elif str(_selected.get("category", "")) == "cards": _notice.text = "%d / 50 left in this initial sale · Future admin mints & artwork reissues allowed." % StrictData.integer(product.get("stock", 0)) if product.has("initial_allocation") else "One unique LE card with permanent random stats and one skill. Equip it in its PULSE member slot."
+		elif str(_selected.get("category", "")) == "cards": _notice.text = "%d / 50 left in this initial sale · Future admin mints & artwork reissues allowed." % StrictData.integer(product.get("stock", 0)) if product.has("initial_allocation") else "One unique LE card with permanent random stats and one skill. Equip it in the matching release and member slot."
 		elif str(_selected.get("category", "")) == "upgrades": _notice.text = "Refinement-only card XP. Level attempts can fail; review the odds in Collection."
 		else: _notice.text = "100 STARL each · +5 energy when used · Items arrive after confirmation."
 		if commerce.pending(): _notice.text = commerce.message
@@ -137,7 +153,7 @@ func _feature() -> void:
 	host._at(body, _hero, Rect2(350, 290, host._width - 420, 218))
 	var width: float = _hero.size.x
 	var _panel: Panel = host._panel(_hero, Rect2(0, 0, width, 218), Color("2b2744"), Color(host.LILAC, 0.34), 22)
-	var _eyebrow: Label = host._label(_hero, "THE PULSE COLLECTION", Rect2(32, 25, width - 750, 24), 13, host.LILAC, host.BOLD)
+	var _eyebrow: Label = host._label(_hero, "NINE RELEASES / FIVE VOICES", Rect2(32, 25, width - 750, 24), 13, host.LILAC, host.BOLD)
 	var _headline: Label = host._label(_hero, "A new scene to collect.", Rect2(28, 60, width - 750, 72), 52, host.WHITE, host.ITALIC)
 	var _copy: Label = host._label(_hero, "Photo cards, foil packs, and little boosts for your next stage.", Rect2(33, 143, width - 730, 34), 18, host.MUTED)
 	var browse: Button = host._button(_hero, "EXPLORE CARDS  →", Rect2(width - 393, 141, 352, 50), func() -> void: set_category("cards"))
@@ -146,16 +162,18 @@ func _feature() -> void:
 	for index: int in 3:
 		var artwork: MarketArtwork = MarketArtwork.new()
 		artwork.host = host
-		artwork.item = MarketCatalog.find_item(str(["scene_01", "scene_03", "scene_05"][index]))
+		artwork.item = MarketCatalog.find_item(str(["scene_01", "le_scenedrome_03", "le_dearest_05"][index]))
 		host._at(_hero, artwork, Rect2(width - 800 + index * 142, -7 + absf(float(index - 1)) * 10.0, 235, 225))
-	var _badge: Label = host._label(_hero, "PULSE LE\nFIVE TO COLLECT", Rect2(width - 330, 28, 270, 60), 18, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_RIGHT)
+	var _badge: Label = host._label(_hero, "45 LE CARDS\nNINE RELEASES", Rect2(width - 330, 28, 270, 60), 18, host.LILAC, host.BOLD, HORIZONTAL_ALIGNMENT_RIGHT)
 
 func set_category(value: String) -> void:
 	category = value
+	if category not in ["cards", "featured"]:
+		release_id = ""; _release_filter.select(0)
 	_render_products()
 
 func snapshot() -> Dictionary:
-	return {"category":category, "query":query, "sort_index":sort_index, "scroll":_scroll.scroll_vertical,
+	return {"release_id":release_id, "category":category, "query":query, "sort_index":sort_index, "scroll":_scroll.scroll_vertical,
 		"item_id":str(_selected.get("id", "")) if is_instance_valid(_detail) else "", "quantity":_quantity}
 
 func restore_detail(saved: Dictionary) -> void:
@@ -168,12 +186,14 @@ func restore_detail(saved: Dictionary) -> void:
 func _render_products() -> void:
 	if not is_instance_valid(_hero): return
 	if is_instance_valid(_scroll): _scroll.hide(); _scroll.queue_free()
-	_products = MarketCatalog.filtered(category, query, sort_index)
+	_products = MarketCatalog.filtered(category, query, sort_index, release_id)
 	var featured: bool = category == "featured" and query.strip_edges().is_empty()
 	_hero.visible = featured
 	var title_y: float = 535.0 if featured else 296.0
 	_section.position.y = title_y
 	_count.position.y = title_y + 5.0
+	_release_filter.position.y = title_y - 8.0
+	_release_filter.visible = category in ["cards", "featured"]
 	for entry: Dictionary in MarketCatalog.CATEGORIES:
 		var active: bool = category == entry.id
 		_category_buttons[str(entry.id)].add_theme_stylebox_override("normal", host._style(Color("393051") if active else Color("1b1b30"), Color(host.LILAC, 0.65 if active else 0.14), 16))

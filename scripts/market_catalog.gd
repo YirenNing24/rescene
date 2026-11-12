@@ -36,13 +36,20 @@ static func find_item(id: String) -> Dictionary:
 		if not legacy.is_empty():
 			legacy.id = id; legacy.name = str(legacy.get("member_name", "")) + " · First Scene"; legacy.tag = "SR · ARCHIVE"; legacy.legacy = true
 		return legacy
-	for item: Dictionary in ITEMS:
+	for item: Dictionary in all_items():
 		if item.id == id: return item
 	return {}
 
-static func filtered(category: String, query: String, sort_index: int) -> Array[Dictionary]:
-	var result: Array[Dictionary] = []
+static func all_items() -> Array[Dictionary]:
+	var result: Array[Dictionary] = CardReleases.templates()
 	for item: Dictionary in ITEMS:
+		if str(item.category) != "cards": result.append(item)
+	return result
+
+static func filtered(category: String, query: String, sort_index: int, set_id: String = "") -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for item: Dictionary in all_items():
+		if not set_id.is_empty() and (str(item.category) != "cards" or str(item.get("set_id", "")) != set_id): continue
 		if category != "featured" and item.category != category: continue
 		if not query.strip_edges().is_empty() and not (str(item.name) + " " + str(item.tag)).to_lower().contains(query.strip_edges().to_lower()): continue
 		result.append(item)
