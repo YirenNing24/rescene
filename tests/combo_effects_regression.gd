@@ -31,7 +31,7 @@ func verify() -> void:
 	check(visible_pillars() == 0, "Combos below ten must not create a pillar")
 	hit(9)
 	check(visible_pillars() == 1 and effects._cursor == 1, "The tenth actual judgment must create one pillar")
-	var base: Vector2 = effects._sprites[0].position + Vector2(effects.PILLAR_SIZE.x * 0.5, effects.PILLAR_SIZE.y * effects.BASE_UV)
+	var base: Vector2 = effects._sprites[0].position + effects._sprites[0].scale * Vector2(0.5, effects.BASE_UV)
 	check(base.is_equal_approx(stage.highway.project(0.0, 0.0)), "The pillar must originate on the judged catcher")
 	effects.on_judgment(10, 0.0, 1.0)
 	check(effects._cursor == 1, "A repeated judgment must not duplicate a milestone")

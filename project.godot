@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RESCÉNE Rhythm"
-config/version="0.1.16"
+config/version="0.1.17"
 run/main_scene="res://scenes/splash_screen.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.035, 0.045, 0.075, 1)
@@ -101,4 +101,4 @@ environment/defaults/default_clear_color=Color(0.035, 0.045, 0.075, 1)
 [rescene]
 
 api/base_url="https://api.remineph.online"
-app/version_code=17
+app/version_code=18

@@ -27,7 +27,7 @@ func _ready() -> void:
 		vortex.name = "Vortex%d" % index
 		vortex.texture = texture
 		vortex.centered = false
-		vortex.scale = VORTEX_SIZE
+		vortex.scale = VORTEX_SIZE * highway.ROAD_SCALE
 		vortex.hide()
 		var shader_material: ShaderMaterial = ShaderMaterial.new()
 		shader_material.shader = VORTEX_SHADER
@@ -67,7 +67,7 @@ func _process(_delta: float) -> void:
 		_active[slot] = true
 		_released[slot] = -1.0
 		var lane: float = RhythmChart.lane_at(note, game.song_time)
-		_sprites[slot].position = highway.project(lane, 0.0) - VORTEX_SIZE * ORIGIN_UV
+		_sprites[slot].position = highway.project(lane, 0.0) - VORTEX_SIZE * highway.ROAD_SCALE * ORIGIN_UV
 		_sprites[slot].show()
 	for slot: int in MAX_VORTICES:
 		if _ids[slot] == -1: continue

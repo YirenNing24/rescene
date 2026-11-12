@@ -26,7 +26,7 @@ func _ready() -> void:
 		pillar.name = "Pillar%d" % index
 		pillar.texture = texture
 		pillar.centered = false
-		pillar.scale = PILLAR_SIZE
+		pillar.scale = PILLAR_SIZE * highway.ROAD_SCALE
 		pillar.visible = false
 		var shader_material: ShaderMaterial = ShaderMaterial.new()
 		shader_material.shader = PILLAR_SHADER
@@ -44,7 +44,7 @@ func on_judgment(combo: int, lane: float, value: float) -> void:
 	var slot: int = _cursor
 	_cursor = (_cursor + 1) % MAX_PILLARS
 	var origin: Vector2 = highway.project(clampf(lane, 0.0, 4.0), 0.0)
-	_sprites[slot].position = origin - Vector2(PILLAR_SIZE.x * 0.5, PILLAR_SIZE.y * BASE_UV)
+	_sprites[slot].position = origin - Vector2(PILLAR_SIZE.x * 0.5, PILLAR_SIZE.y * BASE_UV) * highway.ROAD_SCALE
 	_born[slot] = highway.game.visual_age
 	_materials[slot].set_shader_parameter("age", 0.0)
 	_materials[slot].set_shader_parameter("seed", float(combo) + lane * 3.0)

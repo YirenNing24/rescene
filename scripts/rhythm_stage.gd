@@ -295,7 +295,7 @@ func _mouse_press(pressed: bool, point: Vector2, now: float) -> void:
 
 
 func _in_hit_area(point: Vector2) -> bool:
-	return point.y >= 690.0 and point.y <= 1060.0 and point.x >= 335.0 and point.x <= 2065.0
+	return highway.contains_hit_point(point)
 
 
 func _local(viewport_position: Vector2) -> Vector2:
@@ -334,7 +334,7 @@ func _build_hud() -> void:
 	deck_showcase = DeckShowcase.new(); deck_showcase.host = host; deck_showcase.set_id = SongSets.for_song(str(song.id))
 	deck_showcase.name = "EquippedSongSetCards"
 	deck_showcase.deck_ids = GameServices.commerce().deck_ids(deck_showcase.set_id)
-	host._at(self, deck_showcase, Rect2(62, 286, 338, 570))
+	host._at(self, deck_showcase, Rect2(Vector2(42, 282), DeckShowcase.PANEL_SIZE))
 	var _panel_5: Panel = host._panel(self, Rect2(58, 38, 510, 115), Color(0.055, 0.065, 0.15, 0.84), Color(0.74, 0.7, 1, 0.4), 23)
 	var _label_6: Label = host._label(self, "S C O R E", Rect2(85, 53, 310, 24), 14, LILAC, host.BOLD)
 	_score_label = host._label(self, "0000000", Rect2(82, 82, 432, 61), 45, WHITE, host.BOLD)
@@ -378,7 +378,7 @@ func _build_hud() -> void:
 	_feedback = host._label(self, "", Rect2(850, 558, 700, 82), 54, WHITE, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	_feedback.modulate.a = 0.0
 	_count_label = host._label(self, "3", Rect2(780, 396, 840, 160), 112, WHITE, host.BOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	_time_label = host._label(self, "0:00", Rect2(2060, 988, 280, 30), 17, MUTED, host.FONT, HORIZONTAL_ALIGNMENT_RIGHT)
+	_time_label = host._label(self, "0:00", Rect2(2060, 1019, 280, 27), 17, MUTED, host.FONT, HORIZONTAL_ALIGNMENT_RIGHT)
 	_progress = ProgressBar.new()
 	_progress.show_percentage = false
 	_progress.add_theme_stylebox_override("background", host._style(Color(0.3, 0.28, 0.5, 0.3), Color.TRANSPARENT, 2))

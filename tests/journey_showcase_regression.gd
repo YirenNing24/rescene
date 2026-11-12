@@ -24,7 +24,7 @@ func verify() -> void:
 	check(showcase.visible and showcase._slots == [1], "Only populated, owned slots are shown")
 	var original: Control = showcase._portrait
 	showcase.show_time(12.5)
-	check(showcase._portrait == original and original.position == Vector2(27,65) and original.modulate.a == 1.0, "One card remains static and fully visible")
+	check(showcase._portrait == original and original.position == DeckShowcase.PORTRAIT_RECT.position and original.modulate.a == 1.0, "One card remains static and fully visible")
 	showcase.configure(["", "qa_liv", "", "", "qa_zena"])
 	showcase.show_time(0.8)
 	check(showcase._member_label.text.begins_with("Liv"), "Sparse deck starts at its first populated member")

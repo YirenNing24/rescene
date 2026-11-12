@@ -45,10 +45,10 @@ func _draw() -> void:
 		var tint: Color = effect.color
 		var power: float = effect.power
 		var flash: float = pow(maxf(0.0, 1.0 - age / 0.2), 2.0) * power
-		_sprite(_glow, origin, Vector2(260, 95), Color(tint, flash * 0.75))
-		_sprite(_glow, origin, Vector2(100, 34), Color(tint.lerp(Color.WHITE, 0.6), flash * 0.8))
+		_sprite(_glow, origin, Vector2(260, 95) * highway.ROAD_SCALE, Color(tint, flash * 0.75))
+		_sprite(_glow, origin, Vector2(100, 34) * highway.ROAD_SCALE, Color(tint.lerp(Color.WHITE, 0.6), flash * 0.8))
 		var ripple_fade: float = pow(maxf(0.0, 1.0 - age / 0.52), 1.5) * power
-		var ripple_size: Vector2 = Vector2(185.0 + age * 480.0, 58.0 + age * 145.0)
+		var ripple_size: Vector2 = Vector2(185.0 + age * 480.0, 58.0 + age * 145.0) * highway.ROAD_SCALE
 		_sprite(_ripple, origin, ripple_size, Color(tint, ripple_fade * 0.65))
 		for particle: Dictionary in effect.particles:
 			var t: float = age - particle.delay

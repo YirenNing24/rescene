@@ -28,6 +28,7 @@ func verify() -> void:
 		return
 	stage.test_mode = true
 	stage.set_process(false)
+	verify_road_layout()
 	if menu.force_mobile_gameplay_rendering:
 		check(stage.mobile_rendering and stage.get_viewport() is SubViewport, "Android gameplay must use its own render target")
 		check((stage.get_viewport() as SubViewport).size == Vector2i(1600, 720), "Android target must be 1600 × 720")
@@ -227,7 +228,7 @@ func verify_sustain_effects() -> void:
 	effects._process(0.0)
 	var slot: int = effects._ids.find(1)
 	if slot >= 0:
-		var origin: Vector2 = effects._sprites[slot].position + effects.VORTEX_SIZE * effects.ORIGIN_UV
+		var origin: Vector2 = effects._sprites[slot].position + effects._sprites[slot].scale * effects.ORIGIN_UV
 		check(origin.is_equal_approx(stage.highway.project(RhythmChart.lane_at(stage.judge.notes[1], 1.5), 0.0)), "The vortex must follow the curved head along the hit line")
 		var age: float = StrictData.number(effects._materials[slot].get_shader_parameter("age"))
 		stage.phase = "paused"
@@ -274,3 +275,18 @@ func check(condition: bool, message: String) -> void:
 	if not condition:
 		failures += 1
 		push_error(message)
+
+func verify_road_layout() -> void:
+	var road: RhythmHighway = stage.highway
+	for lane: int in 5:
+		var point: Vector2 = road.project(float(lane), 0.0)
+		check(is_equal_approx(road.screen_lane(point), float(lane)), "Every widened catcher maps back to its lane")
+		check(stage._in_hit_area(point), "All five widened catchers accept touches")
+		for edge: float in [-1.0, 1.0]:
+			check(stage._in_hit_area(point + Vector2(edge * road.CATCHER_RADIUS, 0.0)), "The full outer catchers stay touchable")
+		check(point.x - road.CATCHER_RADIUS > 0.0 and point.x + road.CATCHER_RADIUS < 2400.0, "Wider notes stay inside the display")
+	var panel: Rect2 = Rect2(stage.deck_showcase.position, stage.deck_showcase.size)
+	var road_left: float = road.CENTER_X - RhythmHighway.road_width_at_y(panel.end.y) * 0.5
+	check(panel.end.x + 32.0 < road_left, "Compact card panel stays clear of the road, including at its lowest edge")
+	check(road.CENTER_X - RhythmHighway.road_width_at_y(road.HIT_Y + 120.0) * 0.5 >= 60.0, "Road edges retain a safe screen margin")
+	check(stage._time_label.position.y > road.HIT_Y + 120.0, "Song time sits below the widened road")

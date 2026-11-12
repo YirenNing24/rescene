@@ -4,12 +4,13 @@ extends Control
 
 const TOP_Y: float = 175.0
 const HIT_Y: float = 895.0
-const TOP_WIDTH: float = 290.0
-const HIT_WIDTH: float = 1580.0
+const ROAD_SCALE: float = 1960.0 / 1580.0
+const TOP_WIDTH: float = 290.0 * ROAD_SCALE
+const HIT_WIDTH: float = 1960.0
 const CENTER_X: float = 1200.0
-const CATCHER_RADIUS: float = 104.0
+const CATCHER_RADIUS: float = 104.0 * ROAD_SCALE
 const CATCHER_FLATTEN: float = 0.33
-const CATCHER_INNER_RADIUS: float = 86.0
+const CATCHER_INNER_RADIUS: float = 86.0 * ROAD_SCALE
 const NOTE_PALETTE: Array[Color] = [
 	Color("a99acb"), # lavender
 	Color("929fc9"), # periwinkle
@@ -112,11 +113,11 @@ func hit(_label: String, lane: float, value: float, note_id: int = -1) -> void:
 		if index % 5 == 0:
 			angle = _fx_rng.randf_range(0.0, TAU)
 		var speed: float = _fx_rng.randf_range(210.0, 620.0) * (0.5 if sustain else 1.0)
-		var velocity: Vector2 = Vector2(cos(angle), sin(angle) * 1.05) * speed
+		var velocity: Vector2 = Vector2(cos(angle), sin(angle) * 1.05) * speed * ROAD_SCALE
 		if velocity.y > 0.0: velocity.y *= 0.3
 		particles.append({"velocity": velocity, "drag": _fx_rng.randf_range(1.1, 2.4),
-			"gravity": _fx_rng.randf_range(210.0, 340.0), "life": _fx_rng.randf_range(0.5, 1.1),
-			"delay": _fx_rng.randf_range(0.0, 0.045), "size": _fx_rng.randf_range(1.8, 3.8),
+			"gravity": _fx_rng.randf_range(210.0, 340.0) * ROAD_SCALE, "life": _fx_rng.randf_range(0.5, 1.1),
+			"delay": _fx_rng.randf_range(0.0, 0.045), "size": _fx_rng.randf_range(1.8, 3.8) * ROAD_SCALE,
 			"star": index % 6 == 0, "tint": tint.lerp(Color("f6eaff"), _fx_rng.randf_range(0.05, 0.45)),
 			"phase": _fx_rng.randf_range(0.0, TAU)})
 	var limit: int = 8 if game.mobile_rendering else RhythmHitEffects.MAX_BURSTS
@@ -136,6 +137,14 @@ func project(lane: float, until: float) -> Vector2:
 
 func screen_lane(point: Vector2) -> float:
 	return (point.x - CENTER_X) / HIT_WIDTH * 5.0 + 2.0
+
+
+static func road_width_at_y(y: float) -> float:
+	return TOP_WIDTH + (HIT_WIDTH - TOP_WIDTH) * (y - TOP_Y) / (HIT_Y - TOP_Y)
+
+
+func contains_hit_point(point: Vector2) -> bool:
+	return point.y >= 690.0 and point.y <= 1060.0 and absf(point.x - CENTER_X) <= HIT_WIDTH * 0.5 + 75.0 * ROAD_SCALE
 
 
 func _draw() -> void:
@@ -161,7 +170,7 @@ func _draw_road() -> void:
 	var accent: Color = RhythmMomentum.color(game.momentum_visual)
 	var shimmer: float = 0.92 + 0.08 * sin(game.visual_age * 4.0)
 	var bottom_y: float = HIT_Y + 120.0
-	var bottom_width: float = HIT_WIDTH + 230.0
+	var bottom_width: float = road_width_at_y(bottom_y)
 	var surface: PackedVector2Array = PackedVector2Array([
 		Vector2(CENTER_X - TOP_WIDTH * 0.5, TOP_Y), Vector2(CENTER_X + TOP_WIDTH * 0.5, TOP_Y),
 		Vector2(CENTER_X + bottom_width * 0.5, bottom_y), Vector2(CENTER_X - bottom_width * 0.5, bottom_y)])
@@ -226,14 +235,14 @@ func _draw_ribbon(note: Dictionary, tint: Color, now: float) -> void:
 	RenderingServer.canvas_item_add_triangle_array(get_canvas_item(), indices, points, colors)
 	var spine: PackedVector2Array = strip.spine
 	var spine_colors: PackedColorArray = strip.spine_colors
-	draw_polyline(spine, Color(_ribbon_tint(note, now, tint), 0.10), 14.0, true)
-	draw_polyline_colors(spine, spine_colors, 2.5, true)
+	draw_polyline(spine, Color(_ribbon_tint(note, now, tint), 0.10), 14.0 * ROAD_SCALE, true)
+	draw_polyline_colors(spine, spine_colors, 2.5 * ROAD_SCALE, true)
 	if note.kind == "slide":
 		for control: Dictionary in note.curve:
 			var t: float = note.time + StrictData.number(control.at) * note.duration
 			if t >= strip.begin and t <= strip.finish:
 				var p: Vector2 = project(StrictData.number(control.lane), t - now)
-				draw_circle(p, 5.0 + (p.y - TOP_Y) / 100.0, Color(_ribbon_tint(note, t, tint), 0.8), true, -1, true)
+				draw_circle(p, (5.0 + (p.y - TOP_Y) / 100.0) * ROAD_SCALE, Color(_ribbon_tint(note, t, tint), 0.8), true, -1, true)
 
 
 func _ribbon_tint(note: Dictionary, time: float, fallback: Color, across: float = 0.0) -> Color:
@@ -264,8 +273,8 @@ func _ribbon_strip(note: Dictionary, tint: Color, now: float) -> Dictionary:
 			continue
 		var progress: float = clampf((point.y - TOP_Y) / (HIT_Y - TOP_Y), 0.0, 1.0)
 		var curved: bool = note.kind == "slide"
-		var half_width: float = lerpf(18.0, 96.0, progress) if curved else lerpf(9.0, 45.0, progress)
-		var feather: float = 2.5
+		var half_width: float = (lerpf(18.0, 96.0, progress) if curved else lerpf(9.0, 45.0, progress)) * ROAD_SCALE
+		var feather: float = 2.5 * ROAD_SCALE
 		var row_offsets: PackedFloat32Array = PackedFloat32Array([-half_width - feather, -half_width, 0.0, half_width, half_width + feather])
 		for offset: float in row_offsets:
 			var _point_added: bool = points.append(point + Vector2(offset, 0.0))

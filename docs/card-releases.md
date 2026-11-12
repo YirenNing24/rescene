@@ -72,3 +72,16 @@ Elysium on the Engine and game API was restored to Alchemy on November 12, 2026
 after the application network was re-enabled and chain/balance reads passed.
 `node tools/repair_elysium_rpc.mjs --alchemy` restores the protected Alchemy binding
 from the original private backup and verifies both services are healthy.
+
+## Wider mobile stage (0.1.17)
+
+The hit-line road width is 1960 design units (up from 1580). Note/catcher radii,
+ribbons and impact/vortex/pillar dimensions share the width scale. Projection,
+road-edge extrapolation and touch-to-lane mapping use the same geometry.
+Gameplay retains the original 2400×1080 composition and 1600×720 mobile render
+target, with the existing particle budgets. Timing and scoring rules are unchanged.
+
+The equipped-card carousel is 244×410 at (42,282); its bottom-right corner stays
+outside the left road edge. Empty and one-card behavior is preserved. The song
+clock sits below the road. Native regression checks cover both stage render paths,
+all five catcher touch bounds, road/panel separation and effect origins.
