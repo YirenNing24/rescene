@@ -23,6 +23,30 @@ func verify() -> void:
 	menu.require_auth = false
 	root.add_child(menu)
 	current_scene = menu
+	var featured: FeaturedCardSets = menu._canvas.get_node("FeaturedCardSets") as FeaturedCardSets
+	featured._timer.stop()
+	check(featured._fan.get_child_count() == 5, "Featured Scene previews all five members")
+	for index: int in CardReleases.RELEASES.size():
+		check(featured.release_index == index, "Slideshow cycles through every release")
+		check(featured._title.text.begins_with(str(CardReleases.RELEASES[index].name)), "Preview caption matches the set")
+		featured.advance()
+		await create_timer(0.35).timeout
+		check(featured.get_children().filter(func(node: Node) -> bool: return node.name == "RetiringFan").is_empty(), "Crossfade releases old artwork")
+	check(featured.release_index == 0, "Slideshow wraps to PULSE")
+	featured.hide()
+	featured.advance()
+	check(featured.release_index == 0, "Hidden lobby does not advance its slideshow")
+	featured.show()
+	featured.advance()
+	await create_timer(0.35).timeout
+	if DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		var _lobby_saved: Error = root.get_texture().get_image().save_png("res://previews/featured-le-slideshow.png")
+	featured.pressed.emit()
+	check((menu._dialog as MarketplaceView).release_id == "re:scene", "Tapping a preview opens that release in the shop")
+	featured.advance()
+	check(featured.release_index == 1, "Slideshow pauses behind an open shop")
+	menu._close_dialog()
 	menu._open_marketplace()
 	var market: MarketplaceView = menu._dialog as MarketplaceView
 	await create_timer(0.2).timeout

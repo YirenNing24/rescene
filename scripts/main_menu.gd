@@ -306,21 +306,9 @@ func _build_left() -> void:
 		var button: Button = _button(_canvas, "", Rect2(58 + index * 114, 230, 104, 104), func() -> void: _open_destination(str(entry[1])))
 		var _texturerect_20: TextureRect = _icon(button,str(entry[0]), Rect2(34, 18, 34, 34))
 		var _label_21: Label = _label(button,str(entry[1]), Rect2(0, 67, 104, 22), 12, WHITE, BOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	var event: Button = _button(_canvas, "", Rect2(58, 358, 332, 232), _open_event)
-	event.clip_contents = true
-	var image: TextureRect = TextureRect.new()
-	image.texture = ART
-	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	_at(event, image, Rect2(2, 2, 328, 230))
-	image.modulate = Color(0.72, 0.68, 0.85)
-	var tint: ColorRect = ColorRect.new()
-	tint.color = Color(0.10, 0.10, 0.22, 0.52)
-	_at(event, tint, Rect2(0, 0, 332, 232))
-	var _label_22: Label = _label(event, "F E A T U R E D   S C E N E", Rect2(22, 20, 290, 22), 12, WHITE, BOLD)
-	var _label_23: Label = _label(event, "With you,\nin every beat.", Rect2(22, 62, 290, 100), 35, WHITE, ITALIC)
-	var _label_24: Label = _label(event, "EXPLORE THE SPOTLIGHT", Rect2(22, 191, 274, 24), 12, WHITE, BOLD)
-	var _texturerect_25: TextureRect = _icon(event, "arrow", Rect2(287, 188, 22, 22))
+	var featured: FeaturedCardSets = FeaturedCardSets.new()
+	featured.host = self
+	_at(_canvas, featured, Rect2(58, 358, 332, 232))
 	var daily: Button = _button(_canvas, "", Rect2(58, 608, 332, 82), _open_daily_login)
 	_daily_button = daily
 	daily.name = "DailyGiftsButton"

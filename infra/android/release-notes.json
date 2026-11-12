@@ -7,5 +7,6 @@
   "0.1.11": "Registration now includes a required agreement checkbox and readable Terms & Conditions and Privacy Policy dialogs. Adds the fan-made, nonprofit notice, scam warning and contact winterape25@gmail.com.",
   "0.1.12": "Login and registration fields stay visible above the Android keyboard, including confirmation and account recovery. Failed requests preserve entered passwords and show the original error; ordinary passwords with at least 8 characters are accepted.",
   "0.1.13": "Cleaner touch gameplay: removes the lower-left instructions and keyboard letters beneath the hit circles. The first-play tutorial now uses touch-only instructions.",
-  "0.1.14": "All 45 approved LE cards across nine releases, with matching album/single decks, release filters, and updated card artwork in Collection, Profile and gameplay. New sets cost 450 STARL with an initial allocation of 50 per member per release. Existing card upgrades and combined five-card bonuses are preserved."
+  "0.1.14": "All 45 approved LE cards across nine releases, with matching album/single decks, release filters, and updated card artwork in Collection, Profile and gameplay. New sets cost 450 STARL with an initial allocation of 50 per member per release. Existing card upgrades and combined five-card bonuses are preserved.",
+  "0.1.15": "Featured Scene now previews all nine LE card sets in a rotating slideshow. Tap a set to browse its five cards. Cleaner card shop descriptions."
 }

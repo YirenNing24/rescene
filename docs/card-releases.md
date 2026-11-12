@@ -59,3 +59,16 @@ wrong-set rejection; migration equivalence; allocation caps; compatible donor
 burns; Go/FalkorDB checkout/inventory integration; native artwork/filter checks;
 web TypeScript and browser checks. Live deployment details and transaction
 receipts are recorded in `contracts/deployments/release-cards-elysium.json`.
+
+## Lobby preview and provider
+
+Featured Scene cycles through all nine approved LE releases every 4.8 seconds,
+with a five-member card fan and a short crossfade. Tapping it opens that release
+in the shop. Animation pauses while the lobby is hidden or another panel is open;
+retired card textures are released after each transition. Player-facing shop copy
+shows card stats and availability without administrator mint/reissue details.
+
+Elysium on the Engine and game API was restored to Alchemy on November 12, 2026
+after the application network was re-enabled and chain/balance reads passed.
+`node tools/repair_elysium_rpc.mjs --alchemy` restores the protected Alchemy binding
+from the original private backup and verifies both services are healthy.

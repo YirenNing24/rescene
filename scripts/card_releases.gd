@@ -71,7 +71,7 @@ static func templates() -> Array[Dictionary]:
 	var accents: Array[String] = ["c7bbff", "e0b3cf", "a9cbea", "c8b2e6", "b1d6d4"]
 	for release: Dictionary in RELEASES:
 		for member: int in 5:
-			cards.append({"id":template_id(release, member), "category":"cards", "name":SongSets.MEMBERS[member]+" · "+str(release.name), "member_name":SongSets.MEMBERS[member], "member":member, "set_id":str(release.set_id), "series":str(release.name), "art_slug":str(release.slug), "tag":"LE · PHOTO CARD", "price":450, "accent":accents[member], "description":"An individual %s LE card. Rolls 7–10%% Perfect Score, 7–10 Recovery and one permanent skill. Refine to level 100; sacrifice eligible cards to strengthen its skill." % str(release.name), "contents":"1 unique LE card / Level 1 / 1 star", "detail":"Each stat value: 25% chance. One of six skills, equally likely. Rolls are permanent. Initial sale: 50 per member per set; future admin mints and artwork reissues are allowed."})
+			cards.append({"id":template_id(release, member), "category":"cards", "name":SongSets.MEMBERS[member]+" · "+str(release.name), "member_name":SongSets.MEMBERS[member], "member":member, "set_id":str(release.set_id), "series":str(release.name), "art_slug":str(release.slug), "tag":"LE · PHOTO CARD", "price":450, "accent":accents[member], "description":"An individual %s LE card. Rolls 7–10%% Perfect Score, 7–10 Recovery and one permanent skill. Refine to level 100; sacrifice eligible cards to strengthen its skill." % str(release.name), "contents":"1 unique LE card / Level 1 / 1 star", "detail":"Each stat value: 25% chance. One of six skills, equally likely. Rolls are permanent. Initial sale: 50 per member per set."})
 	return cards
 
 static func artwork(item: Dictionary) -> String:

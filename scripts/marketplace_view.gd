@@ -90,7 +90,7 @@ func _update_checkout() -> void:
 	if available:
 		_total_label.text = str(_quantity * StrictData.integer(product.get("price", 0)))
 		if _confirming: _notice.text = "Pay %s STARL for %d × %s? Tap Confirm to purchase." % [_total_label.text, _quantity, str(_selected.get("name", "item"))]
-		elif str(_selected.get("category", "")) == "cards": _notice.text = "%d / 50 left in this initial sale · Future admin mints & artwork reissues allowed." % StrictData.integer(product.get("stock", 0)) if product.has("initial_allocation") else "One unique LE card with permanent random stats and one skill. Equip it in the matching release and member slot."
+		elif str(_selected.get("category", "")) == "cards": _notice.text = "%d / 50 available in this release." % StrictData.integer(product.get("stock", 0)) if product.has("initial_allocation") else "One unique LE card with permanent random stats and one skill. Equip it in the matching release and member slot."
 		elif str(_selected.get("category", "")) == "upgrades": _notice.text = "Refinement-only card XP. Level attempts can fail; review the odds in Collection."
 		else: _notice.text = "100 STARL each · +5 energy when used · Items arrive after confirmation."
 		if commerce.pending(): _notice.text = commerce.message
