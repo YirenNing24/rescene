@@ -232,7 +232,7 @@ func TestPulseDeckMembershipAndRunSnapshot(t *testing.T) {
 	}
 	var other rewardChart
 	for _, item := range rewardCharts {
-		if songSets[item.SongID] != "pulse" {
+		if songSets[item.SongID] != "" && songSets[item.SongID] != "pulse" {
 			other = item
 			break
 		}

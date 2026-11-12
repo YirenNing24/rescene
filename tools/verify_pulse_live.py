@@ -68,7 +68,7 @@ def main():
  remaining=[v for v in inv['items'] if str(v['id']).startswith('pulse_')];assert len(remaining)==1 and remaining[0]['stars']==2
  # A normal run spends one energy; abandon grants no score or rewards.
  if 'qa-run' not in state:
-  chart=next(v for v in json.loads((ROOT/'backend/charts.json').read_text()) if v['difficulty']=='Easy' and v['title']=='BamBamBam')
+  chart=next(v for v in json.loads((ROOT/'backend/charts.json').read_text()) if v['difficulty']=='Easy' and v['title']=='Bloom')
   body={'request_id':secrets.token_hex(16),'song_id':chart['song_id'],'difficulty':chart['difficulty'],'revision':chart['revision'],'replay_version':3}
   state['qa-run']=api.call('/api/v1/runs',body)['reward']['id'];save()
  api.call('/api/v1/runs/'+state['qa-run']+'/abandon',{})

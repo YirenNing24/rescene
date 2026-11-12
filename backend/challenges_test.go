@@ -20,11 +20,7 @@ func TestFriendChallengeInvitationAndAtomicVerifiedScores(t *testing.T) {
 	ta, a := authenticatedFixture(t, app, "challengealice")
 	tb, b := authenticatedFixture(t, app, "challengebree")
 	tc, _ := authenticatedFixture(t, app, "challengecleo")
-	var chart rewardChart
-	for _, v := range rewardCharts {
-		chart = v
-		break
-	}
+	chart := firstChart()
 	body := map[string]string{"request_id": strings.Repeat("a", 32), "player_id": b, "song_id": chart.SongID, "difficulty": chart.Difficulty}
 	status, _, _ := request(t, app, "POST", "/api/v1/challenges", body, ta)
 	requireStatus(t, status, 409)

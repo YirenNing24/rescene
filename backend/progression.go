@@ -435,6 +435,9 @@ func (a *api) startRun(c fiber.Ctx) error {
 	if !ok {
 		return failure(c, 400, "invalid_chart", "Choose an available song and difficulty.")
 	}
+	if songSets[body.SongID] == "" {
+		return failure(c, 409, "song_unavailable", "This song is no longer available. Update the game to refresh your library.")
+	}
 	if body.Revision != "" && body.Revision != chart.Revision {
 		return failure(c, 409, "chart_changed", "This chart has changed. Update the game before ranking this song.")
 	}

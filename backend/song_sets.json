@@ -1,11 +1,5 @@
 [
   {
-    "id": "6704cd078ba6",
-    "title": "BamBamBam",
-    "album": "The First Night With The Duke (Original Television Soundtrack) Pt. 1",
-    "set_id": "the_first_night_with_the_duke_(original_television_soundtrack)_pt._1"
-  },
-  {
     "id": "63e0fd3215f1",
     "title": "Bloom",
     "album": "lip bomb",
@@ -78,12 +72,6 @@
     "set_id": "lip_bomb"
   },
   {
-    "id": "144504cd9688",
-    "title": "Higher",
-    "album": "Music from THE SPECIALS",
-    "set_id": "music_from_the_specials"
-  },
-  {
     "id": "b3d56a546b73",
     "title": "In my lotion",
     "album": "Glow Up",
@@ -106,12 +94,6 @@
     "title": "Love Echo",
     "album": "lip bomb",
     "set_id": "lip_bomb"
-  },
-  {
-    "id": "51623539bf1f",
-    "title": "Love Frequency",
-    "album": "Love Frequency (Original Soundtrack from Just For Meeting You)",
-    "set_id": "love_frequency_(original_soundtrack_from_just_for_meeting_you)"
   },
   {
     "id": "b7f81b591f14",

@@ -1,15 +1,5 @@
 [
   {
-    "id": "6704cd078ba6",
-    "title": "BamBamBam",
-    "artist": "RESCENE",
-    "album": "The First Night With The Duke (Original Television Soundtrack) Pt. 1",
-    "seconds": 201,
-    "cover": "/images/1799585ad034762a.webp",
-    "set_id": "the_first_night_with_the_duke_(original_television_soundtrack)_pt._1",
-    "duration": 100.5191835
-  },
-  {
     "id": "63e0fd3215f1",
     "title": "Bloom",
     "artist": "RESCENE",
@@ -130,16 +120,6 @@
     "duration": 84.5191835
   },
   {
-    "id": "144504cd9688",
-    "title": "Higher",
-    "artist": "RESCENE",
-    "album": "Music from THE SPECIALS",
-    "seconds": 180,
-    "cover": "/images/d3ca97660f32f54f.webp",
-    "set_id": "music_from_the_specials",
-    "duration": 89.939592
-  },
-  {
     "id": "b3d56a546b73",
     "title": "In my lotion",
     "artist": "RESCENE",
@@ -178,16 +158,6 @@
     "cover": "/images/fe6f28611e06e536.webp",
     "set_id": "lip_bomb",
     "duration": 92.0163265
-  },
-  {
-    "id": "51623539bf1f",
-    "title": "Love Frequency",
-    "artist": "RESCENE",
-    "album": "Love Frequency (Original Soundtrack from Just For Meeting You)",
-    "seconds": 163,
-    "cover": "/images/fed1111de50f06f0.webp",
-    "set_id": "love_frequency_(original_soundtrack_from_just_for_meeting_you)",
-    "duration": 81.515102
   },
   {
     "id": "b7f81b591f14",

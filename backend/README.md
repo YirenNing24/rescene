@@ -361,3 +361,14 @@ The hosted API and `rescene-rhythm` Engine project now use Elysium mainnet (`999
 Production `.env` has `LEADERBOARD_CHAIN_ID`, `STARLIGHT_CHAIN_ID` and `MARKETPLACE_CHAIN_ID` set to `99901`, with the new addresses and server-only Alchemy RPC URLs. Dedicated Engine credentials remain server-only. The legacy First Scene router defaults only on Arbitrum Sepolia, so it cannot leak into mainnet inventory reads. Admin session responses expose the configured network; explorer links are emitted only for known matching networks.
 
 The test-player reset removed accounts, login sessions, scores, progress, wallet links and pending jobs after a cold backup. New players start fresh. Administration identities and content remain intact. The exact live image and before/after census are recorded in [the cutover report](../contracts/deployments/elysium-cutover.json). Live verification uses `PULSE_LIVE_READS=1`, `STARLIGHT_LIVE_TEST=true`, and `MARKETPLACE_LIVE_TEST=true` with only their read-only test names selected; never run testnet purchase smoke tests against mainnet.
+
+### Active song catalog
+
+The active native/web library contains 29 songs. BamBamBam, Love Frequency and
+Higher (Music from THE SPECIALS) are retired soundtrack releases. The audio
+indexer excludes soundtrack albums on regeneration; the song-set generator also
+exports the web catalog. Missing membership in `song_sets.json` blocks new runs
+and challenge invitations before energy is spent. Existing issued tickets and
+historical records retain their original charts in `charts.json` (116 active
+charts plus 12 archived soundtrack charts). The progression exporter preserves
+archived entries when rebuilding current charts.

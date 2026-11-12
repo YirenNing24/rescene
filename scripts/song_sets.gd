@@ -98,26 +98,6 @@ const SETS: Array[Dictionary] = [
         ]
     },
     {
-        "id": "love_frequency_(original_soundtrack_from_just_for_meeting_you)",
-        "name": "Love Frequency (Original Soundtrack from Just For Meeting You)",
-        "song_ids": [
-            "51623539bf1f"
-        ],
-        "songs": [
-            "Love Frequency"
-        ]
-    },
-    {
-        "id": "music_from_the_specials",
-        "name": "Music from THE SPECIALS",
-        "song_ids": [
-            "144504cd9688"
-        ],
-        "songs": [
-            "Higher"
-        ]
-    },
-    {
         "id": "pretty_girl_-_special_single",
         "name": "Pretty Girl - Special Single",
         "song_ids": [
@@ -183,16 +163,6 @@ const SETS: Array[Dictionary] = [
         ],
         "songs": [
             "TATA (Feat. MINAMI of RESCENE)"
-        ]
-    },
-    {
-        "id": "the_first_night_with_the_duke_(original_television_soundtrack)_pt._1",
-        "name": "The First Night With The Duke (Original Television Soundtrack) Pt. 1",
-        "song_ids": [
-            "6704cd078ba6"
-        ],
-        "songs": [
-            "BamBamBam"
         ]
     }
 ]

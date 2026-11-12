@@ -46,7 +46,7 @@ func ageRun(t *testing.T, s *graphStore, id string, chart rewardChart) {
 		p.Active.StartedAt = time.Now().Add(-time.Duration(chart.Duration+4) * time.Second).UnixMilli()
 	})
 }
-func firstChart() rewardChart { return rewardCharts["6704cd078ba6/Easy"] }
+func firstChart() rewardChart { return rewardCharts["63e0fd3215f1/Easy"] }
 func perfectResult(chart rewardChart, runIDs ...string) runResult {
 	r := runResult{Score: 1000000, MaxCombo: chart.Units, Counts: map[string]int{"PERFECT": chart.Units, "GREAT": 0, "GOOD": 0, "MISS": 0}}
 	if len(runIDs) > 0 {

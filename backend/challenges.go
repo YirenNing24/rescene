@@ -67,7 +67,7 @@ func (a *api) createChallenge(c fiber.Ctx) error {
 		return fiber.ErrBadRequest
 	}
 	chart, ok := rewardCharts[b.Song+"/"+b.Difficulty]
-	if !ok {
+	if !ok || songSets[b.Song] == "" {
 		return fiber.ErrBadRequest
 	}
 	raw, _ := json.Marshal(b)

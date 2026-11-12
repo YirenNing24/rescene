@@ -4,16 +4,6 @@ extends RefCounted
 
 const SONGS: Array[Dictionary] = [
     {
-        "id": "6704cd078ba6",
-        "title": "BamBamBam",
-        "artist": "RESCENE",
-        "album": "The First Night With The Duke (Original Television Soundtrack) Pt. 1",
-        "seconds": 201,
-        "audio_path": "res://assets/audio/RESCENE - BamBamBam.mp3",
-        "cover_path": "res://assets/art/covers/1799585ad034762a.jpg",
-        "playable_seconds": 100.5191835
-    },
-    {
         "id": "63e0fd3215f1",
         "title": "Bloom",
         "artist": "RESCENE",
@@ -134,16 +124,6 @@ const SONGS: Array[Dictionary] = [
         "playable_seconds": 84.5191835
     },
     {
-        "id": "144504cd9688",
-        "title": "Higher",
-        "artist": "RESCENE",
-        "album": "Music from THE SPECIALS",
-        "seconds": 180,
-        "audio_path": "res://assets/audio/RESCENE - Higher.mp3",
-        "cover_path": "res://assets/art/covers/d3ca97660f32f54f.jpg",
-        "playable_seconds": 89.939592
-    },
-    {
         "id": "b3d56a546b73",
         "title": "In my lotion",
         "artist": "RESCENE",
@@ -182,16 +162,6 @@ const SONGS: Array[Dictionary] = [
         "audio_path": "res://assets/audio/RESCENE - Love Echo.mp3",
         "cover_path": "res://assets/art/covers/fe6f28611e06e536.jpg",
         "playable_seconds": 92.0163265
-    },
-    {
-        "id": "51623539bf1f",
-        "title": "Love Frequency",
-        "artist": "RESCENE",
-        "album": "Love Frequency (Original Soundtrack from Just For Meeting You)",
-        "seconds": 163,
-        "audio_path": "res://assets/audio/RESCENE - Love Frequency.mp3",
-        "cover_path": "res://assets/art/covers/fed1111de50f06f0.jpg",
-        "playable_seconds": 81.515102
     },
     {
         "id": "b7f81b591f14",

@@ -11,5 +11,6 @@
   "0.1.15": "Featured Scene now previews all nine LE card sets in a rotating slideshow. Tap a set to browse its five cards. Cleaner card shop descriptions.",
   "0.1.16": "More forgiving note collection: slightly wider Perfect and Great timing, a 180ms hit window, and more tolerance for finger drift on holds and curves. Server verification matches the updated rules.",
   "0.1.17": "Wider gameplay road with proportionally larger notes, catchers, ribbons and effects. The equipped-card panel is smaller and stays clear of the road; touch mapping follows the wider lanes.",
-  "0.1.18": "Brief vibration when a note is missed, with a saved Miss Vibration toggle in Settings. Simultaneous misses produce one short pulse."
+  "0.1.18": "Brief vibration when a note is missed, with a saved Miss Vibration toggle in Settings. Simultaneous misses produce one short pulse.",
+  "0.1.19": "Removes the soundtrack songs BamBamBam, Love Frequency and Higher from the song library and APK audio. The library now contains 29 songs."
 }

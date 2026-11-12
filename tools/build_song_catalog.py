@@ -11,6 +11,7 @@ AUDIO = ROOT / "assets/audio"
 COVERS = ROOT / "assets/art/covers"
 COVERS.mkdir(parents=True, exist_ok=True)
 rows, seen, skipped = [], set(), []
+soundtrack_release = re.compile(r"\bsoundtrack\b|^music from\b", re.IGNORECASE)
 # Keep the original release, rather than additional language/tempo/recording versions.
 alternate_version = re.compile(
     r"\b(?:japanese|english|sped[\s_-]*up|acoustic|instrumental|remix|special\s+video)\b",
@@ -29,6 +30,9 @@ for path in sorted(AUDIO.glob("*.mp3"), key=lambda item: ("(1)" in item.name, it
         "-of", "json", str(path),
     ]))
     tags = {key.lower(): value for key, value in metadata["format"].get("tags", {}).items()}
+    if soundtrack_release.search(tags.get("album", "")):
+        skipped.append(path.name + " (soundtrack release)")
+        continue
     fallback = re.sub(r"^RESCENE - ", "", path.stem)
     if path.name == "loveattack_acoustic.mp3":
         fallback = "LOVE ATTACK (Acoustic)"
