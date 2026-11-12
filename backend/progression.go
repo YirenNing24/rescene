@@ -438,10 +438,10 @@ func (a *api) startRun(c fiber.Ctx) error {
 	if body.Revision != "" && body.Revision != chart.Revision {
 		return failure(c, 409, "chart_changed", "This chart has changed. Update the game before ranking this song.")
 	}
-	if body.ReplayVersion != replayVersion {
+	if !supportedReplayVersion(body.ReplayVersion) {
 		return failure(c, 400, "replay_version", "Update the game to use a supported replay version.")
 	}
-	if body.ReplayVersion == replayVersion && body.Revision == "" {
+	if body.Revision == "" {
 		return failure(c, 400, "chart_required", "Input validation requires a chart revision.")
 	}
 	if body.RequestID != "" && !validHex(body.RequestID, 16) {
@@ -585,11 +585,11 @@ func (a *api) completeRun(c fiber.Ctx) error {
 		if elapsed > 7200 {
 			return nil, badProgress("This run has expired.")
 		}
-		if err := validateResult(result, chart, run.ReplayVersion == replayVersion); err != nil {
+		if err := validateResult(result, chart, supportedReplayVersion(run.ReplayVersion)); err != nil {
 			return nil, err
 		}
 		ranked := false
-		if run.ReplayVersion == replayVersion {
+		if supportedReplayVersion(run.ReplayVersion) {
 			if run.Revision != chart.Revision {
 				return nil, badProgress("This chart changed during the run. Start a new attempt.")
 			}
@@ -656,7 +656,7 @@ func (a *api) completeRun(c fiber.Ctx) error {
 		}
 		reward := receipt{BaseScore: rewardScore, CardBonus: result.Score - rewardScore, Card: run.Card, RunID: runID, XP: xp, Starlight: stars, FirstClear: first, LevelBefore: before, LevelAfter: after, Unlocks: unlocked, Ranked: ranked}
 		if checked != nil {
-			reward.Verification = replayVersion
+			reward.Verification = run.ReplayVersion
 			if checked.paused {
 				reward.UnrankedReason = "paused"
 			}
@@ -665,7 +665,7 @@ func (a *api) completeRun(c fiber.Ctx) error {
 			advanceEvents(p, *run, result, now)
 			advanceCoop(p, *run, result)
 			p.challengeStarted = run.StartedAt
-			p.rankedBest = &personalBest{SongID: run.SongID, Difficulty: run.Difficulty, Revision: chart.Revision, Score: result.Score, Accuracy: float64(accuracyScore) / 10000, MaxCombo: result.MaxCombo, AchievedAt: now.UnixMilli(), RunID: runID}
+			p.rankedBest = &personalBest{ReplayVersion: run.ReplayVersion, SongID: run.SongID, Difficulty: run.Difficulty, Revision: chart.Revision, Score: result.Score, Accuracy: float64(accuracyScore) / 10000, MaxCombo: result.MaxCombo, AchievedAt: now.UnixMilli(), RunID: runID}
 		}
 		p.Receipts = append(p.Receipts, reward)
 		if len(p.Receipts) > 32 {

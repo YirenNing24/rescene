@@ -66,7 +66,7 @@ func press(lane: float) -> void:
 
 func catcher_strength(lane: int) -> float:
 	for pointer: Dictionary in game.judge.pointers.values():
-		if absf(StrictData.number(pointer.lane) - lane) <= 0.62:
+		if absf(StrictData.number(pointer.lane) - lane) <= RhythmJudge.TRACE_TOLERANCE:
 			_press_times[lane] = game.visual_age
 			return 1.0
 	return pow(clampf(1.0 - (game.visual_age - _press_times[lane]) / 0.24, 0.0, 1.0), 2.0)

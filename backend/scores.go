@@ -11,17 +11,18 @@ import (
 // One best per account/song/difficulty. Changing a chart revision starts a new
 // ranking; old versions are excluded until the player completes the new chart.
 type personalBest struct {
-	Verification int     `json:"verification"`
-	SongID       string  `json:"song_id"`
-	Difficulty   string  `json:"difficulty"`
-	Revision     string  `json:"revision"`
-	Score        int     `json:"score"`
-	MaxCombo     int     `json:"max_combo"`
-	AchievedAt   int64   `json:"achieved_at"`
-	Title        string  `json:"title"`
-	Accuracy     float64 `json:"accuracy"`
-	Grade        string  `json:"rank"`
-	RunID        string  `json:"-"`
+	Verification  int     `json:"verification"`
+	ReplayVersion int     `json:"-"`
+	SongID        string  `json:"song_id"`
+	Difficulty    string  `json:"difficulty"`
+	Revision      string  `json:"revision"`
+	Score         int     `json:"score"`
+	MaxCombo      int     `json:"max_combo"`
+	AchievedAt    int64   `json:"achieved_at"`
+	Title         string  `json:"title"`
+	Accuracy      float64 `json:"accuracy"`
+	Grade         string  `json:"rank"`
+	RunID         string  `json:"-"`
 }
 
 // This is appended to the progression CAS in the SAME graph write. A failed
@@ -29,9 +30,9 @@ type personalBest struct {
 const bestWriteQuery = `WITH p MATCH (u:User {id:$id})
 MERGE (b:PersonalBest {key:$best_key}) ON CREATE SET b.score=-1,b.max_combo=-1,b.revision=''
 MERGE (u)-[:HAS_PERSONAL_BEST]->(b)
-WITH p,u,b,(coalesce(b.verification,0)<>2 OR b.revision<>$revision OR $score>b.score OR ($score=b.score AND $combo>b.max_combo) OR (coalesce(b.replay_version,0)<>3 AND $score=b.score AND $combo=b.max_combo)) AS improved
+WITH p,u,b,(coalesce(b.verification,0)<>2 OR b.revision<>$revision OR $score>b.score OR ($score=b.score AND $combo>b.max_combo) OR (NOT (coalesce(b.replay_version,0) IN [3,4]) AND $score=b.score AND $combo=b.max_combo)) AS improved
 FOREACH (write IN CASE WHEN improved THEN [1] ELSE [] END |
-SET b.verification=2,b.replay_version=3,b.owner=$id,b.song_id=$song,b.difficulty=$difficulty,b.chart_key=$chart_key,b.revision=$revision,b.score=$score,b.accuracy=$accuracy,b.max_combo=$combo,b.achieved_at=$achieved,b.run_id=$run)
+SET b.verification=2,b.replay_version=$replay_version,b.owner=$id,b.song_id=$song,b.difficulty=$difficulty,b.chart_key=$chart_key,b.revision=$revision,b.score=$score,b.accuracy=$accuracy,b.max_combo=$combo,b.achieved_at=$achieved,b.run_id=$run)
 FOREACH (publish IN CASE WHEN improved AND $publish_target<>'' THEN [1] ELSE [] END |
 MERGE (j:LeaderboardPublication {key:$publish_job})
 ON CREATE SET j.target=$publish_target,j.owner=$id,j.board=$publish_board,j.payload=$publish_payload,
@@ -40,6 +41,10 @@ j.engine_id='',j.tx_hash='',j.generation=0,j.error_code='',j.from_block=0)
 `
 
 func (b personalBest) parameters(p map[string]interface{}) {
+	p["replay_version"] = b.ReplayVersion
+	if b.ReplayVersion == 0 {
+		p["replay_version"] = replayVersion
+	}
 	p["best_key"] = p["id"].(string) + "/" + b.SongID + "/" + b.Difficulty
 	p["song"], p["difficulty"], p["revision"] = b.SongID, b.Difficulty, b.Revision
 	p["chart_key"] = b.SongID + "/" + b.Difficulty + "/" + b.Revision

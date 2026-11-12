@@ -64,7 +64,7 @@ func TestLowMomentumScoreStillCommitsAndKeepsAccuracy(t *testing.T) {
 func TestReplayRejectsFabricatedMomentum(t *testing.T) {
 	chart := firstChart()
 	r := fixtureReplay(chart, 20)
-	j, err := verifyInputReplay(r, runTicket{ID: r.RunID, Revision: r.Revision}, chart)
+	j, err := verifyInputReplay(r, runTicket{ReplayVersion: r.Version, ID: r.RunID, Revision: r.Revision}, chart)
 	if err != nil {
 		t.Fatal(err)
 	}

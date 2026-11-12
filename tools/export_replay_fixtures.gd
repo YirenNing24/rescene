@@ -17,7 +17,7 @@ func generate() -> void:
 	for frame_step: float in [1.0/30.0,1.0/60.0,1.0/240.0]: capture(SongCatalog.SONGS[0].id,"Easy",chart,false,frame_step)
 	capture(SongCatalog.SONGS[0].id,"Easy",chart,true)
 	capture(SongCatalog.SONGS[0].id,"Easy",chart,false,0.01,0.07)
-	for offset: float in [-0.15,-0.09,-0.045,0.045,0.09,0.15]: capture(SongCatalog.SONGS[0].id,"Easy",chart,false,0.01,offset)
+	for offset: float in [-0.15,-0.105,-0.06,-0.055,0.055,0.06,0.105,0.15]: capture(SongCatalog.SONGS[0].id,"Easy",chart,false,0.01,offset)
 	capture(SongCatalog.SONGS[0].id,"Easy",chart,false,0.01,0.0,false)
 	# Use a server-exported real slide to exercise keyboard lane handoffs.
 	var keyboard: RhythmJudge = RhythmJudge.new()

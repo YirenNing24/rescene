@@ -45,7 +45,7 @@ func fixtureReplay(chart rewardChart, skip int) *inputReplay {
 }
 func replayResult(t *testing.T, r *inputReplay, chart rewardChart) runResult {
 	t.Helper()
-	j, err := verifyInputReplay(r, runTicket{ID: r.RunID, Revision: r.Revision}, chart)
+	j, err := verifyInputReplay(r, runTicket{ReplayVersion: r.Version, ID: r.RunID, Revision: r.Revision}, chart)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,7 +63,7 @@ func TestReplayAllCharts(t *testing.T) {
 func TestReplayRejectsFabrication(t *testing.T) {
 	chart := firstChart()
 	r := fixtureReplay(chart, -1)
-	run := runTicket{ID: r.RunID, Revision: r.Revision}
+	run := runTicket{ReplayVersion: r.Version, ID: r.RunID, Revision: r.Revision}
 	for _, edit := range []func(*inputReplay){
 		func(r *inputReplay) { r.RunID = "another-run" }, func(r *inputReplay) { r.Revision = "another-chart" }, func(r *inputReplay) { r.Version = 1 }, func(r *inputReplay) { r.EndUS = 1 },
 		func(r *inputReplay) { r.Events[0][0] = -150001 }, func(r *inputReplay) { r.Events[0][1] = 99 }, func(r *inputReplay) { r.Events[0][2] = 999 }, func(r *inputReplay) { r.Events[0][3] = 1000000 },
@@ -186,7 +186,7 @@ func TestReplayParity(t *testing.T) {
 	for _, f := range fixtures {
 		chart := rewardCharts[f.SongID+"/"+f.Difficulty]
 		r := f.Result.Replay
-		j, err := verifyInputReplay(r, runTicket{ID: r.RunID, Revision: r.Revision, Card: f.Card}, chart)
+		j, err := verifyInputReplay(r, runTicket{ReplayVersion: r.Version, ID: r.RunID, Revision: r.Revision, Card: f.Card}, chart)
 		if f.Dead {
 			if err == nil {
 				t.Fatal("Go accepted a Godot game-over replay")
@@ -198,6 +198,90 @@ func TestReplayParity(t *testing.T) {
 		}
 		if err = j.matches(f.Result, chart); err != nil || j.paused != f.Paused || j.cardPoints != f.CardPoints || j.life != f.LifeMilli {
 			t.Fatalf("Godot/Go diverged %s/%s: %v; go=%v/%d, Godot=%v/%d", f.SongID, f.Difficulty, err, j.counts, j.maxCombo, f.Result.Counts, f.Result.MaxCombo)
+		}
+	}
+}
+
+func TestReplayLenienceAndVersionBinding(t *testing.T) {
+	chart := rewardChart{Revision: "lenience", Duration: 3, Units: 1, Notes: []replayNote{{Time: 1, Lane: 0, Kind: "tap"}}}
+	for _, sample := range []struct {
+		offset          int64
+		current, legacy string
+	}{
+		{-175000, "GOOD", "MISS"}, {-100000, "GREAT", "GOOD"}, {-55000, "PERFECT", "GREAT"},
+		{55000, "PERFECT", "GREAT"}, {100000, "GREAT", "GOOD"}, {175000, "GOOD", "MISS"},
+	} {
+		for _, version := range []int{3, 4} {
+			at := 1000000 + sample.offset
+			r := &inputReplay{Version: version, RunID: "lenient", Revision: chart.Revision, EndUS: 3000000, Events: [][]int64{{at, 0, 0, 0}, {at, 2, 0, 0}}}
+			run := runTicket{ReplayVersion: version, ID: r.RunID, Revision: r.Revision}
+			j, err := verifyInputReplay(r, run, chart)
+			expected := sample.current
+			if version == 3 {
+				expected = sample.legacy
+			}
+			if err != nil || j.counts[expected] != 1 {
+				t.Fatalf("version %d offset %d expected %s: %v", version, sample.offset, expected, err)
+			}
+			r.Version = 7 - version // Switching a v3 ticket to v4 (or vice versa) must fail.
+			if _, err = verifyInputReplay(r, run, chart); err == nil {
+				t.Fatal("replay overrode ticket timing rules")
+			}
+		}
+	}
+	for _, version := range []int{3, 4} {
+		j := newReplayJudge(chart, version)
+		j.advance(1000000)
+		j.press(0, 0.70)
+		expected := 0
+		if version == 4 {
+			expected = 1
+		}
+		if j.counts["PERFECT"] != expected {
+			t.Fatal("lane tolerance does not match the ticket")
+		}
+		j = newReplayJudge(chart, version)
+		j.advance(1000000)
+		j.press(0, 1)
+		if j.counts["PERFECT"] != 0 {
+			t.Fatal("adjacent lane incorrectly collected a note")
+		}
+		hold := rewardChart{Duration: 4, Notes: []replayNote{{Time: 1, Duration: 2, Lane: 0, Kind: "hold", Checkpoints: []float64{2, 3}}}}
+		j = newReplayJudge(hold, version)
+		j.advance(1000000)
+		j.press(0, 0)
+		j.advance(1010000)
+		j.pointers[0] = replayPointer{lane: -10}
+		j.advance(1150000)
+		if (j.notes[0].state == 1) != (version == 4) {
+			t.Fatal("hold release grace does not match the ticket")
+		}
+		j.advance(1190000)
+		if j.notes[0].state != 3 {
+			t.Fatal("hold was not lost beyond the release grace")
+		}
+	}
+}
+
+func TestLegacyAPKStillCompletesVerifiedRuns(t *testing.T) {
+	s := testStore(t)
+	app := testApp(t, s)
+	token, id := progressAccount(t, app, "legacytiming")
+	chart := firstChart()
+	for _, version := range []int{3, 4} {
+		status, body, _ := request(t, app, "POST", "/api/v1/runs", map[string]any{"song_id": chart.SongID, "difficulty": chart.Difficulty, "revision": chart.Revision, "replay_version": version}, token)
+		requireStatus(t, status, 200)
+		run := body["reward"].(map[string]any)["id"].(string)
+		ageRun(t, s, id, chart)
+		r := fixtureReplay(chart, -1)
+		r.Version = version
+		r.RunID = run
+		result := replayResult(t, r, chart)
+		status, body, _ = request(t, app, "POST", "/api/v1/runs/"+run+"/complete", result, token)
+		requireStatus(t, status, 200)
+		reward := body["reward"].(map[string]any)
+		if reward["verification"].(float64) != float64(version) || reward["ranked"] != true {
+			t.Fatal("installed APK lost verified progression")
 		}
 	}
 }

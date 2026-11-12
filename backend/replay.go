@@ -6,7 +6,22 @@ import (
 	"strings"
 )
 
-const replayVersion = 3
+const replayVersion = 4
+
+// Timing rules are pinned to the server-issued ticket. Keep installed v3 APKs
+// on their original rules while v4 gets slightly more forgiving collection.
+type replayRules struct {
+	perfect, great, hit, trace, release float64
+}
+
+func supportedReplayVersion(version int) bool { return version == 3 || version == replayVersion }
+func rulesForReplay(version int) replayRules {
+	if version == 3 {
+		return replayRules{0.045, 0.09, 0.15, 0.62, 0.12}
+	}
+	return replayRules{0.06, 0.105, 0.18, 0.72, 0.16}
+}
+
 const replayHz = int64(120)
 const maxReplayEvents = 24000
 
@@ -41,6 +56,7 @@ type replayPointer struct {
 	keyboard bool
 }
 type replayJudge struct {
+	rules                 replayRules
 	notes                 []replayState
 	pointers              map[int]replayPointer
 	counts                map[string]int
@@ -53,8 +69,8 @@ type replayJudge struct {
 	paused, dead          bool
 }
 
-func newReplayJudge(chart rewardChart) *replayJudge {
-	j := &replayJudge{pointers: map[int]replayPointer{}, counts: map[string]int{"PERFECT": 0, "GREAT": 0, "GOOD": 0, "MISS": 0}, life: 1000000, battle: newCardBattle(nil), duration: chart.Duration, timeUS: -150000, tick: -18}
+func newReplayJudge(chart rewardChart, version int) *replayJudge {
+	j := &replayJudge{rules: rulesForReplay(version), pointers: map[int]replayPointer{}, counts: map[string]int{"PERFECT": 0, "GREAT": 0, "GOOD": 0, "MISS": 0}, life: 1000000, battle: newCardBattle(nil), duration: chart.Duration, timeUS: -150000, tick: -18}
 	for _, note := range chart.Notes {
 		j.notes = append(j.notes, replayState{replayNote: note, owner: -999})
 	}
@@ -123,12 +139,12 @@ func (j *replayJudge) advance(us int64) {
 			if n.Time > t {
 				break
 			}
-			if n.state == 0 && t > n.Time+0.15 {
+			if n.state == 0 && t > n.Time+j.rules.hit {
 				j.miss(n, 1+len(n.Checkpoints))
 			} else if n.state == 1 {
 				lane := n.laneAt(t)
 				p, held := j.pointers[n.owner]
-				valid := held && math.Abs(p.lane-lane) <= 0.62
+				valid := held && math.Abs(p.lane-lane) <= j.rules.trace
 				if n.owner <= -100 && !valid {
 					ids := make([]int, 0, len(j.pointers))
 					for id := range j.pointers {
@@ -137,7 +153,7 @@ func (j *replayJudge) advance(us int64) {
 					sort.Ints(ids)
 					for _, id := range ids {
 						p := j.pointers[id]
-						if p.keyboard && math.Abs(p.lane-lane) <= 0.62 {
+						if p.keyboard && math.Abs(p.lane-lane) <= j.rules.trace {
 							n.owner = id
 							valid = true
 							break
@@ -149,7 +165,7 @@ func (j *replayJudge) advance(us int64) {
 				} else {
 					n.gap += 1.0 / float64(replayHz)
 				}
-				if n.gap > 0.12 {
+				if n.gap > j.rules.release {
 					j.miss(n, len(n.Checkpoints)-n.next)
 					continue
 				}
@@ -178,21 +194,21 @@ func (j *replayJudge) press(id int, lane float64) {
 		return
 	}
 	j.pointers[id] = replayPointer{lane: lane, keyboard: id <= -100}
-	best, nearest := -1, 0.151
+	best, nearest := -1, j.rules.hit+0.001
 	t := float64(j.timeUS) / 1000000
 	for i, n := range j.notes {
-		if n.state != 0 || math.Abs(n.Lane-lane) > 0.62 {
+		if n.state != 0 || math.Abs(n.Lane-lane) > j.rules.trace {
 			continue
 		}
 		d := math.Abs(n.Time - t)
-		if d <= 0.15 && d < nearest {
+		if d <= j.rules.hit && d < nearest {
 			best, nearest = i, d
 		}
 	}
 	if best < 0 {
 		for i := range j.notes {
 			n := &j.notes[i]
-			if n.state == 1 && n.regrab && math.Abs(n.laneAt(t)-lane) <= 0.62 {
+			if n.state == 1 && n.regrab && math.Abs(n.laneAt(t)-lane) <= j.rules.trace {
 				n.owner = id
 				n.regrab = false
 				n.gap = 0
@@ -202,9 +218,9 @@ func (j *replayJudge) press(id int, lane float64) {
 		return
 	}
 	kind := "GOOD"
-	if nearest <= 0.045 {
+	if nearest <= j.rules.perfect {
 		kind = "PERFECT"
-	} else if nearest <= 0.09 {
+	} else if nearest <= j.rules.great {
 		kind = "GREAT"
 	}
 	j.hit(kind, true, 0, false)
@@ -242,7 +258,7 @@ func (j *replayJudge) finish(us int64) {
 }
 
 func verifyInputReplay(r *inputReplay, run runTicket, chart rewardChart) (*replayJudge, error) {
-	if r == nil || r.Version != replayVersion || r.RunID != run.ID || r.Revision != run.Revision {
+	if r == nil || !supportedReplayVersion(run.ReplayVersion) || r.Version != run.ReplayVersion || r.RunID != run.ID || r.Revision != run.Revision {
 		return nil, badProgress("This run requires its own versioned input replay.")
 	}
 	durationUS := int64(math.Round(chart.Duration * 1000000))
@@ -250,7 +266,7 @@ func verifyInputReplay(r *inputReplay, run runTicket, chart rewardChart) (*repla
 	if r.EndUS < durationUS-155000 || r.EndUS > durationUS+155000 || len(r.Events) > maxReplayEvents || len(chart.Notes) == 0 || chart.Duration > 300 {
 		return nil, badProgress("Invalid replay duration or size.")
 	}
-	j := newReplayJudge(chart)
+	j := newReplayJudge(chart, run.ReplayVersion)
 	j.battle = newCardBattle(run.Card)
 	for _, event := range r.Events {
 		if len(event) != 4 {

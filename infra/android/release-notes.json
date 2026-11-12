@@ -8,5 +8,6 @@
   "0.1.12": "Login and registration fields stay visible above the Android keyboard, including confirmation and account recovery. Failed requests preserve entered passwords and show the original error; ordinary passwords with at least 8 characters are accepted.",
   "0.1.13": "Cleaner touch gameplay: removes the lower-left instructions and keyboard letters beneath the hit circles. The first-play tutorial now uses touch-only instructions.",
   "0.1.14": "All 45 approved LE cards across nine releases, with matching album/single decks, release filters, and updated card artwork in Collection, Profile and gameplay. New sets cost 450 STARL with an initial allocation of 50 per member per release. Existing card upgrades and combined five-card bonuses are preserved.",
-  "0.1.15": "Featured Scene now previews all nine LE card sets in a rotating slideshow. Tap a set to browse its five cards. Cleaner card shop descriptions."
+  "0.1.15": "Featured Scene now previews all nine LE card sets in a rotating slideshow. Tap a set to browse its five cards. Cleaner card shop descriptions.",
+  "0.1.16": "More forgiving note collection: slightly wider Perfect and Great timing, a 180ms hit window, and more tolerance for finger drift on holds and curves. Server verification matches the updated rules."
 }

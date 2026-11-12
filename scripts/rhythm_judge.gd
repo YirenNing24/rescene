@@ -4,12 +4,12 @@ extends RefCounted
 
 signal judged(label: String, lane: float, value: float, note_id: int)
 
-const PERFECT_WINDOW: float = 0.045
-const GREAT_WINDOW: float = 0.09
-const HIT_WINDOW: float = 0.15
-const TRACE_TOLERANCE: float = 0.62
-const RELEASE_GRACE: float = 0.12
-const REPLAY_VERSION: int = 3
+const PERFECT_WINDOW: float = 0.06
+const GREAT_WINDOW: float = 0.105
+const HIT_WINDOW: float = 0.18
+const TRACE_TOLERANCE: float = 0.72
+const RELEASE_GRACE: float = 0.16
+const REPLAY_VERSION: int = 4
 const TICK_HZ: int = 120
 const MAX_EVENTS: int = 24000
 

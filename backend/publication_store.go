@@ -132,22 +132,24 @@ RETURN u.id,b.song_id,b.difficulty,b.revision,b.score,b.max_combo,b.achieved_at,
 		text := func(i int) string { v, _ := row.GetByIndex(i); s, _ := v.(string); return s }
 		number := func(i int) int64 { v, _ := row.GetByIndex(i); n, _ := v.(int64); return n }
 		b := personalBest{SongID: text(1), Difficulty: text(2), Revision: text(3), Score: int(number(4)), MaxCombo: int(number(5)), AchievedAt: number(6), RunID: text(7)}
-		if number(8) != replayVersion {
+		if !supportedReplayVersion(int(number(8))) {
+			provenVersion := 0
 			progress, _, readErr := s.ReadProgress(text(0))
 			if readErr != nil {
 				return readErr
 			}
 			proven := false
 			for _, receipt := range progress.Receipts {
-				if receipt.RunID == b.RunID && receipt.Ranked && receipt.Verification == replayVersion {
+				if receipt.RunID == b.RunID && receipt.Ranked && supportedReplayVersion(receipt.Verification) {
 					proven = true
+					provenVersion = receipt.Verification
 					break
 				}
 			}
 			if !proven {
 				continue
 			}
-			if _, writeErr := s.query(`MATCH(b:PersonalBest {key:$key,run_id:$run}) SET b.replay_version=$version RETURN b.key`, map[string]interface{}{"version": replayVersion, "key": text(0) + "/" + b.SongID + "/" + b.Difficulty, "run": b.RunID}); writeErr != nil {
+			if _, writeErr := s.query(`MATCH(b:PersonalBest {key:$key,run_id:$run}) SET b.replay_version=$version RETURN b.key`, map[string]interface{}{"version": provenVersion, "key": text(0) + "/" + b.SongID + "/" + b.Difficulty, "run": b.RunID}); writeErr != nil {
 				return writeErr
 			}
 		}

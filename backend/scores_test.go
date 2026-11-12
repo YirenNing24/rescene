@@ -195,7 +195,7 @@ func TestRankedValidationAndAtomicDuplicate(t *testing.T) {
 	// Counts can be plausible while the reported maximum streak is impossible.
 	bad := traceResult(strings.Repeat("P", chart.Units-1) + "M")
 	bad.MaxCombo = chart.Units / 2
-	judge, _ := verifyInputReplay(valid.Replay, runTicket{ID: run, Revision: chart.Revision}, chart)
+	judge, _ := verifyInputReplay(valid.Replay, runTicket{ReplayVersion: valid.Replay.Version, ID: run, Revision: chart.Revision}, chart)
 	if judge.matches(bad, chart) == nil {
 		t.Fatal("wrong ordered maximum combo accepted")
 	}

@@ -83,6 +83,7 @@ func verify() -> void:
 			previous_count = StrictData.array(chart.notes).size()
 			# Auto-trace representative charts across all difficulty levels.
 			if str(song.title).to_upper() in ["LOVE ATTACK", "GLOW UP"]: autoplay(chart)
+	verify_collection_lenience()
 	verify_records()
 	verify_momentum()
 	print("Rhythm core: ", charts_checked, " charts checked; ", "PASS" if failures == 0 else str(failures) + " FAILURES")
@@ -158,3 +159,27 @@ func check(condition: bool, message: String) -> void:
 	if not condition:
 		failures += 1
 		push_error(message)
+
+func verify_collection_lenience() -> void:
+	for offset: float in [-0.175, -0.10, -0.055, 0.055, 0.10, 0.175]:
+		var judge: RhythmJudge = RhythmJudge.new()
+		judge.setup(fixture("tap"))
+		check(judge.press(0, 0.70, 1.0 + offset), "Slight timing and finger drift still collect the note")
+		var expected: String = "PERFECT" if absf(offset) < 0.06 else "GREAT" if absf(offset) < 0.105 else "GOOD"
+		check(judge.counts[expected] == 1, "Lenient timing still awards the correct grade")
+	for offset: float in [-0.19, 0.19]:
+		var judge: RhythmJudge = RhythmJudge.new()
+		judge.setup(fixture("tap"))
+		check(not judge.press(0, 0.0, 1.0 + offset), "Presses outside the new window do not collect notes")
+	var wrong_lane: RhythmJudge = RhythmJudge.new()
+	wrong_lane.setup(fixture("tap"))
+	check(not wrong_lane.press(0, 1.0, 1.0), "An adjacent lane does not collect the note")
+	var hold: RhythmJudge = RhythmJudge.new()
+	hold.setup(fixture("hold"))
+	var _head: bool = hold.press(0, 0.70, 1.0)
+	hold.move_pointer(0, -10.0, 1.01)
+	hold.move_pointer(0, 0.70, 1.15)
+	check(StrictData.integer(hold.notes[0].state) == 1, "A brief finger drift no longer breaks a hold")
+	hold.move_pointer(0, -10.0, 1.16)
+	hold.step(1.35, 0.19)
+	check(StrictData.integer(hold.notes[0].state) == 3, "Leaving a hold still breaks it after the grace period")
