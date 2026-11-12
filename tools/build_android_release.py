@@ -77,6 +77,9 @@ def main() -> None:
         subprocess.run([str(sdk / 'apksigner'), 'sign', '--ks', str(private / 'release.keystore'), '--ks-key-alias', key['alias'], '--ks-pass', 'env:RESCENE_APK_KEY_PASSWORD', '--key-pass', 'env:RESCENE_APK_KEY_PASSWORD', '--out', str(signed), str(aligned)], env=environment, check=True)
         verification = subprocess.check_output([str(sdk / 'apksigner'), 'verify', '--print-certs', str(signed)], text=True)
         subprocess.run([str(sdk / 'zipalign'), '-c', '-P', '16', '4', str(signed)], check=True)
+        permissions = subprocess.check_output([str(sdk / 'aapt'), 'dump', 'permissions', str(signed)], text=True)
+        if "android.permission.VIBRATE" not in permissions:
+            raise RuntimeError('Android miss haptics require the VIBRATE manifest permission.')
         # Check catalog/menu audio survived export. Duplicates remain on disk.
         with ZipFile(signed) as archive:
             entries = archive.namelist()

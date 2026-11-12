@@ -9,6 +9,9 @@ const MUTED: Color = Color("b7b9d5")
 const LILAC: Color = Color("c7bbff")
 const KEYS: Array[Key] = [KEY_D, KEY_F, KEY_SPACE, KEY_J, KEY_K]
 const OUTRO_FADE_SECONDS: float = 3.0
+const MISS_VIBRATION_MS: int = 35
+const MISS_VIBRATION_STRENGTH: float = 0.45
+const MISS_VIBRATION_COOLDOWN_MS: int = 120
 
 var host: ResceneMainMenu
 var song: Dictionary
@@ -33,6 +36,7 @@ var _countdown: float = 3.0
 var _resume_phase: String
 var _resume_count: float = 0.0
 var _last_touch_frame: int = -100
+var _last_miss_vibration_ms: int = -MISS_VIBRATION_COOLDOWN_MS
 var _mouse_down: bool = false
 var _score_label: Label
 var _accuracy_label: Label
@@ -306,6 +310,7 @@ func _card_skill(skill_name: String, description: String) -> void:
 	if is_instance_valid(deck_showcase): deck_showcase.show_skill(skill_name,description)
 
 func _judged(label: String, lane: float, value: float, note_id: int) -> void:
+	if label == "MISS": _vibrate_miss()
 	if tutorial_mode and label != "MISS" and note_id >= 0 and note_id < judge.notes.size():
 		var note: Dictionary = judge.notes[note_id]
 		if note.kind == "tap": _learned["tap"] = true
@@ -316,6 +321,15 @@ func _judged(label: String, lane: float, value: float, note_id: int) -> void:
 	_feedback.add_theme_color_override("font_color", Color("abe8ff") if label == "PERFECT" else (LILAC if label != "MISS" else Color("d695b1")))
 	_feedback_left = 0.6
 	_update_momentum()
+
+
+func _vibrate_miss() -> void:
+	if not OS.has_feature("android") or not host._haptics_on or phase != "playing": return
+	var now_ms: int = Time.get_ticks_msec()
+	# A missed chord or several notes processed in one frame get one short pulse.
+	if now_ms - _last_miss_vibration_ms < MISS_VIBRATION_COOLDOWN_MS: return
+	_last_miss_vibration_ms = now_ms
+	Input.vibrate_handheld(MISS_VIBRATION_MS, MISS_VIBRATION_STRENGTH)
 
 
 func _update_momentum() -> void:

@@ -175,3 +175,9 @@ Marketplace release filters, collection artwork and gameplay showcase use the
 same member/release identities as the backend and on-chain registry. New card
 sales cost 450 STARL and are capped at 50 per member per release in the initial
 allocation. See docs/card-releases.md for migration, traits and equipment rules.
+
+Release 0.1.18 adds a 35ms Android vibration on missed judgments, at 45% requested
+amplitude. A 120ms cooldown coalesces simultaneous misses. It runs only during
+active gameplay, and Settings → Miss Vibration is enabled by default and saved
+locally. The exporter declares VIBRATE; the signed APK builder verifies that
+permission is present. Physical-device vibration strength depends on the motor.

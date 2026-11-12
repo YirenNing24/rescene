@@ -27,6 +27,7 @@ var _particles: SplashParticles
 var _profile_name: String = "RE:PLAYER"
 var _music_level: float = 0.7
 var _effects_on: bool = true
+var _haptics_on: bool = true
 var _selected_member: int = 0
 var _width: float = 2400.0
 var _profile_label: Label
@@ -586,6 +587,8 @@ func _close_profile() -> void:
 
 func _open_settings() -> void:
 	var window: Panel = _modal("Set the mood", "SETTINGS")
+	window.position.y = 260.0
+	window.size.y = 560.0
 	var _label_54: Label = _label(window, "MUSIC VOLUME", Rect2(42, 163, 500, 28), 16, WHITE, BOLD)
 	var slider: HSlider = HSlider.new()
 	slider.name = "MusicVolume"
@@ -612,10 +615,21 @@ func _open_settings() -> void:
 		_particles.visible = value
 		_save_profile()
 	)
-	var _updates_button: Button = _button(window, "CHECK FOR UPDATES", Rect2(42, 370, 330, 64), func() -> void:
+	var haptics: CheckButton = CheckButton.new()
+	haptics.name = "MissVibration"
+	haptics.text = "MISS VIBRATION"
+	haptics.button_pressed = _haptics_on
+	haptics.add_theme_font_override("font", FONT)
+	haptics.add_theme_font_size_override("font_size", 19)
+	_at(window, haptics, Rect2(42, 351, 676, 62))
+	var _haptics_changed: int = haptics.toggled.connect(func(value: bool) -> void:
+		_haptics_on = value
+		_save_profile()
+	)
+	var _updates_button: Button = _button(window, "CHECK FOR UPDATES", Rect2(42, 448, 330, 64), func() -> void:
 		var _view: AppUpdateView = AppUpdateView.open(self)
 	, true)
-	var _button_57: Button = _button(window, "DONE", Rect2(388, 370, 330, 64), _close_dialog, true)
+	var _button_57: Button = _button(window, "DONE", Rect2(388, 448, 330, 64), _close_dialog, true)
 
 
 func _modal(title: String, subtitle: String) -> Panel:
@@ -683,6 +697,7 @@ func _load_profile() -> void:
 		_profile_name = config.get_value("player", "name", "RE:PLAYER")
 		_music_level = clampf(StrictData.number(config.get_value("settings", "music", 0.7)), 0.0, 1.0)
 		_effects_on = config.get_value("settings", "particles", true)
+		_haptics_on = StrictData.boolean(config.get_value("settings", "haptics", true))
 		_selected_member = clampi(StrictData.integer(config.get_value("settings", "member", 0)), 0, 4)
 
 
@@ -693,6 +708,7 @@ func _save_profile() -> void:
 		config.set_value("player", "name", _profile_name)
 	config.set_value("settings", "music", _music_level)
 	config.set_value("settings", "particles", _effects_on)
+	config.set_value("settings", "haptics", _haptics_on)
 	config.set_value("settings", "member", _selected_member)
 	var _error_65: Error = config.save(PROFILE_PATH)
 
