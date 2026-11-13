@@ -89,12 +89,13 @@ func _save_queue() -> void:
 
 func _request(path: String, method: HTTPClient.Method, body: Dictionary = {}) -> Dictionary:
 	var generation: int = _generation
-	while _working or GameServices.session().busy:
+	var starting: bool = path == "/api/v1/runs" and method == HTTPClient.METHOD_POST
+	while _working or (GameServices.session().busy and not starting):
 		await get_tree().process_frame
 		if generation != _generation or not GameServices.session().is_authenticated(): return {"ok":false, "message":"Please log in again."}
 	if not GameServices.session().is_authenticated(): return {"ok":false, "message":"Please log in again."}
 	_working = true
-	var response: Dictionary = await GameServices.session()._send(path, method, body)
+	var response: Dictionary = await GameServices.session().start_gameplay_run(body) if starting else await GameServices.session()._send(path, method, body)
 	_working = false
 	if generation != _generation: return {"ok":false, "message":"The account session changed."}
 	if response.ok:

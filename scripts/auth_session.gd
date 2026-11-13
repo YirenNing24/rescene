@@ -188,6 +188,22 @@ func refresh_session() -> Dictionary:
 		logout(str(response.message))
 	return response
 
+func start_gameplay_run(payload: Dictionary) -> Dictionary:
+	# Wallet/catalog HTTP calls can take seconds. A run with a valid access token
+	# must not queue behind them; credential rotation still uses the session lock.
+	var generation: int = _generation
+	if not is_authenticated(): return {"ok":false,"status":401,"message":"Please log in again."}
+	if not _refresh_token.is_empty() and Time.get_ticks_msec() + _refresh_early_ms >= _expires_at_ms:
+		var renewed: Dictionary = await refresh_session()
+		if not renewed.ok: return renewed
+	if generation != _generation: return {"ok":false,"message":"The account session changed."}
+	var response: Dictionary = await _http("/api/v1/runs", HTTPClient.METHOD_POST, payload, _token)
+	if generation != _generation: return {"ok":false,"message":"The account session changed."}
+	if StrictData.integer(response.get("status", 0)) == 401:
+		# Reuse the normal serialized refresh/retry path on a rejected credential.
+		return await _send("/api/v1/runs", HTTPClient.METHOD_POST, payload)
+	return response
+
 func _send(path: String, method: HTTPClient.Method, payload: Dictionary = {}, raw: PackedByteArray = PackedByteArray(), content_type: String = "", binary_response: bool = false) -> Dictionary:
 	var generation: int = _generation
 	if not await _wait_for_idle(generation): return {"ok":false,"message":"The account session changed."}

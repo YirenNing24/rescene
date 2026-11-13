@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 //go:embed song_sets.json
@@ -191,23 +192,41 @@ func (c *shopClient) pulseDeck(ctx context.Context, block int64, wallet string, 
 	}
 	cards := make([]*cardLoadout, 5)
 	ids := make([]string, 5)
+	tokens := make([]int64, 5)
 	for i := 0; i < 5; i++ {
 		token, err := wordInt(raw, i)
 		if err != nil {
 			return nil, nil, err
 		}
+		tokens[i] = token
+	}
+	// All five slots use the same confirmed block. Read independent cards in
+	// parallel instead of making the player wait for up to ten RPC round trips.
+	var reads sync.WaitGroup
+	errorsBySlot := make([]error, 5)
+	for i, token := range tokens {
 		if token == 0 {
 			continue
 		}
-		card, err := c.pulseCard(ctx, block, wallet, token)
+		reads.Go(func() {
+			card, err := c.pulseCard(ctx, block, wallet, token)
+			if err != nil {
+				errorsBySlot[i] = err
+				return
+			}
+			if card.Member != i || card.Burned || card.SetIndex != 0 && card.SetIndex != number {
+				errorsBySlot[i] = errors.New("invalid deck member")
+				return
+			}
+			cards[i] = card.loadout()
+			ids[i] = pulseID(token)
+		})
+	}
+	reads.Wait()
+	for _, err := range errorsBySlot {
 		if err != nil {
 			return nil, nil, err
 		}
-		if card.Member != i || card.Burned || card.SetIndex != 0 && card.SetIndex != number {
-			return nil, nil, errors.New("invalid deck member")
-		}
-		cards[i] = card.loadout()
-		ids[i] = pulseID(token)
 	}
 	return cards, ids, nil
 }

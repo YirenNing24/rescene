@@ -130,7 +130,7 @@ func _begin_progression_attempt() -> void:
 	if tutorial_mode or test_mode or not GameServices.session().is_authenticated(): return
 	var attempt: int = _attempt
 	phase = "connecting"
-	_count_label.text = "READY…"
+	_count_label.text = "CONNECTING…"
 	_request_progression_ticket.call_deferred(attempt)
 
 

@@ -108,10 +108,12 @@ func _draw() -> void:
 					var tail: Vector2 = origin + velocity*((1.0-minf(1.0,damping*factors[segment]))*StrictData.number(particle.inverse_drag)) + Vector2(0,gravity*sample*sample*0.5)
 					if segment > 0:
 						var _a: bool = trail_points.append(previous); var _b: bool = trail_points.append(tail)
-						var _c: bool = trail_colors.append(Color(spark_tint,fade*pow(float(segment-1)/5.0,2.0)*0.65)); var _d: bool = trail_colors.append(Color(spark_tint,fade*fraction*fraction*0.65))
+						# draw_multiline_colors takes one color per two-point segment.
+						var midpoint: float = (float(segment) - 0.5) / 5.0
+						var _c: bool = trail_colors.append(Color(spark_tint,fade*midpoint*midpoint*0.65))
 						if particle.star:
 							var _e: bool = haze_points.append(previous); var _f: bool = haze_points.append(tail)
-							var _g: bool = haze_colors.append(Color(spark_tint,fade*0.07)); var _h: bool = haze_colors.append(Color(spark_tint,fade*0.07))
+							var _g: bool = haze_colors.append(Color(spark_tint,fade*0.07))
 					previous = tail
 			var twinkle: float = 0.75+0.25*sin(t*24.0+StrictData.number(particle.phase))
 			_sprite(_glow,point,Vector2.ONE*radius*9.0,Color(spark_tint,fade*0.27))
@@ -120,7 +122,7 @@ func _draw() -> void:
 				var arm: float = radius*(2.0+twinkle)*fade
 				for axis: Vector2 in [Vector2.RIGHT,Vector2.DOWN]:
 					var _i: bool = star_points.append(point-axis*arm); var _j: bool = star_points.append(point+axis*arm)
-					var _k: bool = star_colors.append(Color(spark_tint,fade*0.7)); var _l: bool = star_colors.append(Color(spark_tint,fade*0.7))
+					var _k: bool = star_colors.append(Color(spark_tint,fade*0.7))
 	for effect: Dictionary in highway.effects:
 		var age: float = (highway.game.visual_age-StrictData.number(effect.born))*ANIMATION_SPEED
 		if age < 0.0 or age >= 0.52: continue

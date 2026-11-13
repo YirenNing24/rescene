@@ -6,6 +6,10 @@ It does not change timing windows, scoring, energy, card bonuses, or touch mappi
 
 ## Local comparison
 
+Corrected for 0.1.24: the original 0.1.23 rendered measurement was invalid because
+line-color errors prevented spark trails from drawing. The figures below include
+the restored trails and a clean engine error log; the earlier 60% claim is withdrawn.
+
 Same offline stress workload on Intel UHD Graphics 770, Godot 4.7.2 GL
 Compatibility, 1600 × 720 desktop window and the mobile SubViewport path.
 VSync/frame limiting disabled for measurement; 60 warmup frames followed by
@@ -15,12 +19,12 @@ The independent judge/ribbon CPU samples use Dragon / Ultra Hard (320 notes).
 
 | Measurement | Before | After |
 | --- | ---: | ---: |
-| Mean rendered frame | 7.039 ms | 2.834 ms |
-| 95th percentile frame | 9.112 ms | 3.718 ms |
-| 99th percentile frame | 11.842 ms | 4.754 ms |
-| Mean canvas draw calls | 649.242 | 92.997 |
+| Mean rendered frame | 7.039 ms | 4.482 ms |
+| 95th percentile frame | 9.112 ms | 6.284 ms |
+| 99th percentile frame | 11.842 ms | 7.333 ms |
+| Mean canvas draw calls | 649.242 | 93.997 |
 | Mean judge update | 0.058 ms | 0.002 ms |
-| Mean visible ribbon construction | 0.296 ms | 0.095 ms |
+| Mean visible ribbon construction | 0.296 ms | 0.103 ms |
 
 These are local wall-clock/render-loop measurements, **not Redmi FPS results**.
 No physical Android device was connected. Phone thermal behavior, battery modes,
@@ -49,6 +53,11 @@ ahead of release, rather than generated during play.
 
 ## Reproduce and validate
 
+`python3 tools/test_gameplay_runtime.py --godot /path/to/godot --render` runs
+the isolated HTTP start-queue fixture and GPU workload, failing on engine/script
+errors even when Godot exits with status zero. Its measurements are saved in
+`builds/gameplay-corrected.json`.
+
 Run `tools/benchmark_gameplay.gd` with a GPU display, passing a `res://builds/`
 JSON output path after `--`. Use the same machine/window settings and avoid
 other benchmark/test processes while measuring. `tools/bake_gameplay_effects.gd`
@@ -61,3 +70,13 @@ exercise mobile input, countdown, pause, resume, retry, results, and effect pool
 atlases through a transparent SubViewport and check that their empty space
 does not darken the background. The prepared carousel test checks object reuse
 across 30 member switches.
+
+## Song connection step
+
+Starting a run with a valid JWT bypasses unrelated wallet/catalog HTTP calls.
+Token rotation and rejected-token retry retain the existing session lock, and
+pending score receipts still finish before replacing the active run ticket.
+The backend reads five equipped cards concurrently at one confirmed block,
+validates their member/set identities, and retains atomic server energy spending.
+The local fixture blocks a wallet read until the start request arrives; it also
+checks token expiry, 401 recovery and account changes during a request.

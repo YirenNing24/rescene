@@ -61,7 +61,7 @@ func verify() -> void:
 		await create_timer(0.1).timeout
 	check(StrictData.integer(progress.state.get("xp",0)) == 140, "A full clear awards actual server XP")
 	check(StrictData.integer(progress.state.get("starlight",0)) == 60, "Clear Starlight appears in account")
-	check(StrictData.boolean((stage._overlay as ResultsScreen)._reward_label.text.contains("140 XP")), "Results display reward receipt")
+	check(StrictData.boolean((stage._overlay as ResultsScreen)._reward_label.text.contains("140 PLAYER XP")), "Results display reward receipt")
 	await screenshot("progression-results-20-9.png")
 	# Duplicate completion must preserve the same account totals.
 	await progress.finish_run(run_id,{"score":1000000,"max_combo":stage.judge.total_units,"counts":stage.judge.counts})
