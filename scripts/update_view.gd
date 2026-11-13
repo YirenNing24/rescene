@@ -61,7 +61,7 @@ func _ready() -> void:
 	track.set_corner_radius_all(9)
 	_progress.add_theme_stylebox_override("background", track)
 	var fill: StyleBoxFlat = track.duplicate() as StyleBoxFlat
-	fill.bg_color = Color("cabaff")
+	fill.bg_color = UIColors.MINT
 	_progress.add_theme_stylebox_override("fill", fill)
 	column.add_child(_progress)
 	_amount = _label("", 18)
@@ -69,7 +69,7 @@ func _ready() -> void:
 	var row: HBoxContainer = HBoxContainer.new()
 	row.add_theme_constant_override("separation", 16)
 	column.add_child(row)
-	_primary = _button("Check for updates", _activate)
+	_primary = _button("Check for updates", _activate, true)
 	row.add_child(_primary)
 	_pause = _button("Pause", service.pause)
 	row.add_child(_pause)
@@ -89,23 +89,25 @@ func _label(text: String, font_size: int) -> Label:
 	label.add_theme_color_override("font_color", Color("e6e0ff"))
 	return label
 
-func _button(text: String, action: Callable) -> Button:
+func _button(text: String, action: Callable, primary: bool = false) -> Button:
 	var button: Button = Button.new()
 	button.text = text
 	button.custom_minimum_size = Vector2(230, 64)
 	button.add_theme_font_override("font", BOLD)
 	button.add_theme_font_size_override("font_size", 20)
 	var normal: StyleBoxFlat = StyleBoxFlat.new()
-	normal.bg_color = Color("cfc3ff")
+	normal.bg_color = UIColors.MINT if primary else Color("24263d")
+	normal.border_color = UIColors.MINT_BORDER if primary else Color("716a94")
+	normal.set_border_width_all(2)
 	normal.set_corner_radius_all(16)
 	button.add_theme_stylebox_override("normal", normal)
 	var hover: StyleBoxFlat = normal.duplicate() as StyleBoxFlat
-	hover.bg_color = Color("e2d9ff")
+	hover.bg_color = UIColors.MINT_HOVER if primary else Color("35334e")
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", hover)
-	button.add_theme_color_override("font_color", Color("202039"))
-	button.add_theme_color_override("font_hover_color", Color("202039"))
-	button.add_theme_color_override("font_pressed_color", Color("202039"))
+	button.add_theme_color_override("font_color", UIColors.ACTION_INK if primary else Color("f4f1ff"))
+	button.add_theme_color_override("font_hover_color", UIColors.ACTION_INK if primary else Color("f4f1ff"))
+	button.add_theme_color_override("font_pressed_color", UIColors.ACTION_INK if primary else Color("f4f1ff"))
 	var _pressed: int = button.pressed.connect(action)
 	return button
 

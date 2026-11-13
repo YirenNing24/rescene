@@ -9,6 +9,7 @@ const ITALIC: FontFile = preload("res://assets/fonts/NimbusRoman-Italic.otf")
 const WHITE: Color = Color("f4f1ff")
 const MUTED: Color = Color("b7b9d5")
 const LILAC: Color = Color("d8ceff")
+const MINT: Color = UIColors.MINT
 
 var _canvas: Control
 var _panel: Panel
@@ -396,11 +397,12 @@ func _button(parent: Node, text: String, rect: Rect2, action: Callable, primary:
 	button.add_theme_color_override("font_color", Color("202039") if primary else WHITE)
 	button.add_theme_color_override("font_hover_color", Color("202039") if primary else WHITE)
 	button.add_theme_color_override("font_pressed_color", Color("202039") if primary else WHITE)
-	button.add_theme_stylebox_override("normal", _style(LILAC if primary else Color(0.15,0.14,0.26), Color(0.75,0.70,0.95,0.6)))
-	button.add_theme_stylebox_override("hover", _style(Color("e9e2ff") if primary else Color(0.24,0.21,0.37), LILAC))
-	button.add_theme_stylebox_override("pressed", _style(Color("b8a8eb") if primary else Color(0.30,0.25,0.43), LILAC))
+	button.add_theme_stylebox_override("normal", _style(MINT if primary else Color(0.15,0.14,0.26), UIColors.MINT_BORDER if primary else Color(0.75,0.70,0.95,0.6)))
+	button.add_theme_stylebox_override("hover", _style(UIColors.MINT_HOVER if primary else Color(0.24,0.21,0.37), MINT if primary else LILAC))
+	button.add_theme_stylebox_override("pressed", _style(UIColors.MINT_PRESSED if primary else Color(0.30,0.25,0.43), MINT if primary else LILAC))
 	button.add_theme_stylebox_override("focus", _style(Color(0,0,0,0), WHITE))
-	button.add_theme_stylebox_override("disabled", _style(Color(0.16,0.14,0.25),Color(0.65,0.60,0.8,0.35)))
+	button.add_theme_stylebox_override("disabled", _style(UIColors.DISABLED_FILL if primary else Color(0.16,0.14,0.25),Color(0.65,0.60,0.8,0.35)))
+	if primary: button.add_theme_color_override("font_disabled_color", UIColors.DISABLED_TEXT)
 	button.add_theme_color_override("font_disabled_color",MUTED)
 	var _int_13: int = button.pressed.connect(action)
 	_at(parent, button, rect)

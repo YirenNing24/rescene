@@ -84,11 +84,11 @@ func _render() -> void:
 		var item: String = names[index]
 		var button: Button = host._button(body, item.to_upper(), Rect2(x + index * (tab_width + 12), 199, tab_width, 64), func() -> void:
 			difficulty = item
-			refresh.call_deferred(), difficulty == item)
+			refresh.call_deferred(), difficulty == item, true, host.LILAC)
 		button.name = "Difficulty_"+str(index)
 		button.add_theme_font_size_override("font_size", 17)
-	var _button_7: Button = host._button(body, "TOP 25", Rect2(x, 289, 204, 54), func() -> void: view="top"; _render(), view=="top")
-	var nearby: Button = host._button(body, "NEAR ME", Rect2(x+219, 289, 204, 54), func() -> void: view="nearby"; _render(), view=="nearby")
+	var _button_7: Button = host._button(body, "TOP 25", Rect2(x, 289, 204, 54), func() -> void: view="top"; _render(), view=="top", true, host.LILAC)
+	var nearby: Button = host._button(body, "NEAR ME", Rect2(x+219, 289, 204, 54), func() -> void: view="nearby"; _render(), view=="nearby", true, host.LILAC)
 	nearby.name = "NearMe"
 	nearby.disabled = me.is_empty()
 	var total: int = StrictData.integer(board.get("total",0))

@@ -82,8 +82,8 @@ func _calendar(login: Dictionary) -> void:
 			rect = Rect2(650+(index%3)*(column+gap),320+floori(StrictData.number(index)/3.0)*259,column,241)
 		var is_current: bool = not claimed and day == StrictData.integer(login.next_day)
 		var collected: bool = day <= completed
-		var tint: Color = Color("e3b5ce") if day == 7 else host.LILAC
-		var fill: Color = Color("3e375f") if is_current else Color("201f36")
+		var tint: Color = host.MINT if is_current or collected else Color("e3b5ce") if day == 7 else host.LILAC
+		var fill: Color = Color("243a3c") if is_current else Color("201f36")
 		var _panel_11: Panel = host._panel(body,rect,fill,Color(tint,0.85 if is_current else 0.25),20)
 		var _label_12: Label = host._label(body,"DAY %02d" % day,Rect2(rect.position+Vector2(24,20),Vector2(column-48,32)),21,tint,host.BOLD)
 		var center_y: float = rect.position.y + (123 if day == 7 else 78)

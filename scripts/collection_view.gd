@@ -244,7 +244,7 @@ func _confirmation() -> void:
 		var _warning_added: bool = lines.append("• " + str(value))
 	warning.text = "\n\n".join(lines); host._at(body, warning, Rect2(x + 50, 478, 1260, 290))
 	var _cancel: Button = host._button(body, "CANCEL", Rect2(x + 50, 822, 450, 74), func() -> void: _quote.clear(); _render())
-	var confirm: Button = host._button(body, "CONFIRM · DESTROY %d CARDS" % _donors.size() if sacrifice else "CONFIRM · USE 1 BUNDLE", Rect2(x + 525, 822, 785, 74), _confirm_action, true)
+	var confirm: Button = host._button(body, "CONFIRM · DESTROY %d CARDS" % _donors.size() if sacrifice else "CONFIRM · USE 1 BUNDLE", Rect2(x + 525, 822, 785, 74), _confirm_action, true, true, UIColors.ROSE if sacrifice else host.MINT)
 	confirm.name = "ConfirmIndividualCardAction"
 
 func _confirm_action() -> void:

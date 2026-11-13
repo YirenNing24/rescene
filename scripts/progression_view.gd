@@ -28,8 +28,8 @@ func _render() -> void:
 	back.add_theme_font_size_override("font_size", 35)
 	var _label_3: Label = host._label(body, "YOUR JOURNEY", Rect2(159, 185, 670, 50), 36, host.WHITE, host.BOLD)
 	var _label_4: Label = host._label(body, "EVERY BEAT, A LITTLE CLOSER TO YOUR SCENE", Rect2(162, 243, 1000, 26), 13, host.LILAC)
-	var _button_5: Button = host._button(body, "MISSIONS", Rect2(1100, 189, 340, 64), func() -> void: tab = "missions"; _render(), tab == "missions")
-	var _button_6: Button = host._button(body, "UNLOCKS", Rect2(1460, 189, 340, 64), func() -> void: tab = "unlocks"; _render(), tab == "unlocks")
+	var _button_5: Button = host._button(body, "MISSIONS", Rect2(1100, 189, 340, 64), func() -> void: tab = "missions"; _render(), tab == "missions", true, host.LILAC)
+	var _button_6: Button = host._button(body, "UNLOCKS", Rect2(1460, 189, 340, 64), func() -> void: tab = "unlocks"; _render(), tab == "unlocks", true, host.LILAC)
 	var _button_7: Button = host._button(body, "REFRESH", Rect2(host._width-350, 189, 260, 64), func() -> void: GameServices.progression().refresh.call_deferred())
 	_summary()
 	if GameServices.progression().state.is_empty():
@@ -68,7 +68,7 @@ func _summary() -> void:
 	bar.max_value = maxf(1, StrictData.number(state.get("level_cost", 200)))
 	bar.value = StrictData.number(state.get("level_xp", 0))
 	bar.add_theme_stylebox_override("background", host._style(Color(0.07,0.07,0.15), Color.TRANSPARENT, 8))
-	bar.add_theme_stylebox_override("fill", host._style(host.LILAC, Color.TRANSPARENT, 8))
+	bar.add_theme_stylebox_override("fill", host._style(host.MINT, Color.TRANSPARENT, 8))
 	host._at(body, bar, Rect2(93, 582, 470, 16))
 	var xp: String = "%d / %d XP" % [state.get("level_xp",0), state.get("level_cost",200)]
 	if StrictData.integer(state.get("level", 1)) == 100: xp = "MAX LEVEL"
@@ -100,7 +100,7 @@ func _mission_row(list: VBoxContainer, mission: Dictionary) -> void:
 	meter.value = StrictData.number(mission.progress)
 	meter.show_percentage = false
 	meter.add_theme_stylebox_override("background", host._style(Color(0.05,0.05,0.12), Color.TRANSPARENT, 5))
-	meter.add_theme_stylebox_override("fill", host._style(host.LILAC, Color.TRANSPARENT, 5))
+	meter.add_theme_stylebox_override("fill", host._style(host.MINT, Color.TRANSPARENT, 5))
 	host._at(row, meter, Rect2(25,119,width-810,9))
 	var _label_20: Label = host._label(row, "%d / %d" % [mission.progress,mission.target], Rect2(width-760,106,200,30), 16, host.LILAC)
 	var _label_21: Label = host._label(row, "+%d XP" % StrictData.integer(mission.xp), Rect2(width-530,41,260,34), 25, host.LILAC, host.BOLD)

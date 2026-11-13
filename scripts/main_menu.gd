@@ -5,6 +5,7 @@ extends Control
 const WHITE: Color = Color("f4f1ff")
 const MUTED: Color = Color("b7b9d5")
 const LILAC: Color = Color("c7bbff")
+const MINT: Color = UIColors.MINT
 const INK: Color = Color("202039")
 const FONT: FontFile = preload("res://assets/fonts/Montserrat-Medium.otf")
 const BOLD: FontFile = preload("res://assets/fonts/Montserrat-SemiBold.otf")
@@ -228,7 +229,7 @@ func _build_header() -> void:
 	_xp_bar = ProgressBar.new()
 	_xp_bar.show_percentage = false
 	_xp_bar.add_theme_stylebox_override("background", _style(Color(0.65,0.61,0.85,0.2), Color.TRANSPARENT, 2))
-	_xp_bar.add_theme_stylebox_override("fill", _style(LILAC, Color.TRANSPARENT, 2))
+	_xp_bar.add_theme_stylebox_override("fill", _style(MINT, Color.TRANSPARENT, 2))
 	_at(profile, _xp_bar, Rect2(98,73,226,4))
 	var _label_12: Label = _label(_canvas, "R E S C É N E   /   R H Y T H M", Rect2(_width * 0.5 - 215, 65, 430, 30), 17, Color(0.88, 0.86, 1, 0.8), FONT, HORIZONTAL_ALIGNMENT_CENTER)
 	var right: float = _width - 690
@@ -386,7 +387,7 @@ func _build_footer() -> void:
 		var _texturerect_39: TextureRect = _icon(button,str(entry[0]), Rect2(54, 5, 36, 36))
 		var _label_40: Label = _label(button,str(entry[1]), Rect2(0, 61, 145, 26), 13, WHITE, BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	var energy_button: Button = _button(_canvas, "", Rect2(_width - 660, 945, 220, 83), _open_energy)
-	var _texturerect_41: TextureRect = _icon(energy_button, "heart", Rect2(18, 25, 30, 30))
+	var _texturerect_41: TextureRect = _icon(energy_button, "heart", Rect2(18, 25, 30, 30), MINT)
 	var _label_42: Label = _label(energy_button, "SONG COST", Rect2(65, 13, 140, 20), 10, MUTED, BOLD)
 	var _label_43: Label = _label(energy_button, "1 ENERGY", Rect2(65, 39, 145, 28), 18, WHITE, BOLD)
 	var _label_44: Label = _label(_canvas, "THE SPOTLIGHT IS YOURS", Rect2(_width - 418, 904, 360, 26), 12, LILAC, BOLD, HORIZONTAL_ALIGNMENT_CENTER)
@@ -645,7 +646,7 @@ func _open_settings() -> void:
 	var _updates_button: Button = _button(window, "CHECK FOR UPDATES", Rect2(42, 448, 330, 64), func() -> void:
 		var _view: AppUpdateView = AppUpdateView.open(self)
 	, true)
-	var _button_57: Button = _button(window, "DONE", Rect2(388, 448, 330, 64), _close_dialog, true)
+	var _button_57: Button = _button(window, "DONE", Rect2(388, 448, 330, 64), _close_dialog)
 
 
 func _modal(title: String, subtitle: String) -> Panel:
@@ -791,7 +792,7 @@ func _panel(parent: Node, rect: Rect2, background: Color, border: Color, radius:
 	return panel
 
 
-func _button(parent: Node, text: String, rect: Rect2, action: Callable, primary: bool = false, glass: bool = true) -> Button:
+func _button(parent: Node, text: String, rect: Rect2, action: Callable, primary: bool = false, glass: bool = true, accent: Color = MINT) -> Button:
 	var button: Button = Button.new()
 	button.text = text
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -803,12 +804,15 @@ func _button(parent: Node, text: String, rect: Rect2, action: Callable, primary:
 	var background: Color = Color(0.09, 0.10, 0.21, 0.66) if glass else Color.TRANSPARENT
 	var border: Color = Color(0.78, 0.76, 1, 0.24) if glass else Color.TRANSPARENT
 	if primary:
-		background = Color("d8ceff")
-		border = Color("f0eaff")
+		background = accent
+		border = accent.lightened(0.35)
 	button.add_theme_stylebox_override("normal", _style(background, border, 18))
-	button.add_theme_stylebox_override("hover", _style(background.lightened(0.14), LILAC, 18))
+	button.add_theme_stylebox_override("hover", _style(background.lightened(0.22) if primary else background.lightened(0.14), accent if primary else LILAC, 18))
 	button.add_theme_stylebox_override("pressed", _style(background.darkened(0.12), WHITE, 18))
 	button.add_theme_stylebox_override("focus", _style(Color.TRANSPARENT, WHITE, 18))
+	if primary:
+		button.add_theme_stylebox_override("disabled", _style(UIColors.DISABLED_FILL, Color(accent, 0.18), 18))
+		button.add_theme_color_override("font_disabled_color", UIColors.DISABLED_TEXT)
 	_at(parent, button, rect)
 	var _int_66: int = button.pressed.connect(action)
 	return button

@@ -228,7 +228,7 @@ func _overview() -> void:
 	bar.max_value = maxf(1, StrictData.number(state.get("level_cost", 200)))
 	bar.value = StrictData.number(state.get("level_xp", 0)) if level < 100 else bar.max_value
 	bar.add_theme_stylebox_override("background", host._style(Color(0.5, 0.46, 0.7, 0.16), Color.TRANSPARENT, 5))
-	bar.add_theme_stylebox_override("fill", host._style(host.LILAC, Color.TRANSPARENT, 5))
+	bar.add_theme_stylebox_override("fill", host._style(host.MINT, Color.TRANSPARENT, 5))
 	host._at(body, bar, Rect2(355, 441, _content_width, 10))
 	var accuracy: String = "%.2f%%" % (StrictData.number(state.get("best_accuracy", 0)) / 100.0)
 	var values: Array = [[str(StrictData.integer(state.get("clears", 0))), "SONG CLEARS", "music"], [accuracy, "BEST ACCURACY", "star"], [str(StrictData.integer(state.get("max_combo", 0))), "BEST COMBO", "heart"], [str(StrictData.integer(state.get("full_combos", 0))), "FULL COMBOS", "mission"]]

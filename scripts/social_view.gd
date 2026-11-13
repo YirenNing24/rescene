@@ -64,7 +64,7 @@ func _render() -> void:
 	var tabs: Array[String] = ["friends", "followers", "following", "messages", "search", "blocked"]
 	for index: int in tabs.size():
 		var destination: String = tabs[index]
-		var button: Button = host._button(body, "FIND PLAYERS" if destination == "search" else destination.to_upper(), Rect2(62 + (index % 3) * 222, 295 + floori(float(index) / 3.0) * 61, 208, 50), func() -> void: tab = destination; _render(); _load_tab(), tab == destination)
+		var button: Button = host._button(body, "FIND PLAYERS" if destination == "search" else destination.to_upper(), Rect2(62 + (index % 3) * 222, 295 + floori(float(index) / 3.0) * 61, 208, 50), func() -> void: tab = destination; _render(); _load_tab(), tab == destination, true, host.LILAC)
 		button.name = "SocialTab_" + destination; button.add_theme_font_size_override("font_size", 15)
 	_search = LineEdit.new(); _search.name = "PlayerSearch"; _search.placeholder_text = "Search username"; _search.text = query
 	_search.add_theme_font_override("font", host.FONT); _search.add_theme_font_size_override("font_size", 19)
