@@ -2,7 +2,11 @@ class_name RhythmSustainEffects
 extends Node2D
 ## Reusable road-plane vortices driven by collected holds and curved ribbons.
 
-const VORTEX_SHADER: Shader = preload("res://shaders/sustain_vortex.gdshader")
+const ATLAS: Texture2D = preload("res://assets/effects/vortex-atlas.png")
+const FRAME_SIZE: Vector2 = Vector2(192, 112)
+const FRAMES: int = 32
+const COLUMNS: int = 8
+const CYCLE_SECONDS: float = 1.0 / 4.4
 const MAX_VORTICES: int = 10 # Same bound as simultaneous judge pointers.
 const VORTEX_SIZE: Vector2 = Vector2(302.0, 172.0)
 const ORIGIN_UV: Vector2 = Vector2(0.5, 0.64)
@@ -11,7 +15,8 @@ const RELEASE: float = 0.12
 
 var highway: RhythmHighway
 var _sprites: Array[Sprite2D] = []
-var _materials: Array[ShaderMaterial] = []
+var _frames: Array[int] = []
+var _palettes: Array[int] = []
 var _ids: Array[int] = []
 var _born: Array[float] = []
 var _released: Array[float] = []
@@ -19,22 +24,24 @@ var _active: Array[bool] = []
 
 func _ready() -> void:
 	name = "SustainVortices"
-	var pixel: Image = Image.create(1, 1, false, Image.FORMAT_RGBA8)
-	pixel.fill(Color.WHITE)
-	var texture: ImageTexture = ImageTexture.create_from_image(pixel)
+	var additive: CanvasItemMaterial = CanvasItemMaterial.new()
+	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	for index: int in MAX_VORTICES:
 		var vortex: Sprite2D = Sprite2D.new()
 		vortex.name = "Vortex%d" % index
-		vortex.texture = texture
+		vortex.texture = ATLAS
+		vortex.region_enabled = true
+		vortex.region_filter_clip_enabled = true
+		vortex.region_rect = Rect2(Vector2.ZERO, FRAME_SIZE)
+		vortex.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		vortex.centered = false
-		vortex.scale = VORTEX_SIZE * highway.ROAD_SCALE
+		vortex.scale = VORTEX_SIZE / FRAME_SIZE * highway.ROAD_SCALE
 		vortex.hide()
-		var shader_material: ShaderMaterial = ShaderMaterial.new()
-		shader_material.shader = VORTEX_SHADER
-		vortex.material = shader_material
+		vortex.material = additive
 		add_child(vortex)
 		_sprites.append(vortex)
-		_materials.append(shader_material)
+		_frames.append(-1)
+		_palettes.append(0)
 		_ids.append(-1)
 		_born.append(0.0)
 		_released.append(-1.0)
@@ -52,7 +59,7 @@ func _process(_delta: float) -> void:
 	if game.phase in ["paused", "resume"]: return
 	var now: float = game.visual_age
 	_active.fill(false)
-	for note: Dictionary in game.judge.notes:
+	for note: Dictionary in highway.visible_notes():
 		if note.time > game.song_time + game.timing_offset_ms / 1000.0: break
 		if note.state != 1 or not _is_collected(note): continue
 		var id: int = StrictData.integer(note.id)
@@ -62,8 +69,7 @@ func _process(_delta: float) -> void:
 			if slot == -1: continue
 			_ids[slot] = id
 			_born[slot] = now
-			_materials[slot].set_shader_parameter("tint", highway.note_color(note))
-			_materials[slot].set_shader_parameter("seed", float(id) * 2.4)
+			_palettes[slot] = maxi(0, highway.NOTE_PALETTE.find(highway.note_color(note)))
 		_active[slot] = true
 		_released[slot] = -1.0
 		var lane: float = RhythmChart.lane_at(note, game.song_time)
@@ -78,8 +84,12 @@ func _process(_delta: float) -> void:
 			_sprites[slot].hide()
 			continue
 		var age: float = maxf(0.0, now - _born[slot])
-		_materials[slot].set_shader_parameter("age", age)
-		_materials[slot].set_shader_parameter("strength", smoothstep(0.0, ATTACK, age) * release_strength)
+		_sprites[slot].modulate.a = smoothstep(0.0, ATTACK, age) * release_strength
+		var frame: int = floori(fposmod(age + float(_ids[slot]) * 0.037, CYCLE_SECONDS) / CYCLE_SECONDS * FRAMES)
+		var tile: int = _palettes[slot] * FRAMES + frame
+		if _frames[slot] != tile:
+			_frames[slot] = tile
+			_sprites[slot].region_rect = Rect2(Vector2(float(tile % COLUMNS) * FRAME_SIZE.x, floorf(float(tile) / COLUMNS) * FRAME_SIZE.y), FRAME_SIZE)
 
 func _is_collected(note: Dictionary) -> bool:
 	var judge: RhythmJudge = highway.game.judge

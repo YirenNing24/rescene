@@ -63,6 +63,12 @@ var _reward_message: String = ""
 var _progression_status: Label
 var _connection_backgrounded: bool = false
 var deck_showcase: DeckShowcase
+var _hud_score: int = -1
+var _hud_combo: int = -1
+var _hud_resolved: int = -1
+var _hud_life: float = -1.0
+var _hud_second: int = -1
+var _hud_momentum: int = -1
 
 
 func _enter_tree() -> void:
@@ -104,6 +110,7 @@ func _ready() -> void:
 	highway.game = self
 	host._at(self, highway, Rect2(0, 0, 2400, 1080))
 	_build_hud()
+	_warm_hud_glyphs()
 	for child: Node in get_children():
 		if child is CanvasItem: _stage_visuals.append(child)
 	if tutorial_mode:
@@ -191,14 +198,36 @@ func _process(delta: float) -> void:
 			finish_stage(false)
 	_feedback_left = maxf(0.0, _feedback_left - delta)
 	_feedback.modulate.a = minf(1.0, _feedback_left * 4.0)
-	_score_label.text = "%07d" % judge.score()
-	_accuracy_label.text = "ACCURACY   %.2f%%" % judge.accuracy()
-	_combo_label.text = str(judge.combo)
-	_life.value = judge.life
-	_life_label.text = "LIFE   %04d" % roundi(judge.life)
+	_update_judgment_hud()
 	_update_momentum()
 	_progress.value = maxf(0.0,StrictData.number(song_time)) / maxf(0.01,StrictData.number(chart.duration)) * 100.0
-	_time_label.text = "%s  /  %s" % [_format_time(StrictData.number(maxf(0, song_time))), _format_time(StrictData.number(chart.duration))]
+	var second: int = maxi(0, floori(song_time))
+	if second != _hud_second:
+		_hud_second = second
+		_time_label.text = "%s  /  %s" % [_format_time(float(second)), _format_time(StrictData.number(chart.duration))]
+
+
+func _update_judgment_hud() -> void:
+	var score: int = judge.score()
+	if score != _hud_score: _hud_score = score; _score_label.text = "%07d" % score
+	if judge.combo != _hud_combo: _hud_combo = judge.combo; _combo_label.text = str(judge.combo)
+	if judge.resolved_units != _hud_resolved:
+		_hud_resolved = judge.resolved_units
+		_accuracy_label.text = "ACCURACY   %.2f%%" % judge.accuracy()
+	if judge.life != _hud_life:
+		_hud_life = judge.life
+		_life.value = judge.life
+		_life_label.text = "LIFE   %04d" % roundi(judge.life)
+
+
+func _warm_hud_glyphs() -> void:
+	var server: TextServer = TextServerManager.get_primary_interface()
+	for label: Label in [_score_label, _combo_label, _life_label, _count_label, _accuracy_label, _time_label, _feedback]:
+		var font: Font = label.get_theme_font("font")
+		var font_size: int = label.get_theme_font_size("font_size")
+		for font_rid: RID in font.get_rids():
+			server.font_render_range(font_rid, Vector2i(font_size, 0), 48, 57)
+			if label == _feedback: server.font_render_range(font_rid, Vector2i(font_size, 0), 65, 90)
 
 
 func _update_rival() -> void:
@@ -219,7 +248,8 @@ func _update_song_volume() -> void:
 	var fade_length: float = minf(OUTRO_FADE_SECONDS, duration)
 	var remaining: float = maxf(0.0, duration - song_time)
 	var gain: float = smoothstep(0.0, maxf(0.001, fade_length), remaining)
-	audio.volume_linear = host._music_level * 0.65 * gain
+	var volume: float = host._music_level * 0.65 * gain
+	if not is_equal_approx(audio.volume_linear, volume): audio.volume_linear = volume
 
 
 func _input(event: InputEvent) -> void:
@@ -339,6 +369,8 @@ func _vibrate_miss() -> void:
 
 func _update_momentum() -> void:
 	var effective: int = judge.momentum_combo()
+	if _hud_momentum == effective: return
+	_hud_momentum = effective
 	var level: int = RhythmMomentum.tier(effective)
 	for index: int in _momentum_bars.size():
 		_momentum_bars[index].value = clampf(float(effective - index * 20) / 20.0, 0.0, 1.0)

@@ -31,17 +31,17 @@ func verify() -> void:
 	check(visible_pillars() == 0, "Combos below ten must not create a pillar")
 	hit(9)
 	check(visible_pillars() == 1 and effects._cursor == 1, "The tenth actual judgment must create one pillar")
-	var base: Vector2 = effects._sprites[0].position + effects._sprites[0].scale * Vector2(0.5, effects.BASE_UV)
+	var base: Vector2 = effects._sprites[0].position + effects._sprites[0].scale * effects.FRAME_SIZE * Vector2(0.5, effects.BASE_UV)
 	check(base.is_equal_approx(stage.highway.project(0.0, 0.0)), "The pillar must originate on the judged catcher")
 	effects.on_judgment(10, 0.0, 1.0)
 	check(effects._cursor == 1, "A repeated judgment must not duplicate a milestone")
 	stage.visual_age += 0.08
 	effects._process(0.08)
-	var age: float = StrictData.number(effects._materials[0].get_shader_parameter("age"))
+	var frame: int = effects._frames[0]
 	stage.pause_stage()
 	stage._process(1.0)
 	effects._process(1.0)
-	check(is_equal_approx(StrictData.number(effects._materials[0].get_shader_parameter("age")), age), "Pause must freeze the pillar animation")
+	check(effects._frames[0] == frame, "Pause must freeze the pillar animation")
 	stage.resume_stage()
 	stage._process(1.1)
 	await create_timer(0.15).timeout

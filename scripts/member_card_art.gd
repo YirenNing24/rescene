@@ -1,10 +1,10 @@
 class_name MemberCardArt
 extends Control
 ## One frame system for the shop, collection, profile and stage.
-const PHOTOS: Array[Texture2D] = [
-	preload("res://assets/art/cards/woni.jpg"), preload("res://assets/art/cards/liv.jpg"),
-	preload("res://assets/art/cards/minami.jpg"), preload("res://assets/art/cards/may.jpg"),
-	preload("res://assets/art/cards/zena.jpg"),
+const PHOTO_PATHS: Array[String] = [
+	"res://assets/art/cards/woni.jpg", "res://assets/art/cards/liv.jpg",
+	"res://assets/art/cards/minami.jpg", "res://assets/art/cards/may.jpg",
+	"res://assets/art/cards/zena.jpg",
 ]
 var host: ResceneMainMenu
 var item_id: String = "scene_01"
@@ -55,10 +55,11 @@ func _render() -> void:
 	inner.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
 	var photo: TextureRect = TextureRect.new()
 	var index: int = clampi(StrictData.integer(item.member), 0, 4)
+	var portrait: Texture2D = load(PHOTO_PATHS[index]) as Texture2D
 	var crop: AtlasTexture = AtlasTexture.new()
-	crop.atlas = PHOTOS[index]
+	crop.atlas = portrait
 	var regions: Array[Rect2] = [Rect2(750.0 / 3071.0, 0, 2100.0 / 3071.0, 3000.0 / 4096.0), Rect2(250.0 / 2057.0, 0, 1600.0 / 2057.0, 2476.0 / 2742.0), Rect2(0, 0, 1764.0 / 4096.0, 1), Rect2(400.0 / 3071.0, 200.0 / 4096.0, 1938.0 / 3071.0, 3000.0 / 4096.0), Rect2(550.0 / 3071.0, 0, 2100.0 / 3071.0, 3250.0 / 4096.0)]
-	var dimensions: Vector2 = PHOTOS[index].get_size()
+	var dimensions: Vector2 = portrait.get_size()
 	crop.region = Rect2(regions[index].position * dimensions, regions[index].size * dimensions)
 	photo.texture = crop
 	photo.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS

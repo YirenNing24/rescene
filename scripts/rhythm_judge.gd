@@ -38,9 +38,13 @@ var _time_us: int = -150000
 var _tick: int = -18
 var _duration: float = 0.0
 var _last_move_us: Dictionary[int, int] = {}
+var first_live: int = 0
+var generation: int = 0
 
 
 func setup(chart: Dictionary) -> void:
+	first_live = 0
+	generation += 1
 	notes.assign(StrictData.array(StrictData.array(chart.notes).duplicate(true)))
 	pointers.clear()
 	combo = 0
@@ -76,7 +80,9 @@ func press(pointer_id: int, lane: float, time: float, keyboard: bool = false) ->
 	pointers[pointer_id] = {"lane": lane, "keyboard": keyboard}
 	var best: Dictionary = {}
 	var nearest: float = HIT_WINDOW + 0.001
-	for note: Dictionary in notes:
+	for index: int in range(first_live, notes.size()):
+		var note: Dictionary = notes[index]
+		if note.time > time + HIT_WINDOW: break
 		if note.state != 0 or absf(StrictData.number(note.lane - lane)) > TRACE_TOLERANCE:
 			continue
 		var difference: float = absf(StrictData.number(note.time - time))
@@ -85,7 +91,8 @@ func press(pointer_id: int, lane: float, time: float, keyboard: bool = false) ->
 			best = note
 	if best.is_empty():
 		# After a pause, a fresh OS touch index may take over the suspended ribbon.
-		for note: Dictionary in notes:
+		for index: int in range(first_live, notes.size()):
+			var note: Dictionary = notes[index]
 			if note.state == 1 and note.get("regrab", false) and absf(RhythmChart.lane_at(note, time) - lane) <= TRACE_TOLERANCE:
 				note.owner = pointer_id
 				note.regrab = false
@@ -139,7 +146,9 @@ func _advance(time: float) -> void:
 
 func _step_tick(time: float) -> void:
 	if dead: return
-	for note: Dictionary in notes:
+	while first_live < notes.size() and notes[first_live].state >= 2: first_live += 1
+	for index: int in range(first_live, notes.size()):
+		var note: Dictionary = notes[index]
 		if note.time > time: break
 		if note.state == 0 and time > note.time + HIT_WINDOW:
 			_miss(note, 1 + StrictData.array(note.checkpoints).size())

@@ -228,12 +228,12 @@ func verify_sustain_effects() -> void:
 	effects._process(0.0)
 	var slot: int = effects._ids.find(1)
 	if slot >= 0:
-		var origin: Vector2 = effects._sprites[slot].position + effects._sprites[slot].scale * effects.ORIGIN_UV
+		var origin: Vector2 = effects._sprites[slot].position + effects._sprites[slot].scale * effects.FRAME_SIZE * effects.ORIGIN_UV
 		check(origin.is_equal_approx(stage.highway.project(RhythmChart.lane_at(stage.judge.notes[1], 1.5), 0.0)), "The vortex must follow the curved head along the hit line")
-		var age: float = StrictData.number(effects._materials[slot].get_shader_parameter("age"))
+		var frame: int = effects._frames[slot]
 		stage.phase = "paused"
 		effects._process(0.5)
-		check(is_equal_approx(StrictData.number(effects._materials[slot].get_shader_parameter("age")), age), "Pause must freeze vortex motion")
+		check(effects._frames[slot] == frame, "Pause must freeze vortex motion")
 		stage.phase = "playing"
 	else:
 		check(false, "The curved ribbon vortex must remain active while tracing")

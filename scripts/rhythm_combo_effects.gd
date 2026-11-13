@@ -2,7 +2,10 @@ class_name RhythmComboEffects
 extends Node2D
 ## A small fixed pool of additive milestone columns, behind noteheads and HUD.
 
-const PILLAR_SHADER: Shader = preload("res://shaders/combo_pillar.gdshader")
+const ATLAS: Texture2D = preload("res://assets/effects/pillar-atlas.png")
+const FRAME_SIZE: Vector2 = Vector2(128, 256)
+const FRAMES: int = 32
+const COLUMNS: int = 8
 const LIFETIME: float = 0.52
 const MAX_PILLARS: int = 3
 const PILLAR_SIZE: Vector2 = Vector2(320.0, 620.0)
@@ -10,7 +13,7 @@ const BASE_UV: float = 0.86
 
 var highway: RhythmHighway
 var _sprites: Array[Sprite2D] = []
-var _materials: Array[ShaderMaterial] = []
+var _frames: Array[int] = []
 var _born: Array[float] = []
 var _last_combo: int = 0
 var _cursor: int = 0
@@ -18,23 +21,23 @@ var _last_visual_age: float = -1.0
 
 func _ready() -> void:
 	name = "ComboPillars"
-	var pixel: Image = Image.create(1, 1, false, Image.FORMAT_RGBA8)
-	pixel.fill(Color.WHITE)
-	var texture: ImageTexture = ImageTexture.create_from_image(pixel)
+	var additive: CanvasItemMaterial = CanvasItemMaterial.new()
+	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	for index: int in MAX_PILLARS:
 		var pillar: Sprite2D = Sprite2D.new()
 		pillar.name = "Pillar%d" % index
-		pillar.texture = texture
+		pillar.texture = ATLAS
+		pillar.region_enabled = true
+		pillar.region_filter_clip_enabled = true
+		pillar.region_rect = Rect2(Vector2.ZERO, FRAME_SIZE)
+		pillar.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		pillar.centered = false
-		pillar.scale = PILLAR_SIZE * highway.ROAD_SCALE
+		pillar.scale = PILLAR_SIZE / FRAME_SIZE * highway.ROAD_SCALE
 		pillar.visible = false
-		var shader_material: ShaderMaterial = ShaderMaterial.new()
-		shader_material.shader = PILLAR_SHADER
-		shader_material.set_shader_parameter("lifetime", LIFETIME)
-		pillar.material = shader_material
+		pillar.material = additive
 		add_child(pillar)
 		_sprites.append(pillar)
-		_materials.append(shader_material)
+		_frames.append(-1)
 		_born.append(-100.0)
 
 func on_judgment(combo: int, lane: float, value: float) -> void:
@@ -46,8 +49,7 @@ func on_judgment(combo: int, lane: float, value: float) -> void:
 	var origin: Vector2 = highway.project(clampf(lane, 0.0, 4.0), 0.0)
 	_sprites[slot].position = origin - Vector2(PILLAR_SIZE.x * 0.5, PILLAR_SIZE.y * BASE_UV) * highway.ROAD_SCALE
 	_born[slot] = highway.game.visual_age
-	_materials[slot].set_shader_parameter("age", 0.0)
-	_materials[slot].set_shader_parameter("seed", float(combo) + lane * 3.0)
+	_set_frame(slot, 0)
 	_sprites[slot].show()
 
 func reset() -> void:
@@ -69,4 +71,9 @@ func _process(_delta: float) -> void:
 		if age < 0.0 or age >= LIFETIME:
 			_sprites[index].hide()
 		else:
-			_materials[index].set_shader_parameter("age", age)
+			_set_frame(index, mini(FRAMES - 1, floori(age / LIFETIME * FRAMES)))
+
+func _set_frame(slot: int, frame: int) -> void:
+	if _frames[slot] == frame: return
+	_frames[slot] = frame
+	_sprites[slot].region_rect = Rect2(Vector2(float(frame % COLUMNS) * FRAME_SIZE.x, floorf(float(frame) / COLUMNS) * FRAME_SIZE.y), FRAME_SIZE)

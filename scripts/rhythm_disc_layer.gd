@@ -30,11 +30,9 @@ func _draw() -> void:
 			_disc(highway.project(lane, 0.0), highway.CATCHER_RADIUS, tint)
 		return
 	var now: float = highway.game.song_time
-	var notes: Array[Dictionary] = highway.game.judge.notes
+	var notes: Array[Dictionary] = highway.visible_notes()
 	for index: int in range(notes.size() - 1, -1, -1):
 		var note: Dictionary = notes[index]
-		if note.state >= 2 or note.time > now + highway.game.approach_seconds or note.time + note.duration < now - 0.2:
-			continue
 		var head_time: float = maxf(StrictData.number(note.time), now) if note.state == 1 else note.time
 		var point: Vector2 = highway.project(RhythmChart.lane_at(note, head_time), head_time - now)
 		var depth: float = clampf((point.y - highway.TOP_Y) / (highway.HIT_Y - highway.TOP_Y), 0.0, 1.1)

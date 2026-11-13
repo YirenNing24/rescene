@@ -34,6 +34,15 @@ var _note_colors: Dictionary[int, Color] = {}
 var _color_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _fx_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _press_times: Array[float] = [-10.0, -10.0, -10.0, -10.0, -10.0]
+var _visible: Array[Dictionary] = []
+var _visible_end: int = 0
+var _visible_time: float = -INF
+var _visible_frame: int = -1
+var _visible_generation: int = -1
+var _visible_judge: RhythmJudge
+var _visible_approach: float = -1.0
+var _ribbon_indices: Dictionary[int, PackedInt32Array] = {}
+var fireworks: RhythmHitEffects
 
 
 func _ready() -> void:
@@ -52,7 +61,7 @@ func _ready() -> void:
 	sustain_effects = RhythmSustainEffects.new()
 	sustain_effects.highway = self
 	add_child(sustain_effects)
-	var fireworks: RhythmHitEffects = RhythmHitEffects.new()
+	fireworks = RhythmHitEffects.new()
 	fireworks.highway = self
 	add_child(fireworks)
 
@@ -66,7 +75,8 @@ func press(lane: float) -> void:
 
 
 func catcher_strength(lane: int) -> float:
-	for pointer: Dictionary in game.judge.pointers.values():
+	for pointer_id: int in game.judge.pointers:
+		var pointer: Dictionary = game.judge.pointers[pointer_id]
 		if absf(StrictData.number(pointer.lane) - lane) <= RhythmJudge.TRACE_TOLERANCE:
 			_press_times[lane] = game.visual_age
 			return 1.0
@@ -105,32 +115,13 @@ func hit(_label: String, lane: float, value: float, note_id: int = -1) -> void:
 		var note: Dictionary = game.judge.notes[note_id]
 		tint = note_color(note)
 		sustain = note.state == 1 and note.next_tick < StrictData.array(note.checkpoints).size() - 1
-	var particles: Array[Dictionary] = []
-	var count: int = 12 if sustain else (48 if value >= 0.8 else 32)
-	if game.mobile_rendering: count = 6 if sustain else (24 if value >= 0.8 else 16)
-	for index: int in count:
-		var angle: float = -PI + PI * (StrictData.number(index) + _fx_rng.randf_range(0.05, 0.95)) / count
-		if index % 5 == 0:
-			angle = _fx_rng.randf_range(0.0, TAU)
-		var speed: float = _fx_rng.randf_range(210.0, 620.0) * (0.5 if sustain else 1.0)
-		var velocity: Vector2 = Vector2(cos(angle), sin(angle) * 1.05) * speed * ROAD_SCALE
-		if velocity.y > 0.0: velocity.y *= 0.3
-		particles.append({"velocity": velocity, "drag": _fx_rng.randf_range(1.1, 2.4),
-			"gravity": _fx_rng.randf_range(210.0, 340.0) * ROAD_SCALE, "life": _fx_rng.randf_range(0.5, 1.1),
-			"delay": _fx_rng.randf_range(0.0, 0.045), "size": _fx_rng.randf_range(1.8, 3.8) * ROAD_SCALE,
-			"star": index % 6 == 0, "tint": tint.lerp(Color("f6eaff"), _fx_rng.randf_range(0.05, 0.45)),
-			"phase": _fx_rng.randf_range(0.0, TAU)})
-	var limit: int = 8 if game.mobile_rendering else RhythmHitEffects.MAX_BURSTS
-	if effects.size() >= limit:
-		effects.pop_front()
-	effects.append({"lane": lane, "born": game.visual_age, "color": tint,
-		"power": 0.38 if sustain else 1.0, "particles": particles})
+	fireworks.emit_burst(lane, tint, sustain, value)
 
 
 func project(lane: float, until: float) -> Vector2:
 	var approach: float = game.approach_seconds
 	var progress: float = clampf(1.0 - until / approach, 0.0, 1.08)
-	var depth: float = pow(progress, 2.0)
+	var depth: float = progress * progress
 	var width: float = lerpf(TOP_WIDTH, HIT_WIDTH, depth)
 	return Vector2(CENTER_X + ((lane + 0.5) / 5.0 - 0.5) * width, lerpf(TOP_Y, HIT_Y, depth))
 
@@ -152,17 +143,32 @@ func _draw() -> void:
 		return
 	_draw_road()
 	var now: float = game.song_time
-	var notes: Array[Dictionary] = game.judge.notes
+	var notes: Array[Dictionary] = visible_notes()
 	for index: int in range(notes.size() - 1, -1, -1):
 		var note: Dictionary = notes[index]
-		if note.state >= 2 or note.time > now + game.approach_seconds:
-			continue
-		var end: float = note.time + note.duration
-		if end < now - 0.2:
-			continue
 		var color: Color = note_color(note)
 		if note.kind != "tap":
 			_draw_ribbon(note, color, now)
+
+
+func visible_notes() -> Array[Dictionary]:
+	var judge: RhythmJudge = game.judge
+	var now: float = game.song_time
+	var frame: int = Engine.get_process_frames()
+	if _visible_frame == frame and _visible_time == now and _visible_generation == judge.generation and _visible_judge == judge and _visible_approach == game.approach_seconds: return _visible
+	if _visible_judge != judge or _visible_generation != judge.generation or now < _visible_time: _visible_end = judge.first_live
+	_visible_judge = judge
+	_visible_generation = judge.generation
+	_visible_time = now
+	_visible_frame = frame
+	_visible_approach = game.approach_seconds
+	_visible_end = maxi(judge.first_live, mini(_visible_end, judge.notes.size()))
+	while _visible_end < judge.notes.size() and judge.notes[_visible_end].time <= now + game.approach_seconds: _visible_end += 1
+	_visible.clear()
+	for index: int in range(judge.first_live, _visible_end):
+		var note: Dictionary = judge.notes[index]
+		if note.state < 2 and note.time <= now + game.approach_seconds and note.time + note.duration >= now - 0.2: _visible.append(note)
+	return _visible
 
 
 func _draw_road() -> void:
@@ -255,47 +261,64 @@ func _ribbon_tint(note: Dictionary, time: float, fallback: Color, across: float 
 
 
 func _ribbon_strip(note: Dictionary, tint: Color, now: float) -> Dictionary:
-	var begin: float = maxf(StrictData.number(note.time), now) if note.state == 1 else note.time
-	var finish: float = minf(StrictData.number(note.time + note.duration), now + game.approach_seconds)
-	if finish - begin <= 0.00001:
-		return {}
+	var note_time: float = StrictData.number(note.time)
+	var duration: float = StrictData.number(note.duration)
+	var begin: float = maxf(note_time, now) if note.state == 1 else note_time
+	var finish: float = minf(note_time + duration, now + game.approach_seconds)
+	if finish - begin <= 0.00001: return {}
+	var segments: int = 24 if game.mobile_rendering else 36
 	var points: PackedVector2Array = PackedVector2Array()
-	var spine: PackedVector2Array = PackedVector2Array()
 	var colors: PackedColorArray = PackedColorArray()
+	var spine: PackedVector2Array = PackedVector2Array()
 	var spine_colors: PackedColorArray = PackedColorArray()
-	var indices: PackedInt32Array = PackedInt32Array()
-	var segments: int = 36
-	for index: int in segments + 1:
-		var t: float = lerpf(begin, finish, StrictData.number(index) / segments)
-		var lane: float = RhythmChart.lane_at(note, t)
-		var point: Vector2 = project(lane, t - now)
-		if not spine.is_empty() and point.distance_squared_to(spine[-1]) < 0.0001:
-			continue
+	var _points_size: int = points.resize((segments + 1) * RIBBON_COLUMNS)
+	var _colors_size: int = colors.resize(points.size())
+	var _spine_size: int = spine.resize(segments + 1)
+	var _spine_colors_size: int = spine_colors.resize(segments + 1)
+	var curved: bool = note.kind == "slide"
+	var color_phase: float = game.visual_age * 0.24 + StrictData.number(note.id) * 0.11
+	for row: int in segments + 1:
+		var t: float = lerpf(begin, finish, float(row) / segments)
+		var point: Vector2 = project(RhythmChart.lane_at(note, t), t - now)
 		var progress: float = clampf((point.y - TOP_Y) / (HIT_Y - TOP_Y), 0.0, 1.0)
-		var curved: bool = note.kind == "slide"
 		var half_width: float = (lerpf(18.0, 96.0, progress) if curved else lerpf(9.0, 45.0, progress)) * ROAD_SCALE
 		var feather: float = 2.5 * ROAD_SCALE
-		var row_offsets: PackedFloat32Array = PackedFloat32Array([-half_width - feather, -half_width, 0.0, half_width, half_width + feather])
-		for offset: float in row_offsets:
-			var _point_added: bool = points.append(point + Vector2(offset, 0.0))
-		var _bool_4: bool = spine.append(point)
-		var center: Color = _ribbon_tint(note, t, tint)
-		var pulse: float = 0.88 + 0.12 * sin(game.visual_age * TAU * 1.6 - (t - StrictData.number(note.time)) * 3.0) if curved else 1.0
+		var base: int = row * RIBBON_COLUMNS
+		points[base] = point + Vector2(-half_width - feather, 0)
+		points[base + 1] = point + Vector2(-half_width, 0)
+		points[base + 2] = point
+		points[base + 3] = point + Vector2(half_width, 0)
+		points[base + 4] = point + Vector2(half_width + feather, 0)
+		spine[row] = point
+		var phase: float = color_phase + clampf((t - note_time) / maxf(0.001, duration), 0.0, 1.0) * 0.5
+		var center: Color = _phase_color(phase, tint) if curved else tint
+		var left: Color = _phase_color(phase - 0.08, tint) if curved else tint
+		var right: Color = _phase_color(phase + 0.08, tint) if curved else tint
+		var pulse: float = 0.88 + 0.12 * sin(game.visual_age * TAU * 1.6 - (t - note_time) * 3.0) if curved else 1.0
 		var opacity: float = lerpf(0.18, 0.80 if note.state == 1 else 0.66, progress) * pulse if curved else lerpf(0.07, 0.5 if note.state == 1 else 0.3, progress)
-		var left: Color = _ribbon_tint(note, t, tint, -0.08)
-		var right: Color = _ribbon_tint(note, t, tint, 0.08)
-		colors.append_array(PackedColorArray([Color(left, 0.0), Color(left, opacity * 0.86),
-			Color(center, opacity), Color(right, opacity * 0.86), Color(right, 0.0)]))
-		var _spine_color_added: bool = spine_colors.append(Color(center.lerp(Color("eee9ff"), 0.3), 0.70 * pulse))
-	if spine.size() < 2:
-		return {}
-	for index: int in spine.size() - 1:
-		for column: int in RIBBON_COLUMNS - 1:
-			var vertex: int = index * RIBBON_COLUMNS + column
-			var next: int = vertex + RIBBON_COLUMNS
-			if absf((points[vertex + 1] - points[vertex]).cross(points[next] - points[vertex])) < 0.0001:
-				continue
-			indices.append_array(PackedInt32Array([vertex, vertex + 1, next, vertex + 1, next + 1, next]))
-	if indices.is_empty():
-		return {}
-	return {"points": points, "colors": colors, "indices": indices, "spine": spine, "spine_colors": spine_colors, "begin": begin, "finish": finish}
+		colors[base] = Color(left, 0.0)
+		colors[base + 1] = Color(left, opacity * 0.86)
+		colors[base + 2] = Color(center, opacity)
+		colors[base + 3] = Color(right, opacity * 0.86)
+		colors[base + 4] = Color(right, 0.0)
+		spine_colors[row] = Color(center.lerp(Color("eee9ff"), 0.3), 0.70 * pulse)
+	if spine[0].distance_squared_to(spine[-1]) < 0.0001: return {}
+	if not _ribbon_indices.has(segments):
+		var indices: PackedInt32Array = PackedInt32Array()
+		var _indices_size: int = indices.resize(segments * (RIBBON_COLUMNS - 1) * 6)
+		var cursor: int = 0
+		for row: int in segments:
+			for column: int in RIBBON_COLUMNS - 1:
+				var vertex: int = row * RIBBON_COLUMNS + column
+				var next: int = vertex + RIBBON_COLUMNS
+				indices[cursor] = vertex; indices[cursor + 1] = vertex + 1; indices[cursor + 2] = next
+				indices[cursor + 3] = vertex + 1; indices[cursor + 4] = next + 1; indices[cursor + 5] = next
+				cursor += 6
+		_ribbon_indices[segments] = indices
+	return {"points":points,"colors":colors,"indices":_ribbon_indices[segments],"spine":spine,"spine_colors":spine_colors,"begin":begin,"finish":finish}
+
+
+func _phase_color(phase: float, fallback: Color) -> Color:
+	var scaled: float = fposmod(phase, 1.0) * RIBBON_PALETTE.size()
+	var index: int = floori(scaled)
+	return RIBBON_PALETTE[index].lerp(RIBBON_PALETTE[(index + 1) % RIBBON_PALETTE.size()], smoothstep(0.0, 1.0, scaled - index)).lerp(fallback, 0.12)

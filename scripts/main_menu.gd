@@ -208,6 +208,7 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
+	if is_instance_valid(_stage): return
 	if is_instance_valid(_energy_hint): _energy_hint.text = GameServices.progression().energy_hint()
 	if is_instance_valid(_energy_detail_hint): _energy_detail_hint.text = GameServices.progression().energy_hint()
 	# Audio position is the final cutoff authority, independent of timer latency.
@@ -539,6 +540,7 @@ func _request_song_start(song: Dictionary, difficulty: String) -> void:
 
 
 func _mount_stage() -> void:
+	_particles.set_process(false)
 	if OS.has_feature("android") or force_mobile_gameplay_rendering:
 		_stage_surface = MobileStageSurface.new()
 		_stage_surface.name = "MobileGameplay"
@@ -564,6 +566,7 @@ func _return_from_stage() -> void:
 		_stage_surface = null
 	_canvas.show()
 	_particles.visible = _effects_on
+	_particles.set_process(_effects_on)
 	if is_instance_valid(_song_view):
 		_song_view.refresh_records()
 		_song_view.select_song(_song_view.selected, true)
