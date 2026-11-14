@@ -125,11 +125,22 @@ func _row(list: VBoxContainer, row: Dictionary, width: float) -> void:
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.add_theme_stylebox_override("normal", host._style(Color(0.43,0.36,0.64,0.4) if mine else Color(0.1,0.1,0.2,0.84), host.LILAC if mine else Color(host.LILAC,0.23),18))
 	var _label_12: Label = host._label(button, "%02d" % StrictData.integer(row.position), Rect2(23, 31, 100, 52), 32, host.LILAC, host.BOLD)
-	var label: Label = host._label(button, str(row.username)+("  /  YOU" if mine else ""), Rect2(132,20,width-500,36),25,host.WHITE,host.BOLD)
+	var avatar_panel: Panel = host._panel(button, Rect2(124, 17, 80, 80), Color(host.LILAC, 0.12), Color(host.LILAC, 0.4), 18)
+	avatar_panel.name = "RankingAvatar"
+	var fallback: TextureRect = host._icon(avatar_panel, "person", Rect2(20, 20, 40, 40), host.LILAC)
+	fallback.name = "AvatarFallback"
+	var avatar: Dictionary = StrictData.dictionary(row.get("avatar", {}))
+	if not str(avatar.get("url", "")).is_empty():
+		var photo: ProfilePhoto = ProfilePhoto.new()
+		photo.name = "RankingAvatarPhoto"
+		photo.path = str(avatar.url)
+		photo.radius = 15.0
+		host._at(avatar_panel, photo, Rect2(3, 3, 74, 74))
+	var label: Label = host._label(button, str(row.username)+("  /  YOU" if mine else ""), Rect2(224,20,width-592,36),25,host.WHITE,host.BOLD)
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	label.clip_text=true
-	label.size=Vector2(width-500,36)
-	var _label_13: Label = host._label(button, "%.2f%% ACCURACY   ·   %d COMBO" % [StrictData.number(row.accuracy),StrictData.integer(row.max_combo)], Rect2(134,72,width-500,27),14,host.MUTED)
+	label.size=Vector2(width-592,36)
+	var _label_13: Label = host._label(button, "%.2f%% ACCURACY   ·   %d COMBO" % [StrictData.number(row.accuracy),StrictData.integer(row.max_combo)], Rect2(226,72,width-592,27),14,host.MUTED)
 	var _label_14: Label = host._label(button, "%07d" % StrictData.integer(row.score), Rect2(width-330,22,245,46),32,host.WHITE,host.BOLD,HORIZONTAL_ALIGNMENT_RIGHT)
 	var _label_15: Label = host._label(button, str(row.rank), Rect2(width-170,76,82,25),16,host.LILAC,host.BOLD,HORIZONTAL_ALIGNMENT_RIGHT)
 	var _texturerect_16: TextureRect = host._icon(button,"arrow",Rect2(width-56,44,24,24),host.LILAC)

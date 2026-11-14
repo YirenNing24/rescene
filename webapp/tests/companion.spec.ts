@@ -100,3 +100,28 @@ test('release filters keep artwork and equipment payload matched to the album', 
   expect(writes.find(w=>w.path==='/collection/quote')?.body.set_id).toBe('scenedrome');
   await page.screenshot({path:'../previews/scenedrome-web-card-detail.png',fullPage:true});
 });
+
+test('rankings display uploaded avatars and default portraits on desktop and mobile',async({page})=>{
+  await setup(page);
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  const avatar={id:'rank-photo',url:'/api/v1/players/'+id+'/media/rank-photo'};
+  const own={user_id:id,username:user.username,position:1,score:1000000,accuracy:99.2,max_combo:240,avatar};
+  const plain={user_id:friend,username:'NoPhotoPlayer',position:2,score:987000,accuracy:98,max_combo:230,avatar:null};
+  await page.route('**/api/leaderboards?*',route=>route.fulfill({json:{leaderboard:{top:[own,plain],nearby:[own,plain],me:own,total:2}}}));
+  await page.route('**/api/players/'+id+'/media/rank-photo',route=>route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aA1sAAAAASUVORK5CYII=','base64')}));
+  await page.goto('/');await navigate(page,'Rankings');
+  for(const size of [{width:1440,height:900},{width:390,height:844},{width:360,height:800}]){
+    await page.setViewportSize(size);
+    const portrait=page.locator('.score-entry.mine .avatar img');
+    await expect(portrait).toHaveAttribute('src','/api/players/'+id+'/media/rank-photo');
+    await expect.poll(()=>portrait.evaluate((img:HTMLImageElement)=>img.naturalWidth)).toBeGreaterThan(0);
+    await expect(page.locator('.score-entry').nth(1).locator('.avatar')).toHaveText('N');
+    await expect(page.locator('.score-entry').nth(1).locator('.avatar img')).toHaveCount(0);
+    expect(await noOverflow(page)).toBe(true);
+    await page.screenshot({path:'../previews/ranking-avatars-web-'+size.width+'.png',fullPage:true});
+  }
+  await page.getByText('Players near you',{exact:true}).click();
+  await expect(page.locator('.nearby-player .avatar img')).toHaveCount(1);
+  await expect(page.locator('.nearby-player').nth(1).locator('.avatar')).toHaveText('N');
+  expect(errors).toEqual([]);
+});

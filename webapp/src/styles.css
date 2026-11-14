@@ -35,3 +35,10 @@
 
 /* Mint marks action and earned progress; selections and artwork stay lavender. */
 .calendar article.today{border-color:#a8dccb99;background:linear-gradient(155deg,#2c4a476e,#192d32cc)}.calendar article.today>svg,.calendar article.claimed>svg{color:var(--mint)}.calendar article.today>.eyebrow{color:var(--mint)}.mission-footer>span,.event-mission-progress small{color:var(--mint)}.button.primary.danger{background:#e3b5ce;border-color:#f1d7e4;color:var(--action-ink)}.button.primary.danger:hover:not(:disabled){background:#efd0e1;box-shadow:0 3px 25px #e3b5ce26}.button.primary.danger:active:not(:disabled){background:#ce9bb8}
+
+/* Keep ranking portraits visible without squeezing long names off mobile rows. */
+.score-entry .avatar{width:38px;height:38px}
+.nearby-player{display:flex;align-items:center;gap:14px;padding:12px 0}
+.nearby-player>strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nearby-player>span:last-child{margin-left:auto;white-space:nowrap}
+@media(max-width:650px){.score-entry>span:first-child{gap:7px}.score-entry .avatar{width:30px;height:30px}.score-entry .avatar>span{border-radius:9px;font-size:14px}.rank-number{flex-shrink:0}.nearby-player{gap:10px}}

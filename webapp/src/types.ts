@@ -12,7 +12,7 @@ export interface Operation { key: string; request_id: string; status: string; ki
 export interface Inventory { enabled: boolean; items: Item[]; operation: Operation | null; decks?: Record<string, string[]>; progression?: Progress }
 export interface StarBalance { status: string; balance?: string; pending?: string; wallet_address?: string; chain_id?: number; contract_address?: string }
 export interface RecordScore { song_id: string; title: string; difficulty: string; score: number; max_combo: number; accuracy: number; rank: string; achieved_at: number }
-export interface BoardEntry extends RecordScore { user_id: string; username: string; position: number }
+export interface BoardEntry extends RecordScore { user_id: string; username: string; position: number; avatar?: Photo | null }
 export interface Player { id: string; username: string; avatar: Photo | null; following: boolean; follows_you: boolean; friend: boolean; online: boolean; blocked_by_me: boolean; can_chat: boolean; activity: string }
 export interface Conversation { peer: Player; last_text: string; unread: number; last_at: number; seq: number }
 export interface Social { counts: {followers: number; following: number; friends: number}; online_friends: Player[]; conversations: Conversation[]; unread: number }

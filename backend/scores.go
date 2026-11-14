@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"math"
 	"time"
@@ -65,6 +66,7 @@ type boardEntry struct {
 	UserID   string `json:"user_id"`
 	Username string `json:"username"`
 	Position int    `json:"position"`
+	Avatar   any    `json:"avatar"`
 }
 type boardResult struct {
 	OnChain map[string]any `json:"on_chain,omitempty"`
@@ -93,7 +95,7 @@ func (b *personalBest) decorate() {
 	}
 }
 
-const bestFields = ` RETURN u.id,u.username,b.song_id,b.difficulty,b.revision,b.score,b.max_combo,b.achieved_at,coalesce(b.accuracy,b.score) `
+const bestFields = ` RETURN u.id,u.username,b.song_id,b.difficulty,b.revision,b.score,b.max_combo,b.achieved_at,coalesce(b.accuracy,b.score),coalesce(u.profile_media,'') `
 const boardOrder = ` ORDER BY b.score DESC,b.max_combo DESC,b.achieved_at ASC,u.id ASC `
 
 func (s *graphStore) scoreRows(query string, params map[string]interface{}, offset int) ([]boardEntry, error) {
@@ -103,7 +105,7 @@ func (s *graphStore) scoreRows(query string, params map[string]interface{}, offs
 	}
 	rows := []boardEntry{}
 	for r.Next() {
-		values := make([]interface{}, 9)
+		values := make([]interface{}, 10)
 		for i := range values {
 			values[i], _ = r.Record().GetByIndex(i)
 		}
@@ -121,7 +123,16 @@ func (s *graphStore) scoreRows(query string, params map[string]interface{}, offs
 		}
 		b := personalBest{Verification: 2, SongID: song, Difficulty: difficulty, Revision: revision, Score: int(score), Accuracy: float64(accuracy) / 10000, MaxCombo: int(combo), AchievedAt: achieved}
 		b.decorate()
-		rows = append(rows, boardEntry{personalBest: b, UserID: id, Username: username, Position: offset + len(rows) + 1})
+		entry := boardEntry{personalBest: b, UserID: id, Username: username, Position: offset + len(rows) + 1}
+		// Read the current avatar alongside the score; no per-player profile query.
+		// Optional missing/corrupt media must never hide a valid ranked score.
+		if raw, ok := values[9].(string); ok && raw != "" {
+			var media profileMedia
+			if json.Unmarshal([]byte(raw), &media) == nil && media.Avatar != "" {
+				entry.Avatar = mediaView(id, media)["avatar"]
+			}
+		}
+		rows = append(rows, entry)
 	}
 	return rows, nil
 }

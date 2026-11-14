@@ -260,3 +260,69 @@ func TestLeaderboardNearbyAndRevisionIsolation(t *testing.T) {
 		t.Fatal("old revision ranked with the current chart")
 	}
 }
+
+func TestLeaderboardUsesCurrentAvatarWithoutExposingGallery(t *testing.T) {
+	s := testStore(t)
+	app := photoTestApp(t, s, t.TempDir())
+	token, owner := photoLogin(t, app, "RankPhoto")
+	other, otherID := photoLogin(t, app, "RankDefault")
+	chart := firstChart()
+	rankedClear(t, app, s, token, owner, chart, strings.Repeat("P", chart.Units))
+	rankedClear(t, app, s, other, otherID, chart, strings.Repeat("P", chart.Units-1)+"M")
+	checkAvatar := func(want any) {
+		t.Helper()
+		board := getBoard(t, app, token, chart)
+		for _, section := range []string{"top", "nearby"} {
+			rows := board[section].([]any)
+			if len(rows) != 2 || rows[0].(map[string]any)["user_id"] != owner {
+				t.Fatalf("%s avatar change altered score ordering", section)
+			}
+			for _, raw := range rows {
+				row := raw.(map[string]any)
+				expected := want
+				if row["user_id"] != owner {
+					expected = nil
+				}
+				got, _ := json.Marshal(row["avatar"])
+				expectedJSON, _ := json.Marshal(expected)
+				if string(got) != string(expectedJSON) {
+					t.Fatalf("%s avatar: got %s, want %s", section, got, expectedJSON)
+				}
+				for _, private := range []string{"gallery", "profile_media", "password_hash", "wallet"} {
+					if _, leaked := row[private]; leaked {
+						t.Fatalf("ranking leaked %s", private)
+					}
+				}
+			}
+		}
+		got, _ := json.Marshal(board["me"].(map[string]any)["avatar"])
+		wantJSON, _ := json.Marshal(want)
+		if string(got) != string(wantJSON) {
+			t.Fatal("own ranking has a different avatar")
+		}
+	}
+	checkAvatar(nil)
+	status, raw := photoCall(t, app, "POST", "/api/v1/profile/media/gallery", token, photoBytes(t))
+	requireStatus(t, status, 200)
+	checkAvatar(nil) // A gallery picture is not the player's display picture.
+	var avatar map[string]any
+	for range 2 {
+		status, raw = photoCall(t, app, "POST", "/api/v1/profile/media/avatar", token, photoBytes(t))
+		requireStatus(t, status, 200)
+		next := mediaResult(t, raw)["avatar"].(map[string]any)
+		if avatar != nil && next["url"] == avatar["url"] {
+			t.Fatal("replacement reused the old photo URL")
+		}
+		avatar = next
+		checkAvatar(avatar)
+		status, _ = photoCall(t, app, "GET", avatar["url"].(string), other, nil)
+		requireStatus(t, status, 200)
+	}
+	status, _ = photoCall(t, app, "DELETE", "/api/v1/profile/media/avatar/"+avatar["id"].(string), token, nil)
+	requireStatus(t, status, 200)
+	checkAvatar(nil)
+	if _, err := s.query(`MATCH (u:User {id:$id}) SET u.profile_media='invalid-json' RETURN u.id`, map[string]interface{}{"id": owner}); err != nil {
+		t.Fatal(err)
+	}
+	checkAvatar(nil) // Broken optional media never removes a valid score.
+}

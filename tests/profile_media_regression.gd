@@ -97,8 +97,40 @@ func build_and_capture(public_view: bool) -> void:
 		view.set_tab("gallery")
 		check(view.body.find_child("AddGalleryPhoto", true, false) == null and view.body.find_child("RemoveGalleryPhoto_0", true, false) == null, "Public gallery has no edit controls")
 		await capture("player-gallery-public-20-9.png")
+	await check_ranking_avatars()
 	menu.queue_free()
 	await create_timer(0.2).timeout
+
+
+func check_ranking_avatars() -> void:
+	menu._close_profile()
+	menu._open_leaderboard(SongCatalog.SONGS[0], "Easy")
+	var ranking: LeaderboardView = menu._dialog as LeaderboardView
+	var deadline: int = Time.get_ticks_msec() + 12000
+	while ranking.loading and Time.get_ticks_msec() < deadline: await process_frame
+	check(not ranking.loading and ranking.error_message.is_empty(), "Ranking API loads")
+	# UI fixtures only: no fabricated score is submitted to the API.
+	var own: Dictionary = {"user_id":account_id,"username":"gallery_player","position":1,"score":1000000,"accuracy":99.2,"max_combo":240,"rank":"S+","avatar":GameServices.photos().media.avatar}
+	var no_photo: Dictionary = {"user_id":"fixture","username":"PlayerWithoutPhoto","position":2,"score":987000,"accuracy":98.0,"max_combo":230,"rank":"S+","avatar":null}
+	var rows: Array[Dictionary] = [own, no_photo]
+	ranking.board = {"top":rows,"nearby":rows,"me":own,"total":2}
+	ranking._render()
+	await process_frame
+	var photo: ProfilePhoto = ranking.body.find_child("RankingAvatarPhoto", true, false) as ProfilePhoto
+	check(photo != null and photo._image.texture != null, "Top ranking displays the uploaded avatar through the authenticated cache")
+	var second: Button = ranking.body.find_child("Rank_2", true, false) as Button
+	check(second.find_child("AvatarFallback", true, false) != null and second.find_child("RankingAvatarPhoto", true, false) == null, "Player without a photo keeps the default avatar")
+	check(photo.mouse_filter == Control.MOUSE_FILTER_IGNORE and photo._image.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Avatar does not intercept the ranking profile tap")
+	await capture("leaderboard-avatars-20-9.png")
+	(ranking.body.get_node("NearMe") as Button).pressed.emit()
+	await process_frame
+	photo = ranking.body.find_child("RankingAvatarPhoto", true, false) as ProfilePhoto
+	check(photo != null and photo._image.texture != null, "Near Me also displays the uploaded avatar")
+	(ranking.body.find_child("Rank_1", true, false) as Button).pressed.emit()
+	deadline = Time.get_ticks_msec() + 12000
+	while ranking._opening_player and Time.get_ticks_msec() < deadline: await process_frame
+	check(is_instance_valid(ranking._public_view), "Ranking with an avatar still opens the player profile")
+	menu._close_dialog()
 
 func warm_photos() -> void:
 	var service: ProfileMediaService = GameServices.photos()
