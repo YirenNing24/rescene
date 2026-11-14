@@ -43,6 +43,7 @@ var _visible_judge: RhythmJudge
 var _visible_approach: float = -1.0
 var _ribbon_indices: Dictionary[int, PackedInt32Array] = {}
 var fireworks: RhythmHitEffects
+var road_lights: RhythmRoadLights
 
 
 func _ready() -> void:
@@ -50,6 +51,9 @@ func _ready() -> void:
 	_color_rng.randomize()
 	_fx_rng.randomize()
 	reset_note_colors()
+	road_lights = RhythmRoadLights.new()
+	road_lights.highway = self
+	add_child(road_lights)
 	combo_effects = RhythmComboEffects.new()
 	combo_effects.highway = self
 	add_child(combo_effects)
@@ -68,6 +72,7 @@ func _ready() -> void:
 
 func reset_presses() -> void:
 	_press_times.fill(-10.0)
+	if is_instance_valid(road_lights): road_lights.reset()
 
 
 func press(lane: float) -> void:
@@ -173,21 +178,14 @@ func visible_notes() -> Array[Dictionary]:
 
 func _draw_road() -> void:
 	var excitement: float = game.momentum_visual / 3.0
-	var accent: Color = RhythmMomentum.color(game.momentum_visual)
+	var accent: Color = RhythmRoadLights.rail_color(game.momentum_visual)
 	var shimmer: float = 0.92 + 0.08 * sin(game.visual_age * 4.0)
 	var bottom_y: float = HIT_Y + 120.0
 	var bottom_width: float = road_width_at_y(bottom_y)
 	var surface: PackedVector2Array = PackedVector2Array([
 		Vector2(CENTER_X - TOP_WIDTH * 0.5, TOP_Y), Vector2(CENTER_X + TOP_WIDTH * 0.5, TOP_Y),
 		Vector2(CENTER_X + bottom_width * 0.5, bottom_y), Vector2(CENTER_X - bottom_width * 0.5, bottom_y)])
-	# Broad feathered side washes tint the environment with no extra screen pass.
-	if excitement > 0.001:
-		for side: float in [-1.0, 1.0]:
-			var top: Vector2 = Vector2(CENTER_X + side * TOP_WIDTH * 0.5, TOP_Y)
-			var bottom: Vector2 = Vector2(CENTER_X + side * bottom_width * 0.5, bottom_y)
-			draw_polygon(PackedVector2Array([top, bottom, bottom + Vector2(side * 450.0, 0.0), top + Vector2(side * 310.0, 0.0)]),
-				PackedColorArray([Color(accent, 0.0), Color(accent, excitement * 0.28 * shimmer), Color(accent, 0.0), Color(accent, 0.0)]))
-	draw_colored_polygon(surface, Color(0.025, 0.03, 0.085, 0.88).lerp(Color(accent * 0.16, 0.9), excitement))
+	draw_colored_polygon(surface, Color(0.012, 0.02, 0.05, 0.95).lerp(Color(accent * 0.075, 0.96), excitement))
 	for lane: int in 5:
 		var start_x: float = CENTER_X - TOP_WIDTH * 0.5 + TOP_WIDTH / 5.0 * lane
 		var end_x: float = CENTER_X - bottom_width * 0.5 + bottom_width / 5.0 * lane
@@ -199,11 +197,11 @@ func _draw_road() -> void:
 		var start: Vector2 = Vector2(CENTER_X + (StrictData.number(line) / 5.0 - 0.5) * TOP_WIDTH, TOP_Y)
 		var finish: Vector2 = Vector2(CENTER_X + (StrictData.number(line) / 5.0 - 0.5) * bottom_width, bottom_y)
 		if line == 0 or line == 5:
-			draw_line(start, finish, Color(accent, 0.12 + excitement * 0.12 * shimmer), 24.0 + excitement * 10.0, true)
-			draw_line(start, finish, Color(Color("bfa8ff").lerp(accent, excitement), 0.5 + excitement * 0.25), 9.0, true)
-			draw_line(start, finish, Color("ebe8ff").lerp(accent.lightened(0.45), excitement), 2.5, true)
+			draw_line(start, finish, Color(accent, 0.16 + excitement * 0.10 * shimmer), 29.0 + excitement * 8.0, true)
+			draw_line(start, finish, Color(accent, 0.70 + excitement * 0.16), 10.0, true)
+			draw_line(start, finish, accent.lightened(0.65), 2.8, true)
 		else:
-			draw_line(start, finish, Color(accent, 0.12 + excitement * 0.08), 1.3, true)
+			draw_line(start, finish, Color(accent, 0.15 + excitement * 0.07), 1.3, true)
 	var beat: float = game.chart.get("quarter", 0.5)
 	var first: int = floori(game.song_time / beat)
 	for index: int in range(first, first + 12):
@@ -222,11 +220,10 @@ func _draw_road() -> void:
 		Vector2(CENTER_X - top_half, band_top), Vector2(CENTER_X + top_half, band_top),
 		Vector2(CENTER_X + bottom_half, band_bottom), Vector2(CENTER_X - bottom_half, band_bottom)])
 	draw_polygon(band, PackedColorArray([
-		Color(0.65, 0.48, 0.92, 0.09), Color(0.65, 0.48, 0.92, 0.09),
-		Color(0.43, 0.27, 0.75, 0.2), Color(0.43, 0.27, 0.75, 0.2)]))
-	draw_line(band[0], band[1], Color(0.8, 0.7, 1, 0.3), 1.5, true)
-	draw_line(band[3], band[2], Color(0.76, 0.6, 1, 0.1), 8.0, true)
-	draw_line(band[3], band[2], Color(0.8, 0.7, 1, 0.5), 2.0, true)
+			Color(accent, 0.07), Color(accent, 0.07), Color(accent, 0.18), Color(accent, 0.18)]))
+	draw_line(band[0], band[1], Color(accent.lightened(0.3), 0.35), 1.5, true)
+	draw_line(band[3], band[2], Color(accent, 0.1), 8.0, true)
+	draw_line(band[3], band[2], Color(accent.lightened(0.3), 0.6), 2.0, true)
 
 
 func _draw_ribbon(note: Dictionary, tint: Color, now: float) -> void:

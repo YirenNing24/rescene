@@ -40,12 +40,13 @@ func _ready() -> void:
 	set_process(false)
 
 func emit_burst(lane: float, tint: Color, sustain: bool, value: float = 1.0) -> void:
+	tint = tint.lerp(RhythmRoadLights.rail_color(highway.game.momentum_visual), 0.25).lightened(0.14)
 	if highway.effects.size() >= _pool.size():
 		var _oldest: Variant = highway.effects.pop_front()
 	var effect: Dictionary = _pool[_cursor]
 	_cursor = (_cursor + 1) % _pool.size()
 	effect.lane = lane; effect.color = tint; effect.born = highway.game.visual_age
-	effect.power = 0.38 if sustain else 1.0
+	effect.power = 0.42 if sustain else 1.12
 	effect.velocity_scale = 0.5 if sustain else 1.0
 	effect.count = (6 if sustain else (24 if value >= 0.8 else 16)) if highway.game.mobile_rendering else (12 if sustain else (48 if value >= 0.8 else 32))
 	highway.effects.append(effect)
@@ -84,6 +85,11 @@ func _draw() -> void:
 		var flash: float = pow(maxf(0.0,1.0-age/0.2),2.0)*StrictData.number(effect.power)
 		_sprite(_glow,origin,Vector2(260,95)*highway.ROAD_SCALE,Color(tint,flash*0.75))
 		_sprite(_glow,origin,Vector2(100,34)*highway.ROAD_SCALE,Color(tint.lerp(Color.WHITE,0.6),flash*0.8))
+		if flash > 0.01:
+			for axis: Vector2 in [Vector2(1.0, 0.12), Vector2(0.28, -0.6)]:
+				var arm: Vector2 = axis * (34.0 + age * 160.0) * highway.ROAD_SCALE
+				star_points.append_array(PackedVector2Array([origin - arm, origin + arm]))
+				var _flash_color: bool = star_colors.append(Color(tint.lightened(0.6), flash * 0.85))
 		var particles: Array = StrictData.array(effect.particles)
 		var count: int = StrictData.integer(effect.count)
 		for index: int in count:

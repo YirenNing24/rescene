@@ -31,6 +31,7 @@ func verify() -> void:
 	check(visible_pillars() == 0, "Combos below ten must not create a pillar")
 	hit(9)
 	check(visible_pillars() == 1 and effects._cursor == 1, "The tenth actual judgment must create one pillar")
+	check(is_equal_approx(stage.highway.road_lights._surge_born, stage.visual_age), "Combo milestones must send a surge through the side lights")
 	var base: Vector2 = effects._sprites[0].position + effects._sprites[0].scale * effects.FRAME_SIZE * Vector2(0.5, effects.BASE_UV)
 	check(base.is_equal_approx(stage.highway.project(0.0, 0.0)), "The pillar must originate on the judged catcher")
 	effects.on_judgment(10, 0.0, 1.0)
@@ -61,6 +62,7 @@ func verify() -> void:
 	check(visible_pillars() == 0, "Finished pillars must become invisible")
 	stage.retry_stage()
 	check(visible_pillars() == 0 and effects._last_combo == 0 and effects._cursor == 0, "Retry must clear milestone state")
+	check(stage.highway.road_lights._surge_born < 0.0, "Retry must clear the previous run's road surge")
 	print("Combo pillar integration: ", "PASS" if failures == 0 else str(failures) + " FAILURES")
 	menu.queue_free()
 	await create_timer(0.2).timeout

@@ -17,6 +17,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--godot', required=True)
     parser.add_argument('--render', action='store_true')
+    parser.add_argument('--render-output', default='res://builds/gameplay-corrected.json')
+    parser.add_argument('--max-momentum', action='store_true')
     args = parser.parse_args()
     run_received = threading.Event()
     wallet_started = threading.Event()
@@ -60,10 +62,12 @@ def main():
 
     def run(script, environment, render=False):
         command = [args.godot, '--path', str(ROOT), '--script', script]
-        command += ['--resolution', '1600x720', '--', 'res://builds/gameplay-corrected.json'] if render else ['--headless']
+        command += ['--resolution', '1600x720', '--', args.render_output] if render else ['--headless']
+        if render and args.max_momentum:
+            command.append('--max-momentum')
         result = subprocess.run(command, env=environment, stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT, text=True, timeout=90)
-        log = ROOT / 'builds' / ('gameplay-corrected.log' if render else 'gameplay-start.log')
+        log = ROOT / 'builds' / (Path(args.render_output).stem + '.log' if render else 'gameplay-start.log')
         log.write_text(result.stdout)
         if result.returncode or 'ERROR:' in result.stdout:
             print(result.stdout[-6000:])

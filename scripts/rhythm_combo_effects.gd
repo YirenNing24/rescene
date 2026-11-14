@@ -44,10 +44,12 @@ func on_judgment(combo: int, lane: float, value: float) -> void:
 	var previous: int = _last_combo
 	_last_combo = combo
 	if value <= 0.0 or combo <= previous or combo == 0 or combo % 10 != 0: return
+	if is_instance_valid(highway.road_lights): highway.road_lights.milestone()
 	var slot: int = _cursor
 	_cursor = (_cursor + 1) % MAX_PILLARS
 	var origin: Vector2 = highway.project(clampf(lane, 0.0, 4.0), 0.0)
 	_sprites[slot].position = origin - Vector2(PILLAR_SIZE.x * 0.5, PILLAR_SIZE.y * BASE_UV) * highway.ROAD_SCALE
+	_sprites[slot].modulate = RhythmRoadLights.rail_color(highway.game.momentum_visual).lightened(0.3)
 	_born[slot] = highway.game.visual_age
 	_set_frame(slot, 0)
 	_sprites[slot].show()

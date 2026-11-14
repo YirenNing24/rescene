@@ -70,6 +70,9 @@ func render_stress(song: Dictionary, report: Dictionary) -> void:
 	stage.judge.step(40.0, 0.0)
 	stage.deck_showcase.configure(["pulse_900","pulse_901","pulse_902","pulse_903","pulse_904"])
 	stage.highway._fx_rng.seed = 42
+	if OS.get_cmdline_user_args().has("--max-momentum"):
+		stage.judge.combo = 85
+		stage.momentum_visual = 3.0
 	Engine.max_fps = 0
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	var frames: Array[float] = []

@@ -80,3 +80,22 @@ The backend reads five equipped cards concurrently at one confirmed block,
 validates their member/set identities, and retains atomic server energy spending.
 The local fixture blocks a wallet read until the start request arrives; it also
 checks token expiry, 401 recovery and account changes during a request.
+
+## Arcade road lighting (0.1.25)
+
+The November 14 road uses a fixed 104-vertex side-wall mesh, batched diagonal
+beams, four flowing curves and 32 light streaks on mobile (44 on desktop).
+The center remains dark for note contrast. Rails, catchers and neutral baked
+pillars transition through mint, cyan, violet and champagne gold with momentum.
+Every ten combo triggers a short side-wall surge. Hit flashes use the existing
+spark batches, and hold vortices reuse their compressed atlas with a brighter tint.
+No new procedural fragment shader, render target, or particle-node pool is added.
+The road clock freezes with pause and clears the surge on retry.
+
+The same local mobile stress workload measured 4.536 ms mean / 6.044 ms p95 at
+base momentum (about 109 draw calls), and 4.701 ms mean / 7.278 ms p95 at max
+momentum (about 112 draw calls). These are desktop GPU measurements, not a phone
+FPS guarantee. Both runs completed with no engine/script errors. Use
+`--render-output res://builds/road-after.json` and `--max-momentum` with the runtime
+test wrapper to record the two states separately. `tools/capture_arcade_road.gd`
+captures all four palettes through the Android 720p rendering path.

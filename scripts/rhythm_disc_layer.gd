@@ -25,8 +25,8 @@ func _draw() -> void:
 		return
 	if catchers:
 		for lane: int in 5:
-			var tint: Color = Color("b8abcd")
-			tint.a = 0.25 + highway.catcher_strength(lane) * 0.75
+			var tint: Color = RhythmRoadLights.rail_color(highway.game.momentum_visual).lerp(Color("e8e3ff"), 0.35)
+			tint.a = 0.38 + highway.catcher_strength(lane) * 0.62
 			_disc(highway.project(lane, 0.0), highway.CATCHER_RADIUS, tint)
 		return
 	var now: float = highway.game.song_time

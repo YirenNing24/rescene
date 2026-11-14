@@ -13,7 +13,10 @@ func bake() -> void:
 	var _created: Error = DirAccess.make_dir_recursive_absolute("res://assets/effects")
 	var pillar: String = FileAccess.get_file_as_string("res://shaders/combo_pillar.gdshader")
 	pillar = pillar.replace("blend_add", "blend_premul_alpha").replace("vec4(light / coverage, coverage)", "vec4(light, coverage)")
+	# Neutral light supports mint/cyan/violet/gold vertex tints without new atlases.
+	pillar = pillar.replace("float coverage =", "light = vec3(max(light.r, max(light.g, light.b)));\n\tfloat coverage =")
 	await atlas(pillar, Vector2i(128,256), "pillar", [Color.WHITE], 0.52)
+	if OS.get_cmdline_user_args().has("--pillar-only"): quit(); return
 	var vortex: String = FileAccess.get_file_as_string("res://shaders/sustain_vortex.gdshader")
 	vortex = vortex.replace("blend_add", "blend_premul_alpha").replace("age * 26.0 + seed", "age * 27.64601535 + seed")
 	vortex = vortex.replace("COLOR = vec4(light * strength * bounds, 1.0);", "vec3 light_out = light * strength * bounds; float coverage = clamp(max(light_out.r, max(light_out.g, light_out.b)), 0.0, 1.0); COLOR = vec4(light_out, coverage);")

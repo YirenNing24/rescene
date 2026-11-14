@@ -84,7 +84,7 @@ func _process(_delta: float) -> void:
 			_sprites[slot].hide()
 			continue
 		var age: float = maxf(0.0, now - _born[slot])
-		_sprites[slot].modulate.a = smoothstep(0.0, ATTACK, age) * release_strength
+		_sprites[slot].modulate = Color(1.12, 1.12, 1.12, smoothstep(0.0, ATTACK, age) * release_strength)
 		var frame: int = floori(fposmod(age + float(_ids[slot]) * 0.037, CYCLE_SECONDS) / CYCLE_SECONDS * FRAMES)
 		var tile: int = _palettes[slot] * FRAMES + frame
 		if _frames[slot] != tile:

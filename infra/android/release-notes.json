@@ -17,5 +17,6 @@
   "0.1.21": "Tap card artwork to open a larger, uncropped view in the shop, Collection, equipped decks, profile and featured previews. Close it with Back, the centered close button, or a tap outside the card.",
   "0.1.22": "Adds a soft mint accent to Play, Start, login, claims, checkout, energy use and other action buttons. XP, mission progress and daily rewards use mint highlights; selected tabs and card accents retain lavender.",
   "0.1.23": "Reduces gameplay stutter during dense notes, combo light pillars, long-note vortices and card transitions. Improves HUD updates while retaining the 20:9 layout, 720p gameplay render target, note timing and scoring.",
-  "0.1.24": "Fixes repeated firework rendering errors and restores spark trails. Song starts bypass unrelated wallet requests, and the server checks equipped cards in parallel at the same confirmed block. Clarifies the connection step before countdown."
+  "0.1.24": "Fixes repeated firework rendering errors and restores spark trails. Song starts bypass unrelated wallet requests, and the server checks equipped cards in parallel at the same confirmed block. Clarifies the connection step before countdown.",
+  "0.1.25": "Adds animated arcade light walls, flowing side streams and brighter mint-to-gold road rails. Combo milestones surge through the environment, with matching pillars and catchers, sharper hit flashes and brighter hold vortices. Note timing, scoring and the 720p mobile render target are unchanged."
 }
