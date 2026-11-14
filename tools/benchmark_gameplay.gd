@@ -64,9 +64,11 @@ func render_stress(song: Dictionary, report: Dictionary) -> void:
 		if note.time < 38.0: note.state = 2; stress_notes.append(note)
 	for lane: int in 5:
 		stress_notes.append({"id":stress_notes.size(),"time":39.0,"duration":4.0,"lane":float(lane),"kind":"slide","curve":[{"at":0.0,"lane":float(lane)},{"at":1.0,"lane":float(lane)}],"checkpoints":[43.0],"next_tick":0,"state":1,"owner":lane,"gap":0.0})
+	for lane: int in 5:
+		stress_notes.append({"id":stress_notes.size(),"time":40.0 + float(lane) * 0.1,"duration":0.0,"lane":float(lane),"kind":"swipe","curve":[],"checkpoints":[],"next_tick":0,"state":0,"owner":-999,"gap":0.0})
 	stage.judge.setup({"notes":stress_notes,"duration":100.0})
 	for lane: int in 5:
-		stage.judge.pointers[lane] = {"lane":float(lane),"keyboard":false}
+		stage.judge.pointers[lane] = {"lane":float(lane),"keyboard":false,"y":-1}
 	stage.judge.step(40.0, 0.0)
 	stage.deck_showcase.configure(["pulse_900","pulse_901","pulse_902","pulse_903","pulse_904"])
 	stage.highway._fx_rng.seed = 42

@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const replayVersion = 4
+const replayVersion = 5
 
 // Timing rules are pinned to the server-issued ticket. Keep installed v3 APKs
 // on their original rules while v4 gets slightly more forgiving collection.
@@ -14,7 +14,9 @@ type replayRules struct {
 	perfect, great, hit, trace, release float64
 }
 
-func supportedReplayVersion(version int) bool { return version == 3 || version == replayVersion }
+func supportedReplayVersion(version int) bool {
+	return version == 3 || version == 4 || version == replayVersion
+}
 func rulesForReplay(version int) replayRules {
 	if version == 3 {
 		return replayRules{0.045, 0.09, 0.15, 0.62, 0.12}
@@ -52,8 +54,12 @@ type replayState struct {
 	perfect            bool
 }
 type replayPointer struct {
-	lane     float64
-	keyboard bool
+	lane       float64
+	keyboard   bool
+	y, anchorY int
+	anchorUS   int64
+	anchorLane float64
+	swipeUsed  bool
 }
 type replayJudge struct {
 	rules                 replayRules
@@ -144,7 +150,7 @@ func (j *replayJudge) advance(us int64) {
 			} else if n.state == 1 {
 				lane := n.laneAt(t)
 				p, held := j.pointers[n.owner]
-				valid := held && math.Abs(p.lane-lane) <= j.rules.trace
+				valid := held && math.Abs(p.lane-lane) <= j.rules.trace && (p.y < 0 || p.y >= 6389 && p.y <= 9815)
 				if n.owner <= -100 && !valid {
 					ids := make([]int, 0, len(j.pointers))
 					for id := range j.pointers {
@@ -193,11 +199,11 @@ func (j *replayJudge) press(id int, lane float64) {
 	if j.dead {
 		return
 	}
-	j.pointers[id] = replayPointer{lane: lane, keyboard: id <= -100}
+	j.pointers[id] = replayPointer{lane: lane, keyboard: id <= -100, y: -1, anchorY: -1, anchorUS: j.timeUS, anchorLane: lane}
 	best, nearest := -1, j.rules.hit+0.001
 	t := float64(j.timeUS) / 1000000
 	for i, n := range j.notes {
-		if n.state != 0 || math.Abs(n.Lane-lane) > j.rules.trace {
+		if n.Kind == "swipe" || n.state != 0 || math.Abs(n.Lane-lane) > j.rules.trace {
 			continue
 		}
 		d := math.Abs(n.Time - t)
@@ -234,6 +240,53 @@ func (j *replayJudge) press(id int, lane float64) {
 		n.gap = 0
 	}
 }
+
+// Vertical coordinates use 10,000 units over the stage height. A fresh touch
+// or downward reset supplies an origin; one upward stroke resolves one head.
+func (j *replayJudge) vertical(id, y int) {
+	p := j.pointers[id]
+	previous := p.y
+	p.y = y
+	if previous < 0 || y >= p.anchorY || math.Abs(p.lane-p.anchorLane) > j.rules.trace {
+		p.anchorY, p.anchorLane, p.anchorUS = y, p.lane, j.timeUS
+		j.pointers[id] = p
+		return
+	}
+	if j.timeUS-p.anchorUS > 220000 {
+		p.anchorY, p.anchorLane, p.anchorUS = previous, p.lane, j.timeUS
+	}
+	j.pointers[id] = p
+	if j.dead || j.timeUS-p.anchorUS < 8000 || p.swipeUsed || p.anchorY < 6389 || p.anchorY > 9815 || p.anchorY-y < 450 || float64(p.anchorY-y) < math.Abs(p.lane-p.anchorLane)*3630 {
+		return
+	}
+	best, nearest := -1, j.rules.hit+0.001
+	t := float64(j.timeUS) / 1000000
+	for i, n := range j.notes {
+		if n.Time > t+j.rules.hit {
+			break
+		}
+		if n.Kind != "swipe" || n.state != 0 || math.Abs(n.Lane-p.lane) > j.rules.trace {
+			continue
+		}
+		if d := math.Abs(n.Time - t); d <= j.rules.hit && d < nearest {
+			best, nearest = i, d
+		}
+	}
+	if best < 0 {
+		return
+	}
+	p.swipeUsed = true
+	j.pointers[id] = p
+	j.notes[best].state = 2
+	kind := "GOOD"
+	if nearest <= j.rules.perfect {
+		kind = "PERFECT"
+	} else if nearest <= j.rules.great {
+		kind = "GREAT"
+	}
+	j.hit(kind, true, 0, false)
+}
+
 func (j *replayJudge) suspend() {
 	j.paused = true
 	clear(j.pointers)
@@ -303,6 +356,11 @@ func verifyInputReplay(r *inputReplay, run runTicket, chart rewardChart) (*repla
 			}
 			pointer.lane = float64(x) / 10000
 			j.pointers[int(id)] = pointer
+		case 4:
+			if r.Version < 5 || !held || id < -1 || x < 0 || x > 10000 {
+				return nil, badProgress("Invalid replay vertical movement.")
+			}
+			j.vertical(int(id), int(x))
 		case 2:
 			if !held || x != 0 {
 				return nil, badProgress("Invalid replay release.")

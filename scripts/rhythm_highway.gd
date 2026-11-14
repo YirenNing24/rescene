@@ -42,6 +42,7 @@ var _visible_generation: int = -1
 var _visible_judge: RhythmJudge
 var _visible_approach: float = -1.0
 var _ribbon_indices: Dictionary[int, PackedInt32Array] = {}
+var swipe_notes: RhythmSwipeNotes
 var fireworks: RhythmHitEffects
 var road_lights: RhythmRoadLights
 
@@ -62,6 +63,9 @@ func _ready() -> void:
 		layer.highway = self
 		layer.catchers = catchers
 		add_child(layer)
+	swipe_notes = RhythmSwipeNotes.new()
+	swipe_notes.highway = self
+	add_child(swipe_notes)
 	sustain_effects = RhythmSustainEffects.new()
 	sustain_effects.highway = self
 	add_child(sustain_effects)
@@ -96,6 +100,7 @@ func reset_note_colors() -> void:
 
 
 func note_color(note: Dictionary) -> Color:
+	if note.kind == "swipe": return Color("a2f5d8")
 	var id: int = note.id
 	if not _note_colors.has(id):
 		_note_colors[id] = NOTE_PALETTE[_color_rng.randi_range(0, NOTE_PALETTE.size() - 1)]
@@ -152,7 +157,7 @@ func _draw() -> void:
 	for index: int in range(notes.size() - 1, -1, -1):
 		var note: Dictionary = notes[index]
 		var color: Color = note_color(note)
-		if note.kind != "tap":
+		if note.kind in ["hold", "slide"]:
 			_draw_ribbon(note, color, now)
 
 

@@ -18,12 +18,17 @@ func verify() -> void:
 		while next < stage.judge.notes.size() and stage.judge.notes[next].time <= time:
 			var note: Dictionary = stage.judge.notes[next]
 			var _hit: bool = stage.judge.press(next, StrictData.number(note.lane), StrictData.number(note.time))
-			if note.kind == "tap": stage.judge.release(next)
+			if note.kind == "swipe":
+				stage.judge.move_pointer(next, StrictData.number(note.lane), StrictData.number(note.time), 910.0)
+				stage.song_time = StrictData.number(note.time) + 0.04
+				stage.judge.move_pointer(next, StrictData.number(note.lane), stage.song_time, 840.0)
+				stage.judge.release(next)
+			elif note.kind == "tap": stage.judge.release(next)
 			next += 1
 		for note: Dictionary in stage.judge.notes:
 			if note.state == 1: stage.judge.move_pointer(StrictData.integer(note.owner), RhythmChart.lane_at(note, time))
 		stage.judge.step(time, 0.01); time += 0.01
-	check(stage._learned.has("tap") and stage._learned.has("hold") and stage._learned.has("slide"), "Tutorial requires catching actual taps and completing hold/curve tails")
+	check(stage._learned.has("tap") and stage._learned.has("hold") and stage._learned.has("slide") and stage._learned.has("swipe"), "Tutorial requires catching actual taps and completing hold/curve tails")
 	stage.finish_stage(false)
 	check(stage.phase == "results" and not stage._overlay is ResultsScreen, "Tutorial must have its own completion screen")
 	check(GameServices.progression().state == before, "Tutorial must never award player progression")

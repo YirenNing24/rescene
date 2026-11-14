@@ -291,15 +291,16 @@ func _input(event: InputEvent) -> void:
 			judge.release(StrictData.integer((event as InputEventScreenTouch).index), now)
 		elif (event as InputEventScreenTouch).pressed and _in_hit_area(point):
 			highway.press(highway.screen_lane(point))
-			var _bool_3: bool = judge.press(StrictData.integer((event as InputEventScreenTouch).index), highway.screen_lane(point), now)
+			var _bool_3: bool = judge.press(StrictData.integer((event as InputEventScreenTouch).index), highway.screen_lane(point), now, false, point.y)
 			get_viewport().set_input_as_handled()
 		elif not (event as InputEventScreenTouch).pressed:
+			judge.move_pointer(StrictData.integer((event as InputEventScreenTouch).index), _drag_lane(point), now, point.y)
 			judge.release(StrictData.integer((event as InputEventScreenTouch).index), now)
 	elif event is InputEventScreenDrag:
 		_last_touch_frame = Engine.get_process_frames()
 		var point: Vector2 = _local((event as InputEventScreenDrag).position)
 		if judge.pointers.has((event as InputEventScreenDrag).index):
-			judge.move_pointer(StrictData.integer((event as InputEventScreenDrag).index), highway.screen_lane(point) if _in_hit_area(point) else -10.0, now)
+			judge.move_pointer(StrictData.integer((event as InputEventScreenDrag).index), _drag_lane(point), now, point.y)
 			get_viewport().set_input_as_handled()
 	elif event is InputEventMouseButton and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		var point: Vector2 = _local((event as InputEventMouseButton).position)
@@ -312,7 +313,7 @@ func _input(event: InputEvent) -> void:
 			_mouse_press(StrictData.boolean((event as InputEventMouseButton).pressed), point, now)
 	elif event is InputEventMouseMotion and _mouse_down:
 		var point: Vector2 = _local((event as InputEventMouseMotion).position)
-		judge.move_pointer(-1, highway.screen_lane(point) if _in_hit_area(point) else -10.0, now)
+		judge.move_pointer(-1, _drag_lane(point), now, point.y)
 		get_viewport().set_input_as_handled()
 
 
@@ -325,12 +326,19 @@ func _mouse_press(pressed: bool, point: Vector2, now: float) -> void:
 	if pressed and _in_hit_area(point):
 		_mouse_down = true
 		highway.press(highway.screen_lane(point))
-		var _bool_4: bool = judge.press(-1, highway.screen_lane(point), now)
+		var _bool_4: bool = judge.press(-1, highway.screen_lane(point), now, false, point.y)
 		get_viewport().set_input_as_handled()
 	elif not pressed and _mouse_down:
 		_mouse_down = false
+		judge.move_pointer(-1, _drag_lane(point), now, point.y)
 		judge.release(-1, now)
 		get_viewport().set_input_as_handled()
+
+
+func _drag_lane(point: Vector2) -> float:
+	# Swipes can leave the collector vertically; ribbon validity checks Y too.
+	var lane: float = highway.screen_lane(point)
+	return lane if lane >= -1.0 and lane <= 5.0 else -10.0
 
 
 func _in_hit_area(point: Vector2) -> bool:
@@ -348,7 +356,7 @@ func _judged(label: String, lane: float, value: float, note_id: int) -> void:
 	if label == "MISS": _vibrate_miss()
 	if tutorial_mode and label != "MISS" and note_id >= 0 and note_id < judge.notes.size():
 		var note: Dictionary = judge.notes[note_id]
-		if note.kind == "tap": _learned["tap"] = true
+		if note.kind in ["tap", "swipe"]: _learned[str(note.kind)] = true
 		elif song_time >= StrictData.number(note.time) + StrictData.number(note.duration) - 0.1: _learned[str(note.kind)] = true
 	highway.hit(label, lane, value, note_id)
 	highway.combo_effects.on_judgment(judge.combo, lane, value)
@@ -612,16 +620,17 @@ static func _format_time(seconds: float) -> String:
 func _tutorial_caption() -> void:
 	if song_time < 11.0: _lesson.text = "1 / TAP  ·  Tap the matching circle as the note reaches it."
 	elif song_time < 20.0: _lesson.text = "2 / HOLD  ·  Keep pressing until the ribbon ends."
-	elif song_time < 31.0: _lesson.text = "3 / CURVE  ·  Keep your finger down and follow the ribbon."
-	elif song_time < 44.0: _lesson.text = "4 / MOMENTUM  ·  Build a streak for 2×, 3× and 5×.\nA miss resets momentum. Perfect hits activate your card bonuses."
+	elif song_time < 29.0: _lesson.text = "3 / CURVE  ·  Keep your finger down and follow the ribbon."
+	elif song_time < 35.0: _lesson.text = "4 / SWIPE  ·  See the floating arrow? Swipe UP at the matching circle.\nA tap will not collect this note."
+	elif song_time < 45.0: _lesson.text = "5 / MOMENTUM  ·  Build a streak for 2×, 3× and 5×.\nA miss resets momentum. Perfect hits activate your card bonuses."
 	else: _lesson.text = "Your album deck combines five members’ bonuses.\nCards gain XP from refinement items; your player earns XP from songs."
 
 func _finish_tutorial() -> void:
 	phase = "results"; audio.stop(); _count_label.hide()
-	var mastered: bool = _learned.has("tap") and _learned.has("hold") and _learned.has("slide")
+	var mastered: bool = _learned.has("tap") and _learned.has("hold") and _learned.has("slide") and _learned.has("swipe")
 	FirstPlay.mark_seen()
 	var window: Panel = _modal("Your stage awaits" if mastered else "Keep finding your rhythm", "TUTORIAL COMPLETE" if mastered else "TRY THE NOTES AGAIN")
-	var caption: String = "Tap %s   ·   Hold %s   ·   Curve %s" % ["✓" if _learned.has("tap") else "—", "✓" if _learned.has("hold") else "—", "✓" if _learned.has("slide") else "—"]
+	var caption: String = "Tap %s   ·   Hold %s   ·   Curve %s   ·   Swipe %s" % ["✓" if _learned.has("tap") else "—", "✓" if _learned.has("hold") else "—", "✓" if _learned.has("slide") else "—", "✓" if _learned.has("swipe") else "—"]
 	var _detail: Label = host._label(window, caption + "\n\nTutorial uses no energy and awards no records or rewards.", Rect2(42, 160, 636, 130), 24, LILAC)
 	var _retry: Button = host._button(window, "REPEAT TUTORIAL", Rect2(42, 320, 636, 66), func() -> void: _learned.clear(); retry_stage())
 	var _done: Button = host._button(window, "LET’S PLAY", Rect2(42, 410, 636, 66), func() -> void: return_to_library.emit(), true)

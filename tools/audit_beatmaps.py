@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def audit():
     charts=json.loads((ROOT/'backend/charts.json').read_text());results=[];errors=[]
     for c in charts:
-        notes=c['notes']; counts={k:sum(n['kind']==k for n in notes) for k in ['tap','hold','slide']}; issues=[]
+        notes=c['notes']; counts={k:sum(n['kind']==k for n in notes) for k in ['tap','hold','slide','swipe']}; issues=[]
         occupied=[];last={};chords={}
         for i,n in enumerate(notes):
             t=n['time'];lane=n['lane'];duration=n.get('duration',0)
@@ -16,7 +16,7 @@ def audit():
             for end,occupied_lane,kind in occupied:
                 if t<end-.01 and (kind=='slide' or occupied_lane==lane):issues.append(f'{i}: note conflicts with active ribbon')
             occupied=[v for v in occupied if v[0]>t]
-            if n['kind']!='tap':occupied.append((t+duration,lane,n['kind']))
+            if n['kind'] in ('hold','slide'):occupied.append((t+duration,lane,n['kind']))
             if n['kind']=='slide':
                 curve=n.get('curve',[])
                 if len(curve)<2 or curve[0]['at']!=0 or curve[-1]['at']!=1:issues.append(f'{i}: incomplete curve')

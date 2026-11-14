@@ -12,6 +12,7 @@ import math
 from pathlib import Path
 import subprocess
 from tune_beatmaps import tune
+from add_swipe_notes import add_swipes
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / "assets/beatmaps"
@@ -125,6 +126,7 @@ def build(song, level, analysis):
             "offset_seconds": round(offset, 6), "start_pos": 0, "duration_seconds": duration,
             "source": "offline_audio_beat_and_onset_analysis", "generated": True, "tracks": tracks}
     tune(chart)
+    add_swipes(chart)
     return chart
 
 

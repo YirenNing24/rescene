@@ -71,14 +71,14 @@ func verify() -> void:
 			charts_checked += 1
 			check(absf(StrictData.number(chart.duration - song.playable_seconds)) < 0.01,str("Chart must end at half the song: " + song.title))
 			var prior: float = -1.0
-			var kinds: Dictionary = {"tap": 0, "hold": 0, "slide": 0}
+			var kinds: Dictionary = {"tap": 0, "hold": 0, "slide": 0, "swipe": 0}
 			for note: Dictionary in chart.notes:
 				check(StrictData.boolean(note.time >= prior and note.time >= 0.0), "Notes must be sorted and nonnegative")
 				check(StrictData.boolean(note.time + note.duration <= chart.duration), "No note can extend past the audio cutoff")
 				check(StrictData.boolean(note.lane >= 0 and note.lane <= 4), "All notes must fit five lanes")
 				kinds[note.kind] += 1
 				prior = note.time
-			check(StrictData.boolean(kinds.tap > 0 and kinds.hold > 0 and kinds.slide > 0), "Every chart needs all three note mechanics")
+			check(StrictData.boolean(kinds.tap > 0 and kinds.hold > 0 and kinds.slide > 0 and kinds.swipe > 0), "Every chart needs all four note mechanics")
 			check(StrictData.array(chart.notes).size() >= previous_count,str("Higher difficulties must add density: " + song.title))
 			previous_count = StrictData.array(chart.notes).size()
 			# Auto-trace representative charts across all difficulty levels.

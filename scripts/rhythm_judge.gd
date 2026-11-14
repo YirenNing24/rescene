@@ -9,7 +9,12 @@ const GREAT_WINDOW: float = 0.105
 const HIT_WINDOW: float = 0.18
 const TRACE_TOLERANCE: float = 0.72
 const RELEASE_GRACE: float = 0.16
-const REPLAY_VERSION: int = 4
+const REPLAY_VERSION: int = 5
+# Vertical replay coordinates use 10,000 units over the 1080-high stage.
+const SWIPE_DISTANCE: int = 450
+const SWIPE_MAX_US: int = 220000
+const COLLECTOR_TOP: int = 6389
+const COLLECTOR_BOTTOM: int = 9815
 const TICK_HZ: int = 120
 const MAX_EVENTS: int = 24000
 
@@ -70,20 +75,21 @@ func setup(chart: Dictionary) -> void:
 		total_units += 1 + StrictData.array(note.checkpoints).size()
 
 
-func press(pointer_id: int, lane: float, time: float, keyboard: bool = false) -> bool:
+func press(pointer_id: int, lane: float, time: float, keyboard: bool = false, height: float = -1.0) -> bool:
 	_advance(time)
 	if dead or pointers.has(pointer_id) or pointers.size() >= 10: return false
 	keyboard = pointer_id <= -100
 	lane = StrictData.number(roundi(lane * 10000.0)) / 10000.0
 	_event(0, pointer_id, roundi(lane * 10000.0))
 	time = StrictData.number(_time_us) / 1000000.0
-	pointers[pointer_id] = {"lane": lane, "keyboard": keyboard}
+	pointers[pointer_id] = {"lane": lane, "keyboard": keyboard, "y":-1, "anchor_y":-1, "anchor_us":_time_us, "anchor_lane":lane, "swipe_used":false}
+	if height >= 0.0: _vertical(pointer_id, height)
 	var best: Dictionary = {}
 	var nearest: float = HIT_WINDOW + 0.001
 	for index: int in range(first_live, notes.size()):
 		var note: Dictionary = notes[index]
 		if note.time > time + HIT_WINDOW: break
-		if note.state != 0 or absf(StrictData.number(note.lane - lane)) > TRACE_TOLERANCE:
+		if note.kind == "swipe" or note.state != 0 or absf(StrictData.number(note.lane - lane)) > TRACE_TOLERANCE:
 			continue
 		var difference: float = absf(StrictData.number(note.time - time))
 		if difference <= HIT_WINDOW and difference < nearest:
@@ -112,16 +118,54 @@ func press(pointer_id: int, lane: float, time: float, keyboard: bool = false) ->
 	return true
 
 
-func move_pointer(pointer_id: int, lane: float, time: float = -1.0) -> void:
+func move_pointer(pointer_id: int, lane: float, time: float = -1.0, height: float = -1.0) -> void:
 	if time != -1.0: _advance(time)
-	if pointers.has(pointer_id):
-		lane = StrictData.number(roundi(lane * 10000.0)) / 10000.0
-		if is_equal_approx(StrictData.number(pointers[pointer_id].lane), lane): return
-		# Judge and capture the same bounded input stream, including gaming mice.
-		if _last_move_us.has(pointer_id) and _time_us - StrictData.integer(_last_move_us[pointer_id]) < 8000: return
-		_last_move_us[pointer_id] = _time_us
+	if not pointers.has(pointer_id): return
+	lane = StrictData.number(roundi(lane * 10000.0)) / 10000.0
+	# Vertical-only drags must still be captured. Rate-limit both axes together.
+	if _last_move_us.has(pointer_id) and _time_us - StrictData.integer(_last_move_us[pointer_id]) < 8000: return
+	_last_move_us[pointer_id] = _time_us
+	if not is_equal_approx(StrictData.number(pointers[pointer_id].lane), lane):
 		_event(1, pointer_id, roundi(lane * 10000.0))
 		pointers[pointer_id].lane = lane
+	if height >= 0.0: _vertical(pointer_id, height)
+
+
+func _vertical(pointer_id: int, height: float) -> void:
+	var pointer: Dictionary = pointers[pointer_id]
+	if pointer.keyboard: return
+	var y: int = clampi(roundi(height * 10000.0 / 1080.0), 0, 10000)
+	if y == StrictData.integer(pointer.y): return
+	_event(4, pointer_id, y)
+	var previous: int = StrictData.integer(pointer.y)
+	pointer.y = y
+	if previous < 0 or y >= StrictData.integer(pointer.anchor_y) or absf(StrictData.number(pointer.lane) - StrictData.number(pointer.anchor_lane)) > TRACE_TOLERANCE:
+		pointer.anchor_y = y
+		pointer.anchor_lane = pointer.lane
+		pointer.anchor_us = _time_us
+		return
+	if _time_us - StrictData.integer(pointer.anchor_us) > SWIPE_MAX_US:
+		pointer.anchor_y = previous
+		pointer.anchor_lane = pointer.lane
+		pointer.anchor_us = _time_us
+	if dead or _time_us - StrictData.integer(pointer.anchor_us) < 8000 or pointer.swipe_used or StrictData.integer(pointer.anchor_y) < COLLECTOR_TOP or StrictData.integer(pointer.anchor_y) > COLLECTOR_BOTTOM or StrictData.integer(pointer.anchor_y) - y < SWIPE_DISTANCE:
+		return
+	# One upward stroke can resolve one swipe head, with timing at collection.
+	var best: Dictionary = {}
+	var nearest: float = HIT_WINDOW + 0.001
+	var time: float = float(_time_us) / 1000000.0
+	for index: int in range(first_live, notes.size()):
+		var note: Dictionary = notes[index]
+		if note.time > time + HIT_WINDOW: break
+		if note.kind != "swipe" or note.state != 0 or absf(StrictData.number(note.lane) - StrictData.number(pointer.lane)) > TRACE_TOLERANCE: continue
+		var difference: float = absf(StrictData.number(note.time) - time)
+		if difference <= HIT_WINDOW and difference < nearest: best = note; nearest = difference
+	if best.is_empty(): return
+	if float(StrictData.integer(pointer.anchor_y) - y) < absf(StrictData.number(pointer.lane) - StrictData.number(pointer.anchor_lane)) * 3630.0: return
+	pointer.swipe_used = true
+	best.state = 2
+	var label: String = "PERFECT" if nearest <= PERFECT_WINDOW else ("GREAT" if nearest <= GREAT_WINDOW else "GOOD")
+	_record(label, StrictData.number(best.lane), 1.0 if label == "PERFECT" else (0.8 if label == "GREAT" else 0.5), StrictData.integer(best.id))
 
 
 func release(pointer_id: int, time: float = -1.0) -> void:
@@ -156,7 +200,8 @@ func _step_tick(time: float) -> void:
 			var lane: float = RhythmChart.lane_at(note, time)
 			var valid: bool = false
 			if pointers.has(note.owner):
-				valid = absf(StrictData.number(pointers[note.owner].lane) - lane) <= TRACE_TOLERANCE
+				var pointer: Dictionary = pointers[note.owner]
+				valid = absf(StrictData.number(pointer.lane) - lane) <= TRACE_TOLERANCE and (StrictData.integer(pointer.y) < 0 or (StrictData.integer(pointer.y) >= COLLECTOR_TOP and StrictData.integer(pointer.y) <= COLLECTOR_BOTTOM))
 			# Keyboard slides can hand off between adjacent held keys.
 			if note.owner <= -100 and not valid:
 				var ids: Array = pointers.keys()

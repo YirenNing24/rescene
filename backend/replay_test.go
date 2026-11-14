@@ -18,7 +18,7 @@ func fixtureReplay(chart rewardChart, skip int) *inputReplay {
 		}
 		at := int64(math.Round(n.Time * 1000000))
 		end := at
-		if n.Kind != "tap" {
+		if n.Kind == "hold" || n.Kind == "slide" {
 			end = int64(math.Round((n.Time + n.Duration + 0.01) * 1000000))
 		}
 		id := -1
@@ -31,8 +31,14 @@ func fixtureReplay(chart rewardChart, skip int) *inputReplay {
 		if id < 0 {
 			panic("fixture exceeds ten simultaneous contacts")
 		}
+		if n.Kind == "swipe" {
+			at -= 40000
+		}
 		free[id] = end + 1
 		r.Events = append(r.Events, []int64{at, 0, int64(id), int64(math.Round(n.Lane * 10000))})
+		if n.Kind == "swipe" {
+			r.Events = append(r.Events, []int64{at, 4, int64(id), 8426}, []int64{end, 4, int64(id), 7778})
+		}
 		if n.Kind == "slide" {
 			for t := n.Time + 0.01; t < n.Time+n.Duration; t += 0.01 {
 				r.Events = append(r.Events, []int64{int64(math.Round(t * 1000000)), 1, int64(id), int64(math.Round(n.laneAt(t) * 10000))})
@@ -275,6 +281,13 @@ func TestLegacyAPKStillCompletesVerifiedRuns(t *testing.T) {
 		ageRun(t, s, id, chart)
 		r := fixtureReplay(chart, -1)
 		r.Version = version
+		legacy := r.Events[:0]
+		for _, event := range r.Events {
+			if event[1] != 4 {
+				legacy = append(legacy, event)
+			}
+		}
+		r.Events = legacy
 		r.RunID = run
 		result := replayResult(t, r, chart)
 		status, body, _ = request(t, app, "POST", "/api/v1/runs/"+run+"/complete", result, token)
@@ -283,5 +296,51 @@ func TestLegacyAPKStillCompletesVerifiedRuns(t *testing.T) {
 		if reward["verification"].(float64) != float64(version) || reward["ranked"] != true {
 			t.Fatal("installed APK lost verified progression")
 		}
+	}
+}
+
+func TestSwipeRequiresUpwardTimedGesture(t *testing.T) {
+	chart := rewardChart{Revision: "swipe", Duration: 3, Units: 1, Notes: []replayNote{{Time: 1, Lane: 2, Kind: "swipe"}}}
+	for _, sample := range []struct {
+		name    string
+		events  [][]int64
+		perfect bool
+	}{
+		{"up", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 4, 0, 7778}, {1010000, 2, 0, 0}}, true},
+		{"tap", [][]int64{{1000000, 0, 0, 20000}, {1010000, 2, 0, 0}}, false},
+		{"down", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 4, 0, 9074}, {1010000, 2, 0, 0}}, false},
+		{"sideways", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 1, 0, 25000}, {1000000, 4, 0, 8376}, {1010000, 2, 0, 0}}, false},
+		{"mostly_horizontal", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 1, 0, 25000}, {1000000, 4, 0, 7778}, {1010000, 2, 0, 0}}, false},
+		{"jitter", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 4, 0, 8370}, {1010000, 2, 0, 0}}, false},
+		{"early", [][]int64{{560000, 0, 0, 20000}, {560000, 4, 0, 8426}, {600000, 4, 0, 7778}, {610000, 2, 0, 0}}, false},
+		{"slow", [][]int64{{750000, 0, 0, 20000}, {750000, 4, 0, 8426}, {1010000, 4, 0, 7778}, {1020000, 2, 0, 0}}, false},
+		{"instant", [][]int64{{1000000, 0, 0, 20000}, {1000000, 4, 0, 8426}, {1000000, 4, 0, 7778}, {1010000, 2, 0, 0}}, false},
+		{"outside_collector", [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 4500}, {1000000, 4, 0, 3500}, {1010000, 2, 0, 0}}, false},
+	} {
+		t.Run(sample.name, func(t *testing.T) {
+			r := &inputReplay{Version: 5, RunID: "swipe", Revision: chart.Revision, EndUS: 3000000, Events: sample.events}
+			j, err := verifyInputReplay(r, runTicket{ReplayVersion: 5, ID: r.RunID, Revision: r.Revision}, chart)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if (j.counts["PERFECT"] == 1) != sample.perfect || j.counts["PERFECT"]+j.counts["MISS"] != 1 {
+				t.Fatalf("unexpected swipe judgments: %v", j.counts)
+			}
+		})
+	}
+	for _, version := range []int{3, 4} {
+		r := &inputReplay{Version: version, RunID: "legacy", Revision: chart.Revision, EndUS: 3000000, Events: [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}}}
+		if _, err := verifyInputReplay(r, runTicket{ReplayVersion: version, ID: r.RunID, Revision: r.Revision}, chart); err == nil {
+			t.Fatal("legacy protocol accepted vertical events")
+		}
+	}
+}
+
+func TestSwipeOneStrokeCannotCollectTwoNotes(t *testing.T) {
+	chart := rewardChart{Revision: "two-swipes", Duration: 3, Units: 2, Notes: []replayNote{{Time: 1, Lane: 2, Kind: "swipe"}, {Time: 1.3, Lane: 2, Kind: "swipe"}}}
+	r := &inputReplay{Version: 5, RunID: "two", Revision: chart.Revision, EndUS: 3000000, Events: [][]int64{{960000, 0, 0, 20000}, {960000, 4, 0, 8426}, {1000000, 4, 0, 7778}, {1250000, 4, 0, 8426}, {1300000, 4, 0, 7778}, {1310000, 2, 0, 0}}}
+	j, err := verifyInputReplay(r, runTicket{ReplayVersion: 5, ID: r.RunID, Revision: r.Revision}, chart)
+	if err != nil || j.counts["PERFECT"] != 1 || j.counts["MISS"] != 1 {
+		t.Fatalf("one held pointer collected multiple swipes: %v %v", j, err)
 	}
 }

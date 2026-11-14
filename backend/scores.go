@@ -31,7 +31,7 @@ type personalBest struct {
 const bestWriteQuery = `WITH p MATCH (u:User {id:$id})
 MERGE (b:PersonalBest {key:$best_key}) ON CREATE SET b.score=-1,b.max_combo=-1,b.revision=''
 MERGE (u)-[:HAS_PERSONAL_BEST]->(b)
-WITH p,u,b,(coalesce(b.verification,0)<>2 OR b.revision<>$revision OR $score>b.score OR ($score=b.score AND $combo>b.max_combo) OR (NOT (coalesce(b.replay_version,0) IN [3,4]) AND $score=b.score AND $combo=b.max_combo)) AS improved
+WITH p,u,b,(coalesce(b.verification,0)<>2 OR b.revision<>$revision OR $score>b.score OR ($score=b.score AND $combo>b.max_combo) OR (NOT (coalesce(b.replay_version,0) IN [3,4,5]) AND $score=b.score AND $combo=b.max_combo)) AS improved
 FOREACH (write IN CASE WHEN improved THEN [1] ELSE [] END |
 SET b.verification=2,b.replay_version=$replay_version,b.owner=$id,b.song_id=$song,b.difficulty=$difficulty,b.chart_key=$chart_key,b.revision=$revision,b.score=$score,b.accuracy=$accuracy,b.max_combo=$combo,b.achieved_at=$achieved,b.run_id=$run)
 FOREACH (publish IN CASE WHEN improved AND $publish_target<>'' THEN [1] ELSE [] END |

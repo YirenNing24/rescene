@@ -6,12 +6,13 @@ static func chart() -> Dictionary:
 	for time: float in [5.0, 7.0, 9.0]: _note(notes, time, 2.0)
 	_note(notes, 15.0, 1.0, "hold", 3.0)
 	_note(notes, 24.0, 0.0, "slide", 4.0)
-	for index: int in 24: _note(notes, 34.0 + float(index) * 0.45, float(index % 5))
-	return {"tempo":120.0, "quarter":0.5, "duration":47.0, "difficulty":"Tutorial", "notes":notes, "revision":"tutorial-v1"}
+	for time: float in [30.5, 32.0, 33.5]: _note(notes, time, 2.0, "swipe")
+	for index: int in 20: _note(notes, 36.0 + float(index) * 0.45, float(index % 5))
+	return {"tempo":120.0, "quarter":0.5, "duration":47.0, "difficulty":"Tutorial", "notes":notes, "revision":"tutorial-v2"}
 
 static func _note(notes: Array[Dictionary], time: float, lane: float, kind: String = "tap", duration: float = 0.0) -> void:
 	var checkpoints: Array[float] = []
-	if kind != "tap":
+	if kind in ["hold", "slide"]:
 		var tick: float = time + 0.25
 		while tick < time + duration - 0.01: checkpoints.append(tick); tick += 0.25
 		checkpoints.append(time + duration)

@@ -108,6 +108,7 @@ func verify() -> void:
 	check(stage.judge.score() == 1000000, "Native curved touch tracing must complete the chart")
 	verify_sustain_effects()
 	verify_momentum_hud()
+	await verify_swipe_touch()
 	# Keyboard presses use the same timing judge.
 	stage.judge.setup(fixture)
 	stage.song_time = 1.0
@@ -152,6 +153,54 @@ func verify() -> void:
 func physical_point(lane: float) -> Vector2:
 	var local: Vector2 = Vector2(1200.0 + (lane - 2.0) * 316.0, 895.0)
 	return physical_at(local)
+
+func verify_swipe_touch() -> void:
+	var swipe_chart: Dictionary = RhythmChart.normalize({"tempo":120,"ticks_per_beat":400,"duration_seconds":3,"tracks":[
+		{"bars":[{"notes":[{"pos":800,"kind":"tap"}]}]}, {"bars":[]},
+		{"bars":[{"notes":[{"pos":800,"kind":"swipe"}]}]}]})
+	stage.judge.setup(swipe_chart)
+	stage.phase = "playing"
+	stage.song_time = 0.96
+	var press: InputEventScreenTouch = InputEventScreenTouch.new()
+	press.index = 7; press.pressed = true; press.position = physical_at(Vector2(1200,910))
+	Input.parse_input_event(press)
+	await process_frame
+	check(stage.judge.counts.PERFECT == 0, "Touching a swipe note must not collect it")
+	stage.song_time = 1.0
+	await touch(6, true, 0.0)
+	var drag: InputEventScreenDrag = InputEventScreenDrag.new()
+	drag.index = 7; drag.position = physical_at(Vector2(1200,840))
+	Input.parse_input_event(drag)
+	await process_frame
+	check(stage.judge.counts.PERFECT == 2 and stage.judge.score() == 1000000, "Upward swipe and a second finger's tap collect independently")
+	check(not stage.judge.pointers.has(-1), "Swipe touch emulation cannot duplicate a gesture")
+	press.pressed = false; press.position = drag.position
+	Input.parse_input_event(press)
+	await touch(6, false, 0.0)
+	stage.judge.setup(swipe_chart)
+	stage.song_time = 0.96
+	press.pressed = true; press.position = physical_at(Vector2(1200,910))
+	Input.parse_input_event(press)
+	await process_frame
+	stage.song_time = 1.0
+	drag.position = physical_at(Vector2(1200,980))
+	Input.parse_input_event(drag)
+	await process_frame
+	check(stage.judge.counts.PERFECT == 0, "Downward drag cannot collect an upward swipe")
+	press.pressed = false; press.position = drag.position
+	Input.parse_input_event(press)
+	await process_frame
+	# Low frame rates can coalesce a short flick into press + release only.
+	stage.judge.setup(swipe_chart)
+	stage.song_time = 0.96
+	press.pressed = true; press.position = physical_at(Vector2(1200,910))
+	Input.parse_input_event(press)
+	await process_frame
+	stage.song_time = 1.0
+	press.pressed = false; press.position = physical_at(Vector2(1200,840))
+	Input.parse_input_event(press)
+	await process_frame
+	check(stage.judge.counts.PERFECT == 1, "Final touch position preserves fast flicks without a drag event")
 
 func verify_outro_fade() -> void:
 	var previous_music: float = menu._music_level

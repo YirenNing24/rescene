@@ -17,7 +17,7 @@ services:
       retries: 10
     logging: {driver: json-file, options: {max-size: "10m", max-file: "3"}}
   api:
-    image: remine-api:ranking-avatars-20261114
+    image: remine-api:swipe-notes-20261114
     build: {context: ., dockerfile: Dockerfile}
     restart: unless-stopped
     env_file: [api.env]

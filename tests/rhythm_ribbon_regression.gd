@@ -33,7 +33,7 @@ func verify() -> void:
 			highway.game.approach_seconds = approach
 			var chart: Dictionary = RhythmChart.load_chart(str(song.id), difficulty)
 			for note: Dictionary in chart.notes:
-				if note.kind == "tap": continue
+				if note.kind in ["tap", "swipe"]: continue
 				for active: bool in [false, true]:
 					note.state = 1 if active else 0
 					var tail: float = note.time + note.duration

@@ -35,13 +35,13 @@ static func normalize(data: Dictionary) -> Dictionary:
 				if at < 0.0 or at >= cutoff - 0.1:
 					continue
 				var kind: String = raw.get("kind", "hold" if StrictData.number(raw.get("len", 70.0)) > 70.0 else "tap")
-				var duration: float = 0.0 if kind == "tap" else StrictData.number(raw.get("len", 0.0)) / ticks * quarter
+				var duration: float = 0.0 if kind in ["tap", "swipe"] else StrictData.number(raw.get("len", 0.0)) / ticks * quarter
 				duration = clampf(duration, 0.0, maxf(0.0, cutoff - at - 0.05))
 				var curve: Array = raw.get("curve", [])
 				if kind == "slide" and curve.size() < 2:
 					kind = "hold"
 				var checkpoints: Array[float] = []
-				if kind != "tap":
+				if kind in ["hold", "slide"]:
 					var tick: float = at + quarter * 0.5
 					while tick < at + duration - 0.05:
 						checkpoints.append(tick)
