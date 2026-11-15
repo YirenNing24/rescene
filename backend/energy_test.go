@@ -12,7 +12,7 @@ func TestEnergyRecoveryClockAndCap(t *testing.T) {
 	now := time.Date(2026, 11, 9, 12, 0, 0, 0, time.UTC)
 	var p progression
 	p.normalize(now)
-	if p.Energy.Current != 15 || p.Energy.NextAt != 0 {
+	if p.Energy.Current != energyCap || p.Energy.NextAt != 0 {
 		t.Fatal("new accounts must start full")
 	}
 	p.normalize(now.Add(100 * time.Hour))
@@ -21,38 +21,38 @@ func TestEnergyRecoveryClockAndCap(t *testing.T) {
 		t.Fatal(err)
 	}
 	first := p.Energy.NextAt
-	if p.Energy.Current != 14 || first != now.Add(30*time.Minute).UnixMilli() {
+	if p.Energy.Current != energyCap-1 || first != now.Add(30*time.Minute).UnixMilli() {
 		t.Fatal("full time was banked")
 	}
 	if err := p.spendEnergy(now.Add(15 * time.Minute)); err != nil {
 		t.Fatal(err)
 	}
-	if p.Energy.Current != 13 || p.Energy.NextAt != first {
+	if p.Energy.Current != energyCap-2 || p.Energy.NextAt != first {
 		t.Fatal("spending discarded partial recovery")
 	}
 	p.normalize(now.Add(30*time.Minute - time.Millisecond))
-	if p.Energy.Current != 13 {
+	if p.Energy.Current != energyCap-2 {
 		t.Fatal("energy recovered early")
 	}
 	p.normalize(now.Add(30 * time.Minute))
-	if p.Energy.Current != 14 || p.Energy.NextAt != now.Add(time.Hour).UnixMilli() {
+	if p.Energy.Current != energyCap-1 || p.Energy.NextAt != now.Add(time.Hour).UnixMilli() {
 		t.Fatal("wrong exact boundary")
 	}
 	p.normalize(now.Add(30 * time.Minute))
-	if p.Energy.Current != 14 {
+	if p.Energy.Current != energyCap-1 {
 		t.Fatal("the same boundary granted twice")
 	}
 	p.normalize(now.Add(30*time.Minute - time.Second))
-	if p.Energy.Current != 14 {
+	if p.Energy.Current != energyCap-1 {
 		t.Fatal("backward clock granted energy")
 	}
 	p.normalize(now.Add(300 * time.Hour))
-	if p.Energy.Current != 15 || p.Energy.NextAt != 0 {
+	if p.Energy.Current != energyCap || p.Energy.NextAt != 0 {
 		t.Fatal("offline recovery exceeded cap")
 	}
 	p.Energy = &energyProgress{Current: 0, NextAt: now.Add(30 * time.Minute).UnixMilli()}
-	p.normalize(now.Add(7*time.Hour + 45*time.Minute))
-	if p.Energy.Current != 15 || p.Energy.NextAt != 0 {
+	p.normalize(now.Add(time.Duration(energyCap)*energyInterval + 15*time.Minute))
+	if p.Energy.Current != energyCap || p.Energy.NextAt != 0 {
 		t.Fatal("offline full recovery failed")
 	}
 	p.Energy = &energyProgress{Current: 0, NextAt: now.Add(30 * time.Minute).UnixMilli()}
@@ -72,10 +72,15 @@ func TestEnergySpendingPersistenceAndIsolation(t *testing.T) {
 	token, id := progressAccount(t, app, "energyplayer")
 	other, _ := progressAccount(t, app, "energyother")
 	view := snapshot(t, app, token)["energy"].(map[string]any)
-	if view["current"].(float64) != 15 || view["max"].(float64) != 15 || view["next_recovery_at"] != nil {
+	if view["current"].(float64) != energyCap || view["max"].(float64) != energyCap || view["next_recovery_at"] != nil {
 		t.Fatal("wrong initial energy view")
 	}
 	chart := firstChart()
+	// Seed a smaller balance to test depletion without tripping start rate limits.
+	editProgress(t, s, id, func(p *progression) {
+		p.Energy.Current = 15
+		p.Energy.NextAt = time.Now().Add(30 * time.Minute).UnixMilli()
+	})
 	var last string
 	for i := 1; i <= 15; i++ {
 		status, body, _ := request(t, app, "POST", "/api/v1/runs", energyRunBody(chart, i), token)
@@ -92,7 +97,7 @@ func TestEnergySpendingPersistenceAndIsolation(t *testing.T) {
 	if snapshot(t, app, token)["energy"].(map[string]any)["current"].(float64) != 0 {
 		t.Fatal("empty energy changed")
 	}
-	if snapshot(t, app, other)["energy"].(map[string]any)["current"].(float64) != 15 {
+	if snapshot(t, app, other)["energy"].(map[string]any)["current"].(float64) != energyCap {
 		t.Fatal("another account was charged")
 	}
 	forged := energyRunBody(chart, 17)
@@ -144,12 +149,12 @@ func TestEnergyConcurrentStartsAndIdempotency(t *testing.T) {
 			}(i)
 		}
 		wg.Wait()
-		want := 7
+		want := energyCap - 8
 		if duplicate {
-			want = 14
+			want = energyCap - 1
 		}
 		p, _, err := s.ReadProgress(id)
-		if err != nil || p.Energy.Current != want || len(runs) != 15-want {
+		if err != nil || p.Energy.Current != want || len(runs) != energyCap-want {
 			t.Fatal("concurrent requests charged incorrectly", p.Energy, runs, err)
 		}
 		if duplicate {
@@ -164,10 +169,35 @@ func TestEnergyConcurrentStartsAndIdempotency(t *testing.T) {
 				t.Fatal("restart did not recover the existing attempt")
 			}
 			p, _, err = other.ReadProgress(id)
-			if err != nil || p.Energy.Current != 14 {
+			if err != nil || p.Energy.Current != energyCap-1 {
 				t.Fatal("restart retry charged twice")
 			}
 			_ = other.Close()
 		}
+	}
+}
+
+func TestEnergyCapacityExpansionRefillsExistingAccountOnlyOnce(t *testing.T) {
+	s := testStore(t)
+	app := testApp(t, s)
+	token, id := progressAccount(t, app, "energyexpansion")
+	editProgress(t, s, id, func(p *progression) {
+		p.EnergyCapacity = 0
+		p.Energy = &energyProgress{Current: 2, NextAt: time.Now().Add(20 * time.Minute).UnixMilli()}
+	})
+	view := snapshot(t, app, token)["energy"].(map[string]any)
+	if view["current"] != float64(100) || view["max"] != float64(100) || view["next_recovery_at"] != nil || view["next_recovery_in_seconds"] != float64(0) {
+		t.Fatalf("existing account not refilled to 100/100: %v", view)
+	}
+	status, _, _ := request(t, app, "POST", "/api/v1/runs", energyRunBody(firstChart(), 1), token)
+	requireStatus(t, status, 200)
+	for range 2 {
+		if snapshot(t, app, token)["energy"].(map[string]any)["current"] != float64(99) {
+			t.Fatal("refresh repeated the expansion refill")
+		}
+	}
+	p, _, err := s.ReadProgress(id)
+	if err != nil || p.EnergyCapacity != 100 || p.Energy.Current != 99 {
+		t.Fatal("capacity expansion marker did not persist", err)
 	}
 }

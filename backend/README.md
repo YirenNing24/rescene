@@ -374,3 +374,6 @@ and challenge invitations before energy is spent. Existing issued tickets and
 historical records retain their original charts in `charts.json` (116 active
 charts plus 12 archived soundtrack charts). The progression exporter preserves
 archived entries when rebuilding current charts.
+
+
+Temporary energy expansion (November 15, 2026): capacity is 100, starting balance is 100, attempts cost 1 and recovery remains 1 per 30 minutes. Existing accounts receive one refill when normalized under the new capacity; `energy_capacity` is persisted with the normal progression CAS so refreshes and concurrent starts cannot repeatedly refill. The energy response continues exposing the authoritative `max`, read dynamically by installed clients.

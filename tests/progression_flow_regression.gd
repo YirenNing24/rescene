@@ -27,7 +27,7 @@ func verify() -> void:
 		await create_timer(0.1).timeout
 	var menu: ResceneMainMenu = current_scene
 	check(StrictData.integer(progress.state.get("level",0)) == 1, "New account starts at level one")
-	check(menu._energy_label.text == "15/15", "New accounts show the authoritative full energy balance")
+	check(menu._energy_label.text == "100/100", "New accounts show the authoritative full energy balance")
 	menu._open_destination("MISSIONS")
 	check(menu._dialog.name == "ProgressionView", "Missions opens the actual journey screen")
 	await process_frame
@@ -42,7 +42,7 @@ func verify() -> void:
 		await create_timer(0.1).timeout
 	stage.set_process(false)
 	check(not stage._progression_run.is_empty(), "Free Play acquires server run ticket")
-	check(StrictData.integer(StrictData.dictionary(progress.state.energy).current) == 14, "Starting a song spends exactly one server energy")
+	check(StrictData.integer(StrictData.dictionary(progress.state.energy).current) == 99, "Starting a song spends exactly one server energy")
 	var run_id: String = stage._progression_run
 	var file: FileAccess = FileAccess.open(marker, FileAccess.WRITE)
 	var _bool_2: bool = file.store_string(JSON.stringify({"user_id":session.user.id, "run_id":run_id}))
@@ -71,7 +71,7 @@ func verify() -> void:
 		if stage.phase == "countdown" and not stage._progression_run.is_empty(): break
 		await create_timer(0.1).timeout
 	check(stage._progression_run != run_id, "Retry gets a new attempt ID")
-	check(StrictData.integer(StrictData.dictionary(progress.state.energy).current) == 13, "Retry spends one energy for its new attempt")
+	check(StrictData.integer(StrictData.dictionary(progress.state.energy).current) == 98, "Retry spends one energy for its new attempt")
 	stage.finish_stage(true)
 	check(StrictData.integer(progress.state.xp) == 140, "Failed attempt does not award XP")
 	menu._return_from_stage()
@@ -151,9 +151,9 @@ func verify() -> void:
 	(menu._dialog as ProgressionView)._render()
 	await screenshot("unlocks-20-9.png")
 	menu._close_dialog()
-	check(menu._energy_label.text == "13/15", "The lobby retains the server energy balance after results")
+	check(menu._energy_label.text == "98/100", "The lobby retains the server energy balance after results")
 	menu._open_energy()
-	check(menu._energy_detail_balance.text == "13/15" and menu._energy_detail_hint.text.begins_with("+1 IN"), "Energy details show balance and server-synced recovery countdown")
+	check(menu._energy_detail_balance.text == "98/100" and menu._energy_detail_hint.text.begins_with("+1 IN"), "Energy details show balance and server-synced recovery countdown")
 	await screenshot("energy-20-9.png")
 	menu._close_dialog()
 	menu._back_from_songs()

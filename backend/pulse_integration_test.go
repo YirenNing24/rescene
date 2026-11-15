@@ -203,7 +203,7 @@ func TestPulseDeckMembershipAndRunSnapshot(t *testing.T) {
 	requireStatus(t, status, 200)
 	runID := data["reward"].(map[string]any)["id"].(string)
 	p, _, _ := s.ReadProgress(owner)
-	if len(p.Active.Deck) != 5 || p.Active.Card == nil || p.Active.Card.PerfectScoreBP != 4000 || p.Energy.Current != 14 {
+	if len(p.Active.Deck) != 5 || p.Active.Card == nil || p.Active.Card.PerfectScoreBP != 4000 || p.Energy.Current != energyCap-1 {
 		t.Fatal("five card bonuses missing from ticket")
 	}
 	locked := *p.Active.Card
@@ -213,7 +213,7 @@ func TestPulseDeckMembershipAndRunSnapshot(t *testing.T) {
 	status, _, _ = request(t, app, "POST", "/api/v1/runs", start, token)
 	requireStatus(t, status, 200)
 	p, _, _ = s.ReadProgress(owner)
-	if *p.Active.Card != locked || p.Energy.Current != 14 {
+	if *p.Active.Card != locked || p.Energy.Current != energyCap-1 {
 		t.Fatal("retry changed snapshot or spent twice")
 	}
 	beforeXP := f.cards[14].XP
@@ -312,7 +312,7 @@ func TestCardLeasesSurviveTransfersAndReleaseOnAbandon(t *testing.T) {
 		t.Fatal("abandon did not release lease", err)
 	}
 	original, _, _ := s.ReadProgress(owner)
-	if original.Energy.Current != 14 {
+	if original.Energy.Current != energyCap-1 {
 		t.Fatal("abandon refunded energy")
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-const energyCap = 15
+const energyCap = 100
 const energyInterval = 30 * time.Minute
 const energyRunCost = 1
 
@@ -28,6 +28,11 @@ func (p *progression) spendEnergy(now time.Time) error {
 }
 
 func (p *progression) recoverEnergy(now time.Time) {
+	// One-time capacity expansion refill, persisted with normal progression CAS.
+	if p.EnergyCapacity < energyCap {
+		p.Energy = &energyProgress{Current: energyCap}
+		p.EnergyCapacity = energyCap
+	}
 	if p.Energy == nil {
 		p.Energy = &energyProgress{Current: energyCap}
 	}

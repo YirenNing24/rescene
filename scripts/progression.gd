@@ -254,7 +254,7 @@ func energy_recovery_seconds() -> int:
 
 func energy_text() -> String:
 	var energy: Dictionary = StrictData.dictionary(state.get("energy", {}))
-	return "%d/%d" % [StrictData.integer(energy.get("current", 0)), StrictData.integer(energy.get("max", 15))] if not energy.is_empty() else "—/15"
+	return "%d/%d" % [StrictData.integer(energy.get("current", 0)), StrictData.integer(energy.get("max", 100))] if not energy.is_empty() else "—/100"
 
 func energy_hint() -> String:
 	var seconds: int = energy_recovery_seconds()

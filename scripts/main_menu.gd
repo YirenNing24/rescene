@@ -234,7 +234,7 @@ func _build_header() -> void:
 	_at(profile, _xp_bar, Rect2(98,73,226,4))
 	var _label_12: Label = _label(_canvas, "R E S C É N E   /   R H Y T H M", Rect2(_width * 0.5 - 215, 65, 430, 30), 17, Color(0.88, 0.86, 1, 0.8), FONT, HORIZONTAL_ALIGNMENT_CENTER)
 	var right: float = _width - 690
-	_energy_label = _currency(right, "heart", "ENERGY", "—/15")
+	_energy_label = _currency(right, "heart", "ENERGY", "—/100")
 	_energy_label.name = "EnergyBalance"
 	_energy_hint = _label(_canvas, "", Rect2(right, 118, 155, 18), 10, MUTED, BOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	_energy_hint.name = "EnergyRecovery"
@@ -293,7 +293,7 @@ func _open_energy() -> void:
 	var progress: ProgressionService = GameServices.progression()
 	var window: Panel = _modal("Energy", "YOUR NEXT SCENE")
 	_energy_detail_balance = _label(window, progress.energy_text(), Rect2(44, 166, 670, 78), 60, WHITE, BOLD)
-	var _rules: Label = _label(window, "1 energy per song attempt, including retries.\nRecover 1 every 30 minutes, up to 15.\nRecovery continues while you’re away.", Rect2(44, 260, 670, 110), 21, MUTED, FONT)
+	var _rules: Label = _label(window, "1 energy per song attempt, including retries.\nRecover 1 every 30 minutes, up to %d.\nRecovery continues while you’re away." % StrictData.integer(StrictData.dictionary(progress.state.get("energy", {})).get("max", 100)), Rect2(44, 260, 670, 110), 21, MUTED, FONT)
 	_energy_detail_hint = _label(window, progress.energy_hint(), Rect2(44, 390, 670, 35), 23, LILAC, BOLD)
 	if GameServices.session().is_authenticated(): progress.refresh.call_deferred()
 

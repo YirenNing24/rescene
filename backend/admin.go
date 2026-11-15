@@ -1079,8 +1079,8 @@ func (s *adminSystem) executeLocal(op, kind string, p map[string]any) (any, erro
 		if amount < 1 || amount > 100000 {
 			return nil, errors.New("amount must be 1–100000")
 		}
-		if kind == "grant_energy" && amount > 15 {
-			return nil, errors.New("energy grant cannot exceed 15")
+		if kind == "grant_energy" && amount > energyCap {
+			return nil, fmt.Errorf("energy grant cannot exceed %d", energyCap)
 		}
 		for i := 0; i < 8; i++ {
 			progress, version, e := s.db.ReadProgress(id)

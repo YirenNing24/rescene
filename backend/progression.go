@@ -114,6 +114,7 @@ type progression struct {
 	Claimed           map[string]bool  `json:"claimed"`
 	Daily             dailyProgress    `json:"daily"`
 	Login             loginProgress    `json:"login"`
+	EnergyCapacity    int              `json:"energy_capacity,omitempty"`
 	Energy            *energyProgress  `json:"energy,omitempty"`
 	Title             string           `json:"title"`
 	Frame             string           `json:"frame"`
@@ -385,6 +386,7 @@ func (a *api) getProgress(c fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
+		capacityBefore := p.EnergyCapacity
 		existed := p.Energy != nil
 		var before energyProgress
 		if existed {
@@ -407,7 +409,7 @@ func (a *api) getProgress(c fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		if existed && before == *p.Energy && !accrued && !seeded {
+		if existed && capacityBefore == p.EnergyCapacity && before == *p.Energy && !accrued && !seeded {
 			return c.JSON(fiber.Map{"progression": a.progressionView(p, now)})
 		}
 		written, err := store.WriteProgress(id, version, p)

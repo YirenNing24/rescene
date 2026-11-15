@@ -83,7 +83,7 @@ func TestMemberCardCheckoutOwnershipAndEquipment(t *testing.T) {
 	status, _, _ = request(t, app, "POST", "/api/v1/collection/equip", map[string]any{"item_id": "scene_03"}, token)
 	requireStatus(t, status, 200)
 	p, _, _ := s.ReadProgress(owner)
-	if p.EquippedCard != "scene_03" || p.Energy.Current != 15 {
+	if p.EquippedCard != "scene_03" || p.Energy.Current != energyCap {
 		t.Fatal("equipment was not persisted or altered gameplay")
 	}
 	status, data, _ := request(t, app, "GET", "/api/v1/inventory", nil, token)

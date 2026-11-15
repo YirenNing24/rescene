@@ -174,7 +174,7 @@ func TestCardsLiveTestnetPurchaseAndEquip(t *testing.T) {
 		t.Fatal("duplicate delivery", err)
 	}
 	progress, _, _ := store.ReadProgress(owner)
-	if progress.EquippedCard != "scene_03" || progress.Energy.Current != 15 {
+	if progress.EquippedCard != "scene_03" || progress.Energy.Current != energyCap {
 		t.Fatal("favorite did not persist or changed energy")
 	}
 	proof := map[string]any{"network": "Arbitrum Sepolia", "wallet": wallet.Address, "item_id": "scene_03", "token_id": "3", "price": "450 STARL", "funding_transaction": funding.TxHash, "purchase_transaction": order.TxHash, "quantity_owned": quantity, "equipped_card": progress.EquippedCard, "duplicate_requests": "no additional payment or item", "unowned_equip": "rejected", "energy": progress.Energy.Current}

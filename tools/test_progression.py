@@ -93,7 +93,7 @@ def main():
             redis("GRAPH.QUERY", graph, query)
             Path(str(marker) + ".ready").touch()
 
-        def run_game(script, prepare=False, disconnect=False):
+        def run_game(script, prepare=False, disconnect=False, deplete=False):
             nonlocal game
             marker.unlink(missing_ok=True)
             for suffix in (".ready", ".disconnect", ".offline"):
@@ -111,6 +111,18 @@ def main():
                     wait_file(Path(str(marker) + ".disconnect"))
                     stop_backend()
                     Path(str(marker) + ".offline").touch()
+                if deplete:
+                    wait_file(marker)
+                    identity = json.loads(marker.read_text())
+                    selector = "MATCH (p:Progression {owner:" + json.dumps(identity["user_id"]) + "})"
+                    payload, version = redis("GRAPH.QUERY", graph, selector + " RETURN p.payload,p.version")[1][0]
+                    state = json.loads(payload)
+                    state["energy"]["current"] = 0
+                    state["energy"]["next_at"] = int(time.time() * 1000) + 1800000
+                    query = (selector + " WHERE p.version=" + str(version) + " SET p.payload=" +
+                             json.dumps(json.dumps(state)) + ",p.version=p.version+1 RETURN p.version")
+                    redis("GRAPH.QUERY", graph, query)
+                    Path(str(marker) + ".ready").touch()
                 code = game.wait(timeout=45)
             except BaseException:
                 print(log_path.read_text(), end="", flush=True)
@@ -128,7 +140,7 @@ def main():
             run_game("progression_pending_regression.gd", prepare=True, disconnect=True)
             start_backend()
             run_game("progression_restart_regression.gd")
-            run_game("energy_flow_regression.gd")
+            run_game("energy_flow_regression.gd", deplete=True)
             print("Progression integration, restart and interrupted sync: PASS", flush=True)
         finally:
             if game is not None and game.poll() is None:

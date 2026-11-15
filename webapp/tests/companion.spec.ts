@@ -125,3 +125,19 @@ test('rankings display uploaded avatars and default portraits on desktop and mob
   await expect(page.locator('.nearby-player').nth(1).locator('.avatar')).toHaveText('N');
   expect(errors).toEqual([]);
 });
+
+test('energy drinks respect a server cap of 100 instead of the old 15',async({page})=>{
+  await setup(page);
+  let current=40;
+  await page.route('**/api/inventory',route=>route.fulfill({json:{enabled:true,items:[{id:'energy_drink',name:'Energy Drink',category:'energy',quantity:2}],decks:{},operation:null,progression:{...progress,energy:{...progress.energy,current,max:100}}}}));
+  await page.route('**/api/progression',route=>route.fulfill({json:{progression:{...progress,energy:{...progress.energy,current,max:100}}}}));
+  await page.goto('/');await navigate(page,'Collection');
+  await page.getByRole('tab',{name:'Items',exact:true}).click();
+  const use=page.getByRole('button',{name:'Use · +5 energy'});
+  await expect(use).toBeEnabled();await use.click();
+  await expect(page.getByText('Current energy: 40 / 100',{exact:true})).toBeVisible();
+  await page.keyboard.press('Escape');
+  current=100;await page.reload();await navigate(page,'Collection');
+  await page.getByRole('tab',{name:'Items',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Use · +5 energy'})).toBeDisabled();
+});

@@ -347,7 +347,7 @@ func (s *adminSystem) validateAdminLocal(kind string, p map[string]any) error {
 	switch kind {
 	case "grant_xp", "grant_energy":
 		n := adminInt(p["amount"])
-		if n < 1 || n > 100000 || kind == "grant_energy" && n > 15 {
+		if n < 1 || n > 100000 || kind == "grant_energy" && n > energyCap {
 			return errors.New("grant amount is outside the permitted range")
 		}
 	case "restrict_uploads", "restrict_social":
