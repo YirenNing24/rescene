@@ -12,6 +12,8 @@ import subprocess
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 
+from android_manifest import fix_provider_authorities, provider_authorities
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -71,6 +73,16 @@ def main() -> None:
                 raise RuntimeError('Export failed. Inspect builds/android-export.log.')
         finally:
             preset.write_text(original)
+        # Repair the binary manifest before alignment/signing. The non-Gradle
+        # Godot exporter incorrectly gives Jetpack Startup the FileProvider ID.
+        repaired = work / 'manifest-fixed.apk'
+        with ZipFile(unsigned) as source, ZipFile(repaired, 'w') as target:
+            for entry in source.infolist():
+                data = source.read(entry.filename)
+                if entry.filename == 'AndroidManifest.xml':
+                    data = fix_provider_authorities(data)
+                target.writestr(entry, data)
+        repaired.replace(unsigned)
         # Align uncompressed native libraries for devices using 16 KiB pages.
         subprocess.run([str(sdk / 'zipalign'), '-f', '-P', '16', '4', str(unsigned), str(aligned)], check=True)
         environment = dict(os.environ, RESCENE_APK_KEY_PASSWORD=key['password'])
@@ -83,6 +95,10 @@ def main() -> None:
         # Check catalog/menu audio survived export. Duplicates remain on disk.
         with ZipFile(signed) as archive:
             entries = archive.namelist()
+            authorities = provider_authorities(archive.read('AndroidManifest.xml'))
+            if authorities != {'androidx.core.content.FileProvider': 'com.rescene.rhythm.fileprovider',
+                               'androidx.startup.InitializationProvider': 'com.rescene.rhythm.androidx-startup'}:
+                raise RuntimeError('APK provider authorities are incorrect.')
             policies = ROOT / 'assets/legal/policies.json'
             if archive.read('assets/assets/legal/policies.json') != policies.read_bytes():
                 raise RuntimeError('Exported registration policies are missing or stale.')
