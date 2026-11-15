@@ -38,7 +38,7 @@ const config=JSON.parse(previousConfig);config.vars.APK_OBJECT_KEY=object;
 writeFileSync(configPath,JSON.stringify(config,null,2)+'\n');
 try {run(['deploy','--config',configPath]);}
 catch(error) {writeFileSync(configPath,previousConfig);throw error;}
-const download='https://api.remineph.online/download';
+const download=`https://api.remineph.online/updates/android/${manifest.version}/${manifest.file}`;
 const response=await fetch(download,{headers:{Range:'bytes=0-1023','Cache-Control':'no-cache'},signal:AbortSignal.timeout(30000)});
 if(response.status!==206 || response.headers.get('X-APK-Storage')!=='r2' || response.headers.get('Content-Range')!==`bytes 0-1023/${manifest.bytes}` || (await response.arrayBuffer()).byteLength!==1024)throw Error('Post-publish range verification failed');
 const publicManifest={file:manifest.file,version:manifest.version,version_code:manifest.version_code,sha256:manifest.sha256,bytes:manifest.bytes,download_url:download};

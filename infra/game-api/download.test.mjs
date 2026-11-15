@@ -4,13 +4,13 @@ import worker from './worker.js';
 const bytes = new TextEncoder().encode('0123456789');
 function fixture() {
   const calls = [];
-  const env = {APK_OBJECT_KEY:'android/test/game.apk', APK_RELEASES:{
+  const env = {APK_OBJECT_KEY:'android/0.1.28/RESCENE-Rhythm.apk', APK_RELEASES:{
     head:async key => {calls.push(['head',key]);return {size:bytes.length,httpEtag:'"release"',uploaded:new Date('2026-11-11T00:00:00.123Z')};},
     get:async(key,options) => {calls.push(['get',key,options]);const range=options?.range;return {body:range ? bytes.slice(range.offset,range.offset+range.length) : bytes};},
   }};
   return {env,calls};
 }
-const request = (headers={},method='GET') => new Request('https://api.remineph.online/download',{method,headers});
+const request = (headers={},method='GET') => new Request('https://api.remineph.online/updates/android/0.1.28/RESCENE-Rhythm.apk',{method,headers});
 test('download streams R2 without origin credentials or VPS fetch',async()=>{
   const {env,calls}=fixture();const response=await worker.fetch(request(),env);
   assert.equal(response.status,200);assert.equal(await response.text(),'0123456789');assert.equal(response.headers.get('Content-Length'),'10');
@@ -35,4 +35,37 @@ test('If-Range accepts the exact Last-Modified header despite upload millisecond
 });
 test('missing R2 configuration fails closed instead of sending downloads to VPS',async()=>{
   assert.equal((await worker.fetch(request(),{})).status,503);assert.equal((await worker.fetch(request({},'POST'),{})).status,405);
+});
+
+test('latest download redirects to a pinned release before streaming any bytes',async()=>{
+  for(const method of ['GET','HEAD']) {
+    const {env,calls}=fixture();
+    const response=await worker.fetch(new Request('https://api.remineph.online/download',{method}),env);
+    assert.equal(response.status,307);
+    assert.equal(response.headers.get('Location'),'https://api.remineph.online/updates/android/0.1.28/RESCENE-Rhythm.apk');
+    assert.equal(response.headers.get('Cache-Control'),'no-store');
+    assert.equal(calls.length,0);
+  }
+});
+test('legacy mutable partial downloads restart rather than append another release',async()=>{
+  const {env}=fixture();
+  const response=await worker.fetch(new Request('https://api.remineph.online/download',{headers:{Range:'bytes=5-','If-Range':'"older"','If-None-Match':'"release"'}}),env);
+  assert.equal(response.status,200);assert.equal(await response.text(),'0123456789');
+  assert.equal(response.headers.get('Content-Range'),null);
+  assert.equal(response.headers.get('Accept-Ranges'),'none');
+  assert.equal(response.headers.get('Cache-Control'),'no-store');
+});
+test('a pinned partial download keeps the old version after the latest release changes',async()=>{
+  const {env,calls}=fixture();env.APK_OBJECT_KEY='android/0.1.29/RESCENE-Rhythm.apk';
+  const response=await worker.fetch(request({Range:'bytes=3-5'}),env);
+  assert.equal(response.status,206);assert.equal(await response.text(),'345');
+  assert.ok(calls.every(call=>call[1]==='android/0.1.28/RESCENE-Rhythm.apk'));
+  assert.equal(response.headers.get('Content-Disposition'),'attachment; filename="RESCENE-Rhythm-0.1.28.apk"');
+});
+test('latest entry point rejects invalid configuration and unsupported methods',async()=>{
+  for(const key of ['', '../../private','android/x/evil.apk']) {
+    const {env}=fixture();env.APK_OBJECT_KEY=key;
+    assert.equal((await worker.fetch(new Request('https://api.remineph.online/download'),env)).status,503);
+  }
+  assert.equal((await worker.fetch(new Request('https://api.remineph.online/download',{method:'POST'}),{})).status,405);
 });

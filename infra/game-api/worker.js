@@ -1,10 +1,10 @@
-import {downloadApk} from './download.js';
+import {downloadApk, latestDownload} from './download.js';
 import {releaseManifest, updateObject} from './updates.js';
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === '/download') return downloadApk(request, env);
+    if (url.pathname === '/download') return latestDownload(request, env);
     if (url.pathname === '/updates/android.json') return releaseManifest(request, env);
     const pinnedApk = updateObject(url.pathname);
     if (pinnedApk) return downloadApk(request, {...env, APK_OBJECT_KEY:pinnedApk});
