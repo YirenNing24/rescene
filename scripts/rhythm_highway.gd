@@ -28,6 +28,7 @@ const RIBBON_COLUMNS: int = 5
 
 var game: RhythmStage
 var combo_effects: RhythmComboEffects
+var slide_touches: RhythmSlideTouches
 var sustain_effects: RhythmSustainEffects
 var effects: Array[Dictionary] = []
 var _note_colors: Dictionary[int, Color] = {}
@@ -69,6 +70,9 @@ func _ready() -> void:
 	sustain_effects = RhythmSustainEffects.new()
 	sustain_effects.highway = self
 	add_child(sustain_effects)
+	slide_touches = RhythmSlideTouches.new()
+	slide_touches.highway = self
+	add_child(slide_touches)
 	fireworks = RhythmHitEffects.new()
 	fireworks.highway = self
 	add_child(fireworks)
@@ -278,12 +282,13 @@ func _ribbon_strip(note: Dictionary, tint: Color, now: float) -> Dictionary:
 	var _spine_size: int = spine.resize(segments + 1)
 	var _spine_colors_size: int = spine_colors.resize(segments + 1)
 	var curved: bool = note.kind == "slide"
+	var collected: bool = curved and note.state == 1 and is_instance_valid(sustain_effects) and sustain_effects._is_collected(note)
 	var color_phase: float = game.visual_age * 0.24 + StrictData.number(note.id) * 0.11
 	for row: int in segments + 1:
 		var t: float = lerpf(begin, finish, float(row) / segments)
 		var point: Vector2 = project(RhythmChart.lane_at(note, t), t - now)
 		var progress: float = clampf((point.y - TOP_Y) / (HIT_Y - TOP_Y), 0.0, 1.0)
-		var half_width: float = (lerpf(18.0, 96.0, progress) if curved else lerpf(9.0, 45.0, progress)) * ROAD_SCALE
+		var half_width: float = (lerpf(24.0, 128.0, progress) if curved else lerpf(9.0, 45.0, progress)) * ROAD_SCALE
 		var feather: float = 2.5 * ROAD_SCALE
 		var base: int = row * RIBBON_COLUMNS
 		points[base] = point + Vector2(-half_width - feather, 0)
@@ -297,7 +302,8 @@ func _ribbon_strip(note: Dictionary, tint: Color, now: float) -> Dictionary:
 		var left: Color = _phase_color(phase - 0.08, tint) if curved else tint
 		var right: Color = _phase_color(phase + 0.08, tint) if curved else tint
 		var pulse: float = 0.88 + 0.12 * sin(game.visual_age * TAU * 1.6 - (t - note_time) * 3.0) if curved else 1.0
-		var opacity: float = lerpf(0.18, 0.80 if note.state == 1 else 0.66, progress) * pulse if curved else lerpf(0.07, 0.5 if note.state == 1 else 0.3, progress)
+		if collected: center = center.lerp(Color("d1ffef"), 0.32); left = left.lightened(0.2); right = right.lightened(0.2)
+		var opacity: float = lerpf(0.18, 0.95 if collected else 0.80 if note.state == 1 else 0.66, progress) * pulse if curved else lerpf(0.07, 0.5 if note.state == 1 else 0.3, progress)
 		colors[base] = Color(left, 0.0)
 		colors[base + 1] = Color(left, opacity * 0.86)
 		colors[base + 2] = Color(center, opacity)

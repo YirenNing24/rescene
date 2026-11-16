@@ -9,7 +9,8 @@ const GREAT_WINDOW: float = 0.105
 const HIT_WINDOW: float = 0.18
 const TRACE_TOLERANCE: float = 0.72
 const RELEASE_GRACE: float = 0.16
-const REPLAY_VERSION: int = 5
+const SLIDE_TOLERANCE: float = 0.96
+const REPLAY_VERSION: int = 6
 # Vertical replay coordinates use 10,000 units over the 1080-high stage.
 const SWIPE_DISTANCE: int = 450
 const SWIPE_MAX_US: int = 220000
@@ -89,7 +90,7 @@ func press(pointer_id: int, lane: float, time: float, keyboard: bool = false, he
 	for index: int in range(first_live, notes.size()):
 		var note: Dictionary = notes[index]
 		if note.time > time + HIT_WINDOW: break
-		if note.kind == "swipe" or note.state != 0 or absf(StrictData.number(note.lane - lane)) > TRACE_TOLERANCE:
+		if note.kind == "swipe" or note.state != 0 or absf(StrictData.number(note.lane - lane)) > note_tolerance(note):
 			continue
 		var difference: float = absf(StrictData.number(note.time - time))
 		if difference <= HIT_WINDOW and difference < nearest:
@@ -99,7 +100,7 @@ func press(pointer_id: int, lane: float, time: float, keyboard: bool = false, he
 		# After a pause, a fresh OS touch index may take over the suspended ribbon.
 		for index: int in range(first_live, notes.size()):
 			var note: Dictionary = notes[index]
-			if note.state == 1 and note.get("regrab", false) and absf(RhythmChart.lane_at(note, time) - lane) <= TRACE_TOLERANCE:
+			if note.state == 1 and note.get("regrab", false) and absf(RhythmChart.lane_at(note, time) - lane) <= note_tolerance(note):
 				note.owner = pointer_id
 				note.regrab = false
 				note.gap = 0.0
@@ -199,15 +200,13 @@ func _step_tick(time: float) -> void:
 		elif note.state == 1:
 			var lane: float = RhythmChart.lane_at(note, time)
 			var valid: bool = false
-			if pointers.has(note.owner):
-				var pointer: Dictionary = pointers[note.owner]
-				valid = absf(StrictData.number(pointer.lane) - lane) <= TRACE_TOLERANCE and (StrictData.integer(pointer.y) < 0 or (StrictData.integer(pointer.y) >= COLLECTOR_TOP and StrictData.integer(pointer.y) <= COLLECTOR_BOTTOM))
+			valid = pointer_tracks(note, time, StrictData.integer(note.owner))
 			# Keyboard slides can hand off between adjacent held keys.
 			if note.owner <= -100 and not valid:
 				var ids: Array = pointers.keys()
 				ids.sort()
 				for id: int in ids:
-					if pointers[id].keyboard and absf(StrictData.number(pointers[id].lane) - lane) <= TRACE_TOLERANCE:
+					if pointers[id].keyboard and pointer_tracks(note, time, id):
 						note.owner = id
 						valid = true
 						break
@@ -225,6 +224,17 @@ func _step_tick(time: float) -> void:
 			if note.next_tick >= StrictData.array(note.checkpoints).size():
 				note.state = 2
 		if dead: break
+
+
+static func note_tolerance(note: Dictionary) -> float:
+	return SLIDE_TOLERANCE if note.kind == "slide" else TRACE_TOLERANCE
+
+
+func pointer_tracks(note: Dictionary, time: float, pointer_id: int) -> bool:
+	if not pointers.has(pointer_id): return false
+	var pointer: Dictionary = pointers[pointer_id]
+	var y: int = StrictData.integer(pointer.get("y", -1))
+	return absf(StrictData.number(pointer.lane) - RhythmChart.lane_at(note, time)) <= note_tolerance(note) and (y < 0 or (y >= COLLECTOR_TOP and y <= COLLECTOR_BOTTOM))
 
 
 func finish(time: float = -1.0) -> void:

@@ -37,7 +37,7 @@ func _draw() -> void:
 		var point: Vector2 = highway.project(RhythmChart.lane_at(note, head_time), head_time - now)
 		var depth: float = clampf((point.y - highway.TOP_Y) / (highway.HIT_Y - highway.TOP_Y), 0.0, 1.1)
 		var radius: float = highway.CATCHER_RADIUS * lerpf(highway.TOP_WIDTH, highway.HIT_WIDTH, depth) / highway.HIT_WIDTH
-		_disc(point, radius, highway.note_color(note))
+		_disc(point, radius * (1.22 if note.kind == "slide" else 1.0), highway.note_color(note))
 
 func _disc(point: Vector2, radius: float, tint: Color) -> void:
 	var size: Vector2 = Vector2(radius, radius * highway.CATCHER_FLATTEN) * 2.3

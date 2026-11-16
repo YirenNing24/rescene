@@ -6,22 +6,25 @@ import (
 	"strings"
 )
 
-const replayVersion = 5
+const replayVersion = 6
 
 // Timing rules are pinned to the server-issued ticket. Keep installed v3 APKs
 // on their original rules while v4 gets slightly more forgiving collection.
 type replayRules struct {
-	perfect, great, hit, trace, release float64
+	perfect, great, hit, trace, release, slide float64
 }
 
 func supportedReplayVersion(version int) bool {
-	return version == 3 || version == 4 || version == replayVersion
+	return version == 3 || version == 4 || version == 5 || version == replayVersion
 }
 func rulesForReplay(version int) replayRules {
 	if version == 3 {
-		return replayRules{0.045, 0.09, 0.15, 0.62, 0.12}
+		return replayRules{0.045, 0.09, 0.15, 0.62, 0.12, 0.62}
 	}
-	return replayRules{0.06, 0.105, 0.18, 0.72, 0.16}
+	if version < 6 {
+		return replayRules{0.06, 0.105, 0.18, 0.72, 0.16, 0.72}
+	}
+	return replayRules{0.06, 0.105, 0.18, 0.72, 0.16, 0.96}
 }
 
 const replayHz = int64(120)
@@ -81,6 +84,12 @@ func newReplayJudge(chart rewardChart, version int) *replayJudge {
 		j.notes = append(j.notes, replayState{replayNote: note, owner: -999})
 	}
 	return j
+}
+func (j *replayJudge) tolerance(note replayNote) float64 {
+	if note.Kind == "slide" {
+		return j.rules.slide
+	}
+	return j.rules.trace
 }
 func (n replayNote) laneAt(t float64) float64 {
 	if n.Kind != "slide" || len(n.Curve) < 2 {
@@ -150,7 +159,7 @@ func (j *replayJudge) advance(us int64) {
 			} else if n.state == 1 {
 				lane := n.laneAt(t)
 				p, held := j.pointers[n.owner]
-				valid := held && math.Abs(p.lane-lane) <= j.rules.trace && (p.y < 0 || p.y >= 6389 && p.y <= 9815)
+				valid := held && math.Abs(p.lane-lane) <= j.tolerance(n.replayNote) && (p.y < 0 || p.y >= 6389 && p.y <= 9815)
 				if n.owner <= -100 && !valid {
 					ids := make([]int, 0, len(j.pointers))
 					for id := range j.pointers {
@@ -159,7 +168,7 @@ func (j *replayJudge) advance(us int64) {
 					sort.Ints(ids)
 					for _, id := range ids {
 						p := j.pointers[id]
-						if p.keyboard && math.Abs(p.lane-lane) <= j.rules.trace {
+						if p.keyboard && math.Abs(p.lane-lane) <= j.tolerance(n.replayNote) {
 							n.owner = id
 							valid = true
 							break
@@ -203,7 +212,7 @@ func (j *replayJudge) press(id int, lane float64) {
 	best, nearest := -1, j.rules.hit+0.001
 	t := float64(j.timeUS) / 1000000
 	for i, n := range j.notes {
-		if n.Kind == "swipe" || n.state != 0 || math.Abs(n.Lane-lane) > j.rules.trace {
+		if n.Kind == "swipe" || n.state != 0 || math.Abs(n.Lane-lane) > j.tolerance(n.replayNote) {
 			continue
 		}
 		d := math.Abs(n.Time - t)
@@ -214,7 +223,7 @@ func (j *replayJudge) press(id int, lane float64) {
 	if best < 0 {
 		for i := range j.notes {
 			n := &j.notes[i]
-			if n.state == 1 && n.regrab && math.Abs(n.laneAt(t)-lane) <= j.rules.trace {
+			if n.state == 1 && n.regrab && math.Abs(n.laneAt(t)-lane) <= j.tolerance(n.replayNote) {
 				n.owner = id
 				n.regrab = false
 				n.gap = 0

@@ -2,7 +2,7 @@ class_name ReplayFixture
 extends RefCounted
 ## Synthetic player inputs for tests; never changes judge totals directly.
 
-static func autoplay(judge: RhythmJudge, chart: Dictionary, paused: bool = false, frame_step: float = 0.01, offset: float = 0.0, movement: bool = true, skip_heads: int = 0) -> void:
+static func autoplay(judge: RhythmJudge, chart: Dictionary, paused: bool = false, frame_step: float = 0.01, offset: float = 0.0, movement: bool = true, skip_heads: int = 0, slide_offset: float = 0.0) -> void:
 	var inputs: Array[Dictionary] = []
 	var free: Array[float] = []
 	var _resize: int = free.resize(10)
@@ -10,18 +10,19 @@ static func autoplay(judge: RhythmJudge, chart: Dictionary, paused: bool = false
 	for index: int in range(skip_heads, StrictData.array(chart.notes).size()):
 		var note: Dictionary = chart.notes[index]
 		var at: float = StrictData.number(note.time) + offset
+		var lane_offset: float = slide_offset if note.kind == "slide" else 0.0
 		var swipe: bool = note.kind == "swipe"
 		var begin: float = at - 0.04 if swipe else at
 		var finish: float = at + StrictData.number(note.duration) + 0.01 if note.kind in ["hold", "slide"] else at
 		var id: int = 0
 		while id < 9 and free[id] > begin: id += 1
 		free[id] = finish + 0.001
-		_input(inputs, begin, 0, id, StrictData.number(note.lane), 910.0 if swipe else -1.0)
+		_input(inputs, begin, 0, id, StrictData.number(note.lane) + lane_offset, 910.0 if swipe else -1.0)
 		if swipe and movement: _input(inputs, at, 1, id, StrictData.number(note.lane), 840.0)
 		if movement and note.kind == "slide":
 			var tick: float = begin + 0.01
 			while tick < finish:
-				_input(inputs, tick, 1, id, RhythmChart.lane_at(note, tick - offset))
+				_input(inputs, tick, 1, id, RhythmChart.lane_at(note, tick - offset) + lane_offset)
 				tick += 0.01
 		_input(inputs, finish, 2, id)
 	if paused: _input(inputs, 1.0 + offset, 3, 0)

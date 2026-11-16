@@ -52,6 +52,11 @@ func generate() -> void:
 				boosted.card_loadout = {"id":"pulse_test", "version":2, "perfect_score_bp":6000, "recovery_ppm":6000, "skills":skills}
 				ReplayFixture.autoplay(boosted, pulse_chart, false, 0.01, offset, true, 19)
 				append(str(pulse_song.id), "Normal", pulse_chart, boosted)
+	# Only slides receive an offset: taps, holds and swipes remain exact.
+	for lane_offset: float in [0.9, -0.9, 0.9601]:
+		var wider: RhythmJudge = RhythmJudge.new(); wider.setup(chart)
+		ReplayFixture.autoplay(wider, chart, false, 0.01, 0.0, true, 0, lane_offset)
+		append(SongCatalog.SONGS[0].id, "Easy", chart, wider)
 	var file: FileAccess = FileAccess.open(path,FileAccess.WRITE)
 	var _bool_3: bool = file.store_string(JSON.stringify(fixtures))
 	print("Exported ",fixtures.size()," Godot input replay fixtures.")

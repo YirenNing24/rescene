@@ -95,12 +95,11 @@ func _is_collected(note: Dictionary) -> bool:
 	var judge: RhythmJudge = highway.game.judge
 	var pointer_owner: int = StrictData.integer(note.owner)
 	var time: float = highway.game.song_time + highway.game.timing_offset_ms / 1000.0
-	var lane: float = RhythmChart.lane_at(note, time)
-	if judge.pointers.has(pointer_owner) and absf(StrictData.number(judge.pointers[pointer_owner].lane) - lane) <= judge.TRACE_TOLERANCE:
+	if judge.pointer_tracks(note, time, pointer_owner):
 		return true
 	if pointer_owner <= -100:
 		for pointer_id: int in judge.pointers:
-			if pointer_id <= -100 and absf(StrictData.number(judge.pointers[pointer_id].lane) - lane) <= judge.TRACE_TOLERANCE:
+			if pointer_id <= -100 and judge.pointer_tracks(note, time, pointer_id):
 				return true
 	return false
 

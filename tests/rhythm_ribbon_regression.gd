@@ -80,7 +80,7 @@ func verify_curved_style(highway: RhythmHighway, game: RhythmStage) -> void:
 	var points: PackedVector2Array = first.points
 	var colors: PackedColorArray = first.colors
 	var width: float = points[3].x - points[1].x
-	check(width > highway.CATCHER_RADIUS * 1.7 and width < highway.CATCHER_RADIUS * 2.0, "A collected curved ribbon must nearly fill its catcher")
+	check(width > highway.CATCHER_RADIUS * 2.3 and width < highway.CATCHER_RADIUS * 2.6, "A collected curved ribbon must have a wider readable tracing surface")
 	game.visual_age += 0.5
 	var changed: Dictionary = highway._ribbon_strip(note, Color("a99acb"), 1.2)
 	var changed_colors: PackedColorArray = changed.colors

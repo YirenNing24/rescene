@@ -504,6 +504,7 @@ func retry_stage() -> void:
 	highway.effects.clear()
 	highway.combo_effects.reset()
 	highway.sustain_effects.reset()
+	highway.slide_touches.reset()
 	highway.reset_presses()
 	highway.reset_note_colors()
 	visual_age = 0.0

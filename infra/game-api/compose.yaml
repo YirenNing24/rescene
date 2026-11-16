@@ -17,7 +17,7 @@ services:
       retries: 10
     logging: {driver: json-file, options: {max-size: "10m", max-file: "3"}}
   api:
-    image: remine-api:energy100-20261115
+    image: remine-api:wider-slides-20261116
     build: {context: ., dockerfile: Dockerfile}
     restart: unless-stopped
     env_file: [api.env]

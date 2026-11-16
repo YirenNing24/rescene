@@ -89,8 +89,11 @@ func TestReplayRejectsFabrication(t *testing.T) {
 	if j, err := verifyInputReplay(empty, run, chart); err == nil && j.matches(traceResult(strings.Repeat("P", chart.Units)), chart) == nil {
 		t.Fatal("fabricated perfect results accepted without inputs")
 	}
-	// Holding a slide's starting lane cannot reproduce a traced slide's result.
-	stationary := fixtureReplay(chart, -1)
+	// A wide bend still requires movement. A shallow bend can legitimately
+	// remain inside the expanded tracking region and release-grace window.
+	wideCurve := rewardChart{Revision: "wide-bend", Duration: 4, Units: 5, Notes: []replayNote{{Time: 1, Duration: 2, Kind: "slide", Curve: []replayPoint{{At: 0, Lane: 0}, {At: 1, Lane: 3}}, Checkpoints: []float64{1.5, 2, 2.5, 3}}}}
+	stationary := fixtureReplay(wideCurve, -1)
+	stationaryRun := runTicket{ReplayVersion: replayVersion, ID: stationary.RunID, Revision: wideCurve.Revision}
 	filtered := [][]int64{}
 	for _, e := range stationary.Events {
 		if e[1] != 1 {
@@ -98,7 +101,7 @@ func TestReplayRejectsFabrication(t *testing.T) {
 		}
 	}
 	stationary.Events = filtered
-	if j, err := verifyInputReplay(stationary, run, chart); err == nil && j.matches(traceResult(strings.Repeat("P", chart.Units)), chart) == nil {
+	if j, err := verifyInputReplay(stationary, stationaryRun, wideCurve); err == nil && j.matches(traceResult(strings.Repeat("P", wideCurve.Units)), wideCurve) == nil {
 		t.Fatal("stationary pointers completed curved notes")
 	}
 	early := fixtureReplay(chart, -1)
@@ -342,5 +345,58 @@ func TestSwipeOneStrokeCannotCollectTwoNotes(t *testing.T) {
 	j, err := verifyInputReplay(r, runTicket{ReplayVersion: 5, ID: r.RunID, Revision: r.Revision}, chart)
 	if err != nil || j.counts["PERFECT"] != 1 || j.counts["MISS"] != 1 {
 		t.Fatalf("one held pointer collected multiple swipes: %v %v", j, err)
+	}
+}
+
+func TestSlideToleranceIsVersionedAndOnlyAppliesToSlides(t *testing.T) {
+	for _, version := range []int{3, 4, 5, 6} {
+		for _, kind := range []string{"tap", "hold", "slide"} {
+			chart := rewardChart{Duration: 4, Notes: []replayNote{{Time: 1, Duration: 2, Lane: 0, Kind: kind, Checkpoints: []float64{2, 3}}}}
+			if kind == "tap" {
+				chart.Notes[0].Duration = 0
+				chart.Notes[0].Checkpoints = nil
+			}
+			j := newReplayJudge(chart, version)
+			j.advance(1000000)
+			j.press(0, 0.90)
+			accepted := version == 6 && kind == "slide"
+			if (j.counts["PERFECT"] == 1) != accepted {
+				t.Fatalf("version %d %s widened the wrong head", version, kind)
+			}
+			j.finish(4000000)
+			if accepted && (j.counts["PERFECT"] != 3 || j.counts["MISS"] != 0) {
+				t.Fatal("wider slide lost its checkpoints")
+			}
+			// Start centered, then move wider. Old tickets retain their old rules.
+			j = newReplayJudge(chart, version)
+			j.advance(1000000)
+			j.press(0, 0)
+			p := j.pointers[0]
+			p.lane = 0.90
+			j.pointers[0] = p
+			j.finish(4000000)
+			if kind != "tap" && (j.counts["MISS"] == 0) != accepted {
+				t.Fatalf("version %d %s sustain tolerance incorrect", version, kind)
+			}
+		}
+	}
+	chart := rewardChart{Duration: 4, Notes: []replayNote{{Time: 1, Duration: 2, Kind: "slide", Checkpoints: []float64{2, 3}}}}
+	for _, offset := range []float64{-1.0, -0.9601, 0.9601, 1.0} {
+		j := newReplayJudge(chart, 6)
+		j.advance(1000000)
+		j.press(0, offset)
+		if j.counts["PERFECT"] != 0 {
+			t.Fatal("neighboring lane collected a slide")
+		}
+	}
+	j := newReplayJudge(chart, 6)
+	j.advance(1000000)
+	j.press(0, 0)
+	p := j.pointers[0]
+	p.y = 4000
+	j.pointers[0] = p
+	j.finish(4000000)
+	if j.counts["MISS"] == 0 {
+		t.Fatal("slide outside collector remained held")
 	}
 }

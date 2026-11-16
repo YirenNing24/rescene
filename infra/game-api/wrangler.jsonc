@@ -13,7 +13,7 @@
   ],
   "vars": {
     "API_ORIGIN": "https://engine-api.fluentxverse.com",
-    "APK_OBJECT_KEY": "android/0.1.28/RESCENE-Rhythm.apk"
+    "APK_OBJECT_KEY": "android/0.1.29/RESCENE-Rhythm.apk"
   },
   "r2_buckets": [
     {
