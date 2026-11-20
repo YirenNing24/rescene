@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -97,15 +96,18 @@ func (p *publicationClient) json(ctx context.Context, method, address string, bo
 		return errors.New("network_unavailable")
 	}
 	defer res.Body.Close()
-	if res.StatusCode == 401 || res.StatusCode == 403 {
-		return errors.New("engine_authorization_failed")
-	}
-	if res.StatusCode < 200 || res.StatusCode >= 300 {
-		return errors.New("upstream_unavailable")
-	}
 	data, err := io.ReadAll(io.LimitReader(res.Body, 1048577))
 	if err != nil || len(data) > 1048576 {
 		return errors.New("response_invalid")
+	}
+	if res.StatusCode < 200 || res.StatusCode >= 300 {
+		if key == "" {
+			return &rpcHTTPError{Status: res.StatusCode, Body: data}
+		}
+		if res.StatusCode == 401 || res.StatusCode == 403 {
+			return errors.New("engine_authorization_failed")
+		}
+		return errors.New("upstream_unavailable")
 	}
 	if json.Unmarshal(data, out) != nil {
 		return errors.New("response_invalid")
@@ -113,15 +115,29 @@ func (p *publicationClient) json(ctx context.Context, method, address string, bo
 	return nil
 }
 func (p *publicationClient) rpc(ctx context.Context, method string, params any, out any) error {
+	g := p.recoveryGate()
+	g.mu.Lock()
+	until := g.blockedUntil
+	if method == "eth_getLogs" && g.logsBlockedUntil.After(until) {
+		until = g.logsBlockedUntil
+	}
+	g.mu.Unlock()
+	if time.Now().Before(until) {
+		return &recoveryWait{Until: until, Code: "rpc_provider_cooldown"}
+	}
 	var result struct {
 		Result json.RawMessage `json:"result"`
 		Error  json.RawMessage `json:"error"`
 	}
 	if err := p.json(ctx, "POST", p.cfg.LeaderboardRPC, map[string]any{"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, "", &result); err != nil {
+		var upstream *rpcHTTPError
+		if errors.As(err, &upstream) {
+			return p.rpcProviderError(upstream.Status, upstream.Body)
+		}
 		return err
 	}
 	if len(result.Error) > 0 && string(result.Error) != "null" {
-		return errors.New("rpc_unavailable")
+		return p.rpcProviderError(200, result.Error)
 	}
 	if len(result.Result) == 0 || json.Unmarshal(result.Result, out) != nil {
 		return errors.New("rpc_response_invalid")
@@ -283,31 +299,20 @@ func (p *publicationClient) confirmed(ctx context.Context, j publicationJob) (bo
 	return strings.EqualFold(canonical.Hash, receipt.BlockHash), nil
 }
 func (p *publicationClient) findPublished(ctx context.Context, j *publicationJob) (string, error) {
-	head, err := p.head(ctx)
-	if err != nil {
-		return "", err
-	}
-	// from_block is persisted before enqueueing, including when the HTTP response is lost.
 	from := j.FromBlock
 	if from == 0 {
 		from = p.cfg.LeaderboardStartBlock
 	}
-	for scanned := 0; from <= head && scanned < 8; scanned++ {
-		end := min(from+2047, head)
-		var logs []scoreLog
-		filter := map[string]any{"address": p.cfg.LeaderboardAddress, "fromBlock": fmt.Sprintf("0x%x", from), "toBlock": fmt.Sprintf("0x%x", end), "topics": []string{scoreProcessedTopic, j.Payload.BoardID, "0x" + paddedID(j.Payload.PlayerID), "0x" + paddedID(j.Payload.RunID)}}
-		if err = p.rpc(ctx, "eth_getLogs", []any{filter}, &logs); err != nil {
-			return "", err
-		}
-		for _, log := range logs {
-			if p.matchesLog(log, *j) {
-				return log.TxHash, nil
-			}
-		}
-		from = end + 1
-		j.FromBlock = from
+	logs, err := p.recoveryLogs(ctx, &j.Recovery, from, p.cfg.LeaderboardConfirmations, p.cfg.LeaderboardAddress, []string{scoreProcessedTopic, j.Payload.BoardID, "0x" + paddedID(j.Payload.PlayerID), "0x" + paddedID(j.Payload.RunID)})
+	if err != nil {
+		return "", err
 	}
-	return "", errors.New("published_event_unavailable")
+	for _, log := range logs {
+		if p.matchesLog(log, *j) && validHex(log.TxHash, 32) {
+			return log.TxHash, nil
+		}
+	}
+	return "", scanPending()
 }
 
 func (p *publicationClient) preflight(ctx context.Context) error {

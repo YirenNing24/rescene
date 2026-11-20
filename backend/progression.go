@@ -359,6 +359,7 @@ func (a *api) mutateProgress(c fiber.Ctx, mutate func(*progression, time.Time) (
 			return err
 		}
 		if written {
+			a.requestChainWork()
 			return c.JSON(fiber.Map{"progression": a.progressionView(p, now), "reward": reward})
 		}
 	}
@@ -376,6 +377,7 @@ func decodeProgressBody(c fiber.Ctx, into any) error {
 	return nil
 }
 func (a *api) getProgress(c fiber.Ctx) error {
+	defer a.requestChainWork()
 	store, ok := a.store.(progressStore)
 	if !ok {
 		return failure(c, 503, "unavailable", "Progression is unavailable.")
@@ -417,6 +419,7 @@ func (a *api) getProgress(c fiber.Ctx) error {
 			return err
 		}
 		if written {
+			a.requestChainWork()
 			return c.JSON(fiber.Map{"progression": a.progressionView(p, now)})
 		}
 	}

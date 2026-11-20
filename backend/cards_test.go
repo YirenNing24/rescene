@@ -53,6 +53,7 @@ func TestMemberCardCheckoutOwnershipAndEquipment(t *testing.T) {
 		if err != nil || !ok {
 			t.Fatal("claim", err)
 		}
+		releaseScanBudget(a.shop.client.star.p) // Advance the test scan clock without sleeping.
 		err = a.shop.advance(context.Background(), &job)
 		if err != nil && err.Error() != "upstream_unavailable" {
 			t.Fatal(err)

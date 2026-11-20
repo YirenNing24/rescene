@@ -184,6 +184,7 @@ func TestAutomaticPublicationWithLostResponseRestartAndReorg(t *testing.T) {
 	lost := false
 	txs := map[string]enginePublicationTx{}
 	cfg := publicationConfig()
+	cfg.ChainBackgroundWorkers = true // Exercise opt-in scheduled reorganization audits.
 	cfg.LeaderboardChainID = 31337
 	cfg.LeaderboardConfirmations = 1
 	cfg.LeaderboardStartBlock = 0

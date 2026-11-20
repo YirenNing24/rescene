@@ -24,6 +24,7 @@ type publishedScore struct {
 }
 
 type publicationJob struct {
+	Recovery   recoveryState  `json:"-"`
 	Key        string         `json:"key"`
 	Payload    publishedScore `json:"payload"`
 	Status     string         `json:"status"`
@@ -86,7 +87,7 @@ AND (older.sequence<j.sequence OR (older.sequence=j.sequence AND older.key<j.key
 WITH j,count(older) AS prior WHERE prior=0
 WITH j ORDER BY CASE WHEN j.status='confirmed' THEN 1 ELSE 0 END,j.next_attempt_at,j.created_at,j.key LIMIT 1
 SET j.lease_token=$lease,j.lease_until=$until
-RETURN j.key,j.payload,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code`
+RETURN j.key,j.payload,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code,coalesce(j.recovery,'{}')`
 	r, err := s.query(query, map[string]interface{}{"target": target, "now": now.UnixMilli(), "until": now.Add(2 * time.Minute).UnixMilli(), "lease": lease})
 	if err != nil {
 		return publicationJob{}, false, err
@@ -100,11 +101,12 @@ RETURN j.key,j.payload,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,
 }
 
 func decodePublication(values []interface{}) (publicationJob, error) {
-	if len(values) != 8 {
+	if len(values) != 9 {
 		return publicationJob{}, errors.New("invalid publication row")
 	}
 	text := func(index int) string { value, _ := values[index].(string); return value }
 	job := publicationJob{Key: text(0), Status: text(2), EngineID: text(3), TxHash: text(4), ErrorCode: text(7)}
+	job.Recovery = decodeRecovery(values[8])
 	job.Generation, _ = values[5].(int64)
 	job.FromBlock, _ = values[6].(int64)
 	err := json.Unmarshal([]byte(text(1)), &job.Payload)
@@ -114,10 +116,10 @@ func decodePublication(values []interface{}) (publicationJob, error) {
 func (s *graphStore) savePublication(j publicationJob, next time.Time) error {
 	_, err := s.query(`MATCH(j:LeaderboardPublication {key:$key}) WHERE j.lease_token=$lease
 SET j.status=$status,j.engine_id=$engine,j.tx_hash=$hash,j.generation=$generation,j.from_block=$from,
-j.error_code=$error,j.next_attempt_at=$next,j.lease_until=0,
+j.error_code=$error,j.recovery=$recovery,j.next_attempt_at=$next,j.lease_until=0,
 j.confirmed_at=CASE WHEN $status='confirmed' THEN $now ELSE coalesce(j.confirmed_at,0) END RETURN j.key`, map[string]interface{}{
 		"key": j.Key, "lease": j.Lease, "status": j.Status, "engine": j.EngineID, "hash": j.TxHash, "generation": j.Generation, "from": j.FromBlock,
-		"error": j.ErrorCode, "next": next.UnixMilli(), "now": time.Now().UnixMilli()})
+		"error": j.ErrorCode, "recovery": encodeRecovery(j.Recovery), "next": next.UnixMilli(), "now": time.Now().UnixMilli()})
 	return err
 }
 
@@ -173,7 +175,7 @@ j.engine_id='',j.tx_hash='',j.generation=0,j.error_code='',j.from_block=0 RETURN
 
 func (s *graphStore) publicationFor(target, owner, board string) (*publicationJob, error) {
 	r, err := s.query(`MATCH(j:LeaderboardPublication {target:$target,owner:$owner,board:$board})
-RETURN j.key,j.payload,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code
+RETURN j.key,j.payload,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code,coalesce(j.recovery,'{}')
 ORDER BY j.sequence DESC,j.created_at DESC LIMIT 1`, map[string]interface{}{"target": target, "owner": owner, "board": board})
 	if err != nil {
 		return nil, err

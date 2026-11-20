@@ -377,3 +377,61 @@ archived entries when rebuilding current charts.
 
 
 Temporary energy expansion (November 15, 2026): capacity is 100, starting balance is 100, attempts cost 1 and recovery remains 1 per 30 minutes. Existing accounts receive one refill when normalized under the new capacity; `energy_capacity` is persisted with the normal progression CAS so refreshes and concurrent starts cannot repeatedly refill. The energy response continues exposing the authoritative `max`, read dynamically by installed clients.
+
+### RPC recovery consumption
+
+Background chain workers and confirmed-job audits are **disabled by default**:
+`CHAIN_BACKGROUND_WORKERS_ENABLED=false`. There is no initial preflight or
+periodic recovery call when the API starts or sits idle. Wallet provisioning
+also waits for a player registration/login/wallet request; scheduled wallet
+backfill is disabled in this mode. Authenticated reward,
+checkout and progression actions, plus relevant status/Inventory refreshes,
+coalesce a worker wake-up. Each wake advances one eligible saved operation;
+no eligible job means zero Engine/RPC calls. Pending work resumes on subsequent
+player requests, honoring its persisted retry time. If a player closes the app
+mid-checkout, their saved operation resumes when requests resume. HTTP callers
+may still request live balance/catalog/inventory data; these reads are on demand.
+
+Set the flag to `true` only to restore scheduled processing and daily confirmed
+job audits. Background mode is not needed for the current low-traffic launch.
+
+Recovery uses transaction receipts first. If a saved Engine transaction ID has
+no hash, a validated Engine history lookup is tried before scanning events.
+Missing/pruned Engine history still falls back to exact on-chain event and
+receipt verification; it does not cause a new payment or burn.
+
+Log recovery scans one page per claimed job and saves an independent
+`recovery.next_block` cursor without changing the original submission boundary.
+Only successful pages at a sufficiently confirmed height advance the cursor.
+The final partial page advances too, so an empty completed range is not scanned
+again on every poll. Existing jobs without recovery fields start at their
+previous saved boundary.
+
+`RPC_LOG_BLOCK_RANGE=0` selects 10 blocks for Alchemy URLs and 2,048 for other
+providers. Set an explicit positive range for a custom proxy or a different
+provider plan. Alchemy's current Free plan range is documented at
+<https://www.alchemy.com/docs/chains/ethereum/ethereum-api-endpoints/eth-get-logs>.
+`RPC_LOG_SCAN_INTERVAL=30s` is shared by all recovery clients for the same RPC
+URL in this API process: at most 120 recovery log queries/hour/URL at the
+default, regardless of backlog size. There is no eight-page catch-up loop.
+Budget waits happen before fetching the head and defer the job for at least
+one minute. This process-wide budget assumes the current single API replica;
+multiple replicas would need a shared distributed limiter.
+
+HTTP 400 and JSON-RPC plan/range errors pause log recovery for one hour without
+pausing working balance/contract reads. Provider authorization failures pause
+RPC for an hour; rate limits pause it for a minute. Raw upstream response bodies
+and RPC credentials are not logged or stored. Job retry times and exponentially
+increasing transient-error counters are persisted; provider-wide circuit state
+is in memory. A restart retains each saved job's cursor and retry time.
+In opt-in background mode, confirmed payouts, event rewards and score publications
+are audited daily, retaining reorganization repair without the previous five-minute
+audit loop. In default demand mode, already-confirmed jobs make no audit RPC calls.
+Pending transactions are normally polled every 15 seconds. Checkout locks,
+router idempotency keys, exact recipient/payment/delivery evidence and canonical
+receipt confirmation checks remain in force.
+
+Regression coverage: `FALKORDB_TEST_URL=redis://127.0.0.1:6387 go test -race ./...`
+(with a disposable local FalkorDB at that port) exercises all four log recovery
+paths, inclusive range limits, restart state, shared concurrent budgets, provider
+errors, receipt-first handling and lost-response duplicate-payment protection.

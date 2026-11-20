@@ -18,6 +18,8 @@ import (
 )
 
 type shopFixture struct {
+	head                            int64
+	blocks                          map[string]int64
 	pulse                           *pulseFixture
 	cfg                             config
 	server                          *httptest.Server
@@ -30,7 +32,7 @@ type shopFixture struct {
 }
 
 func newShopFixture(t *testing.T) *shopFixture {
-	f := &shopFixture{cfg: starlightTestConfig(), balance: 500, cardOwned: map[int64]int64{}, records: map[string]shopJob{}, hashes: map[string]string{}, txs: map[string]enginePublicationTx{}}
+	f := &shopFixture{head: 120, blocks: map[string]int64{}, cfg: starlightTestConfig(), balance: 500, cardOwned: map[int64]int64{}, records: map[string]shopJob{}, hashes: map[string]string{}, txs: map[string]enginePublicationTx{}}
 	f.cfg.ShopEnabled = true
 	f.cfg.CardsRouter = "0x" + strings.Repeat("9", 40)
 	f.cfg.ShopRouter = "0x" + strings.Repeat("6", 40)
@@ -102,6 +104,8 @@ func newShopFixture(t *testing.T) *shopFixture {
 							f.burns++
 							f.owned--
 						}
+						f.head += 3
+						f.blocks[id] = f.head - 2
 						f.records[id] = j
 						f.hashes[id] = tx.Hash
 					}
@@ -135,7 +139,7 @@ func newShopFixture(t *testing.T) *shopFixture {
 		var result any
 		switch req.Method {
 		case "eth_blockNumber":
-			result = "0x78"
+			result = fmt.Sprintf("0x%x", f.head)
 		case "eth_getBalance":
 			result = "0x100000000000000"
 		case "eth_call":
@@ -224,7 +228,7 @@ func newShopFixture(t *testing.T) *shopFixture {
 					if f.wrong {
 						logs = logs[:1]
 					}
-					result = publicationReceipt{Status: "0x1", TxHash: hash, BlockNumber: "0x64", BlockHash: "0x" + strings.Repeat("c", 64), Logs: logs}
+					result = publicationReceipt{Status: "0x1", TxHash: hash, BlockNumber: fmt.Sprintf("0x%x", f.blocks[id]), BlockHash: "0x" + strings.Repeat("c", 64), Logs: logs}
 				}
 			}
 		case "eth_getBlockByNumber":
@@ -322,6 +326,7 @@ func TestShopConfirmedDeliveryAndOnceOnlyEnergy(t *testing.T) {
 			if err != nil || !ok {
 				t.Fatal("claim", err)
 			}
+			releaseScanBudget(a.shop.client.star.p) // Advance the test scan clock without sleeping.
 			err = a.shop.advance(context.Background(), &job)
 			if err != nil && err.Error() != "upstream_unavailable" {
 				t.Fatal(err)

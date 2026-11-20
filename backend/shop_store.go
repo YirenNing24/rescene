@@ -10,37 +10,39 @@ import (
 )
 
 type shopJob struct {
-	Pulse            *pulseIntent `json:"-"`
-	Router           string       `json:"-"`
-	CardID           string       `json:"card_id,omitempty"`
-	TrainingXP       int          `json:"training_xp,omitempty"`
-	LevelBefore      int          `json:"level_before,omitempty"`
-	LevelAfter       int          `json:"level_after,omitempty"`
-	SuccessChance    int          `json:"success_chance_bp,omitempty"`
-	UpgradeAttempted bool         `json:"upgrade_attempted,omitempty"`
-	LevelUpgraded    *bool        `json:"level_upgraded,omitempty"`
-	UpgradeRoll      int          `json:"-"`
-	ItemID           string       `json:"item_id,omitempty"`
-	Key              string       `json:"key"`
-	Owner            string       `json:"-"`
-	RequestID        string       `json:"request_id"`
-	Kind             string       `json:"kind"`
-	Wallet           string       `json:"-"`
-	Quantity         int          `json:"quantity"`
-	Status           string       `json:"status"`
-	Stage            string       `json:"stage"`
-	EngineID         string       `json:"-"`
-	TxHash           string       `json:"transaction_hash,omitempty"`
-	FromBlock        int64        `json:"-"`
-	Generation       int64        `json:"-"`
-	Error            string       `json:"message,omitempty"`
-	Restored         int          `json:"energy_restored,omitempty"`
-	Lease            string       `json:"-"`
-	ExecuteStarted   bool         `json:"-"`
+	Recovery         recoveryState `json:"-"`
+	Pulse            *pulseIntent  `json:"-"`
+	Router           string        `json:"-"`
+	CardID           string        `json:"card_id,omitempty"`
+	TrainingXP       int           `json:"training_xp,omitempty"`
+	LevelBefore      int           `json:"level_before,omitempty"`
+	LevelAfter       int           `json:"level_after,omitempty"`
+	SuccessChance    int           `json:"success_chance_bp,omitempty"`
+	UpgradeAttempted bool          `json:"upgrade_attempted,omitempty"`
+	LevelUpgraded    *bool         `json:"level_upgraded,omitempty"`
+	UpgradeRoll      int           `json:"-"`
+	ItemID           string        `json:"item_id,omitempty"`
+	Key              string        `json:"key"`
+	Owner            string        `json:"-"`
+	RequestID        string        `json:"request_id"`
+	Kind             string        `json:"kind"`
+	Wallet           string        `json:"-"`
+	Quantity         int           `json:"quantity"`
+	Status           string        `json:"status"`
+	Stage            string        `json:"stage"`
+	EngineID         string        `json:"-"`
+	TxHash           string        `json:"transaction_hash,omitempty"`
+	FromBlock        int64         `json:"-"`
+	Generation       int64         `json:"-"`
+	Error            string        `json:"message,omitempty"`
+	Restored         int           `json:"energy_restored,omitempty"`
+	Lease            string        `json:"-"`
+	ExecuteStarted   bool          `json:"-"`
 }
 
 // Private fields are persisted separately from their deliberately small API view.
 type storedShopJob struct {
+	Recovery                recoveryState
 	Job                     shopJob `json:"job"`
 	Owner, Wallet, EngineID string
 	Router                  string
@@ -51,13 +53,14 @@ type storedShopJob struct {
 }
 
 func encodeShopJob(j shopJob) string {
-	b, _ := json.Marshal(storedShopJob{Job: j, Owner: j.Owner, Wallet: j.Wallet, EngineID: j.EngineID, Router: j.Router, FromBlock: j.FromBlock, Generation: j.Generation, ExecuteStarted: j.ExecuteStarted, UpgradeRoll: j.UpgradeRoll, Pulse: j.Pulse})
+	b, _ := json.Marshal(storedShopJob{Recovery: j.Recovery, Job: j, Owner: j.Owner, Wallet: j.Wallet, EngineID: j.EngineID, Router: j.Router, FromBlock: j.FromBlock, Generation: j.Generation, ExecuteStarted: j.ExecuteStarted, UpgradeRoll: j.UpgradeRoll, Pulse: j.Pulse})
 	return string(b)
 }
 func decodeShopJob(text string) (shopJob, error) {
 	var v storedShopJob
 	err := json.Unmarshal([]byte(text), &v)
 	j := v.Job
+	j.Recovery = v.Recovery
 	j.Owner, j.Wallet, j.EngineID, j.FromBlock, j.Generation = v.Owner, v.Wallet, v.EngineID, v.FromBlock, v.Generation
 	j.ExecuteStarted = v.ExecuteStarted
 	j.Router = v.Router

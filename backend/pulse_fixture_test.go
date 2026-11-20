@@ -104,6 +104,8 @@ func (p *pulseFixture) serve(w http.ResponseWriter, r *http.Request) bool {
 		if !ok {
 			tx = enginePublicationTx{ID: fmt.Sprintf("pulse-%d", len(p.txs)+1), AppID: p.f.cfg.EngineProjectID, ChainID: body.ChainID, ContractAddress: body.ContractAddress, WalletAddress: body.WalletAddress, Method: body.FunctionName, Args: body.Args, Status: "confirmed", Hash: fmt.Sprintf("0x%064x", 1000+len(p.txs))}
 			if _, exists := p.jobs[key]; !exists {
+				p.f.head += 3
+				p.f.blocks[key] = p.f.head - 2
 				p.apply(job)
 				p.jobs[key] = *job
 				p.f.hashes[key] = tx.Hash
@@ -259,7 +261,7 @@ func (p *pulseFixture) serve(w http.ResponseWriter, r *http.Request) bool {
 				if p.bad {
 					logs = logs[:1]
 				}
-				result = publicationReceipt{Status: "0x1", TxHash: hash, BlockNumber: "0x64", BlockHash: "0x" + strings.Repeat("c", 64), Logs: logs}
+				result = publicationReceipt{Status: "0x1", TxHash: hash, BlockNumber: fmt.Sprintf("0x%x", p.f.blocks[key]), BlockHash: "0x" + strings.Repeat("c", 64), Logs: logs}
 				handled = true
 				break
 			}
@@ -387,6 +389,7 @@ func finishPulse(t *testing.T, s *graphStore, a *api, p *pulseFixture, key strin
 		if err != nil || !ok {
 			t.Fatal("claim", err)
 		}
+		releaseScanBudget(a.shop.client.star.p) // Advance the test scan clock without sleeping.
 		err = a.shop.advance(context.Background(), &job)
 		if err != nil && err.Error() != "upstream_unavailable" {
 			t.Fatal("advance", err)

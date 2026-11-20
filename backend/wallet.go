@@ -174,14 +174,15 @@ WITH u,w WHERE w IS NULL OR (w.status<>'ready' AND w.lease_until<=$now AND w.nex
 }
 
 type walletService struct {
-	store  walletStore
-	engine *walletEngine
-	ctx    context.Context
-	cancel context.CancelFunc
-	wg     sync.WaitGroup
-	jobs   chan string
-	mu     sync.Mutex
-	queued map[string]bool
+	background bool
+	store      walletStore
+	engine     *walletEngine
+	ctx        context.Context
+	cancel     context.CancelFunc
+	wg         sync.WaitGroup
+	jobs       chan string
+	mu         sync.Mutex
+	queued     map[string]bool
 }
 
 func startWalletService(store userStore, cfg config) (*walletService, error) {
@@ -193,7 +194,7 @@ func startWalletService(store userStore, cfg config) (*walletService, error) {
 		return nil, errors.New("wallet storage unavailable")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	s := &walletService{store: ws, engine: newWalletEngine(cfg), ctx: ctx, cancel: cancel, jobs: make(chan string, 128), queued: map[string]bool{}}
+	s := &walletService{background: cfg.ChainBackgroundWorkers, store: ws, engine: newWalletEngine(cfg), ctx: ctx, cancel: cancel, jobs: make(chan string, 128), queued: map[string]bool{}}
 	s.wg.Add(1)
 	go s.run()
 	return s, nil
@@ -242,9 +243,13 @@ func (s *walletService) backfill() {
 }
 func (s *walletService) run() {
 	defer s.wg.Done()
-	tick := time.NewTicker(30 * time.Second)
-	defer tick.Stop()
-	s.backfill()
+	var ticks <-chan time.Time
+	if s.background {
+		tick := time.NewTicker(30 * time.Second)
+		defer tick.Stop()
+		ticks = tick.C
+		s.backfill()
+	}
 	for {
 		if s.ctx.Err() != nil {
 			return
@@ -252,7 +257,7 @@ func (s *walletService) run() {
 		select {
 		case <-s.ctx.Done():
 			return
-		case <-tick.C:
+		case <-ticks:
 			s.backfill()
 		case id := <-s.jobs:
 			s.provision(id)

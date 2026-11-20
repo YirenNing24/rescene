@@ -20,6 +20,7 @@ type publicationStore interface {
 	publicationFor(string, string, string) (*publicationJob, error)
 }
 type publicationService struct {
+	demand chainDemand
 	store  publicationStore
 	client *publicationClient
 	target string
@@ -41,7 +42,7 @@ func startPublicationService(store userStore, cfg config) (*publicationService, 
 		return nil, errors.New("leaderboard publication storage unavailable")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	service := &publicationService{store: ps, client: newPublicationClient(cfg), target: publicationTarget(cfg), ctx: ctx, cancel: cancel}
+	service := &publicationService{demand: newChainDemand(), store: ps, client: newPublicationClient(cfg), target: publicationTarget(cfg), ctx: ctx, cancel: cancel}
 	if err := ps.backfillPublications(service.target); err != nil {
 		cancel()
 		return nil, err
@@ -59,30 +60,17 @@ func (s *publicationService) close() error {
 }
 func (s *publicationService) run() {
 	defer s.wg.Done()
-	tick := time.NewTicker(2 * time.Second)
-	defer tick.Stop()
-	for {
-		if s.ctx.Err() != nil {
-			return
-		}
+	runChainWorker(s.ctx, &s.demand, s.client.cfg.ChainBackgroundWorkers, func() {
 		if err := s.process(); err != nil {
 			log.Print("leaderboard publisher: " + err.Error())
 		}
-		select {
-		case <-s.ctx.Done():
-			return
-		case <-tick.C:
-		}
-	}
+	})
 }
 func (s *publicationService) process() error {
-	if !s.ready {
-		if err := s.client.preflight(s.ctx); err != nil {
-			return err
-		}
-		s.ready = true
-		log.Printf("leaderboard publisher connected: project=%s chain=%d contract=%s", s.client.cfg.EngineProjectID, s.client.cfg.LeaderboardChainID, s.client.cfg.LeaderboardAddress)
+	if s.client.rpcCoolingDown() {
+		return nil
 	}
+
 	j, ok, err := s.store.claimPublication(s.target, time.Now())
 	if err != nil {
 		return errors.New("publication_storage_unavailable")
@@ -90,14 +78,29 @@ func (s *publicationService) process() error {
 	if !ok {
 		return nil
 	}
-	next := time.Now().Add(3 * time.Second)
-	err = s.advance(&j, &next)
+	if j.Status == "confirmed" && !s.client.cfg.ChainBackgroundWorkers {
+		return s.store.savePublication(j, time.Now().Add(24*time.Hour))
+	}
+	next := time.Now().Add(15 * time.Second)
+	err = func() error {
+		if !s.ready {
+			if err := s.client.preflight(s.ctx); err != nil {
+				return err
+			}
+			s.ready = true
+			log.Printf("leaderboard publisher connected: project=%s chain=%d contract=%s", s.client.cfg.EngineProjectID, s.client.cfg.LeaderboardChainID, s.client.cfg.LeaderboardAddress)
+		}
+		return s.advance(&j, &next)
+	}()
 	if err != nil {
 		j.ErrorCode = err.Error()
-		next = time.Now().Add(15 * time.Second)
 	}
+	next = recoveryNext(&j.Recovery, err, next)
 	if saveErr := s.store.savePublication(j, next); saveErr != nil {
 		return errors.New("publication_storage_unavailable")
+	}
+	if recoveryPending(err) {
+		return nil
 	}
 	return err
 }
@@ -109,8 +112,18 @@ func (s *publicationService) advance(j *publicationJob, next *time.Time) error {
 		return err
 	}
 	if processed {
+		if !validHex(j.TxHash, 32) && j.EngineID != "" {
+			hash, err := recoveryEngineHash(&j.Recovery, func() (enginePublicationTx, error) { return p.transaction(ctx, *j) })
+			if err != nil {
+				return err
+			}
+			j.TxHash = hash
+		}
 		confirmed, err := p.confirmed(ctx, *j)
-		if err != nil || !confirmed {
+		if err != nil && err.Error() != "receipt_mismatch" {
+			return err
+		}
+		if !validHex(j.TxHash, 32) || err != nil {
 			hash, findErr := p.findPublished(ctx, j)
 			if findErr != nil {
 				return findErr
@@ -124,13 +137,14 @@ func (s *publicationService) advance(j *publicationJob, next *time.Time) error {
 		if confirmed {
 			j.Status = "confirmed"
 			j.ErrorCode = ""
-			*next = time.Now().Add(5 * time.Minute)
+			*next = time.Now().Add(24 * time.Hour)
 		} else {
 			j.Status = "confirming"
 		}
 		return nil
 	}
 	if j.Status == "confirmed" || j.Status == "confirming" {
+		j.Recovery = recoveryState{}
 		j.Generation++
 		j.EngineID = ""
 		j.TxHash = ""
@@ -229,6 +243,9 @@ func (s *publicationService) ensureBoard(j publicationJob) error {
 	return nil
 }
 func (a *api) getPublication(c fiber.Ctx) error {
+	if a.publications != nil {
+		defer a.publications.demand.request()
+	}
 	cfg := a.config
 	if !cfg.LeaderboardEnabled {
 		return c.JSON(fiber.Map{"publication": fiber.Map{"status": "not_configured"}})

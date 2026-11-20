@@ -46,7 +46,7 @@ func startEventRewards(store userStore, c config) (*starlightService, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	client := newStarlightClient(cfg)
 	client.item = true
-	s := &starlightService{store: eventRewardStore{db}, client: client, target: eventRewardTarget(c), ctx: ctx, cancel: cancel}
+	s := &starlightService{demand: newChainDemand(), store: eventRewardStore{db}, client: client, target: eventRewardTarget(c), ctx: ctx, cancel: cancel}
 	s.wg.Add(1)
 	go s.run()
 	return s, nil

@@ -235,27 +235,18 @@ func (c *shopClient) pulseEvent(log scoreLog, j shopJob) bool {
 }
 func (c *shopClient) pulseConfirmed(ctx context.Context, j *shopJob) (bool, error) {
 	if j.TxHash == "" {
-		head, err := c.star.p.head(ctx)
+		logs, err := c.star.p.recoveryLogs(ctx, &j.Recovery, j.FromBlock, c.cfg.StarlightConfirmations, c.cfg.PulseRouter, []string{pulseActionTopic, "0x" + j.Key, "0x" + addressWord(j.Wallet)})
 		if err != nil {
 			return false, err
 		}
-		for scanned := 0; j.FromBlock <= head && scanned < 8; scanned++ {
-			end := min(head, j.FromBlock+2047)
-			var logs []scoreLog
-			err = c.star.p.rpc(ctx, "eth_getLogs", []any{map[string]any{"address": c.cfg.PulseRouter, "fromBlock": fmt.Sprintf("0x%x", j.FromBlock), "toBlock": fmt.Sprintf("0x%x", end), "topics": []string{pulseActionTopic, "0x" + j.Key, "0x" + addressWord(j.Wallet)}}}, &logs)
-			if err != nil {
-				return false, err
-			}
-			for _, log := range logs {
-				if c.pulseEvent(log, *j) {
-					j.TxHash = log.TxHash
-					break
-				}
-			}
-			if j.TxHash != "" || end == head {
+		for _, log := range logs {
+			if c.pulseEvent(log, *j) && validHex(log.TxHash, 32) {
+				j.TxHash = log.TxHash
 				break
 			}
-			j.FromBlock = end + 1
+		}
+		if j.TxHash == "" {
+			return false, scanPending()
 		}
 	}
 	if !validHex(j.TxHash, 32) {
@@ -397,6 +388,13 @@ func (s *shopService) advancePulse(ctx context.Context, j *shopJob) error {
 		if j.Stage != "execute" {
 			j.TxHash = ""
 		}
+		if j.TxHash == "" && j.EngineID != "" && j.Stage == "execute" {
+			hash, err := recoveryEngineHash(&j.Recovery, func() (enginePublicationTx, error) { return c.transaction(ctx, *j) })
+			if err != nil {
+				return err
+			}
+			j.TxHash = hash
+		}
 		ok, err := c.pulseConfirmed(ctx, j)
 		if err != nil {
 			return err
@@ -411,6 +409,9 @@ func (s *shopService) advancePulse(ctx context.Context, j *shopJob) error {
 		tx, err := c.transaction(ctx, *j)
 		if err != nil {
 			return err
+		}
+		if j.Stage == "execute" && validHex(tx.Hash, 32) {
+			j.TxHash = tx.Hash
 		}
 		switch tx.Status {
 		case "queued", "signing", "submitted", "retrying":

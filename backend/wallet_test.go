@@ -97,6 +97,7 @@ func TestWalletLifecycleAndBackfill(t *testing.T) {
 	s := testStore(t)
 	e := fakeEngine(t)
 	cfg := walletTestConfig(e)
+	cfg.ChainBackgroundWorkers = true // Backfill is explicitly opt-in.
 	_, err := s.Create(user{ID: "existing-user", Username: "Existing", CreatedAt: "now", PasswordHash: "hash"}, "existing")
 	if err != nil {
 		t.Fatal(err)
@@ -316,5 +317,35 @@ func TestWalletConfiguration(t *testing.T) {
 	t.Setenv("ENGINE_API_KEY", "")
 	if _, err := loadConfig(); err != nil {
 		t.Fatal("disabled wallet integration must still allow local auth tests")
+	}
+}
+
+func TestWalletProvisioningIsDemandOnlyByDefault(t *testing.T) {
+	s := testStore(t)
+	e := fakeEngine(t)
+	cfg := walletTestConfig(e)
+	if _, err := s.Create(user{ID: "demand-user", Username: "Demand", CreatedAt: "now", PasswordHash: "hash"}, "demand"); err != nil {
+		t.Fatal(err)
+	}
+	service, err := startWalletService(s, cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer service.close()
+	time.Sleep(100 * time.Millisecond)
+	e.mu.Lock()
+	calls := e.calls
+	e.mu.Unlock()
+	if calls != 0 {
+		t.Fatal("wallet provisioned without player request", calls)
+	}
+	if _, err = service.public("demand-user"); err != nil {
+		t.Fatal(err)
+	}
+	waitWallet(t, s, "demand-user", cfg)
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	if e.calls != 1 {
+		t.Fatal("on-demand provisioning did not run once", e.calls)
 	}
 }

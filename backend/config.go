@@ -13,6 +13,9 @@ import (
 )
 
 type config struct {
+	ChainBackgroundWorkers                                                                    bool
+	RPCLogBlockRange                                                                          int64
+	RPCLogScanInterval                                                                        time.Duration
 	EventRewardRouter                                                                         string
 	EdgeSecret, OriginAddr                                                                    string
 	Addr, DatabaseURL, Graph                                                                  string
@@ -139,6 +142,20 @@ func loadConfig() (config, error) {
 		if err := validateMarketplaceConfig(c); err != nil {
 			return c, err
 		}
+	}
+	var demandErr error
+	c.ChainBackgroundWorkers, demandErr = strconv.ParseBool(env("CHAIN_BACKGROUND_WORKERS_ENABLED", "false"))
+	if demandErr != nil {
+		return c, errors.New("CHAIN_BACKGROUND_WORKERS_ENABLED must be true or false")
+	}
+	var rpcErr error
+	c.RPCLogBlockRange, rpcErr = strconv.ParseInt(env("RPC_LOG_BLOCK_RANGE", "0"), 10, 64)
+	if rpcErr != nil || c.RPCLogBlockRange < 0 || c.RPCLogBlockRange > 10000 {
+		return c, errors.New("RPC_LOG_BLOCK_RANGE must be 0 (auto) or 1..10000")
+	}
+	c.RPCLogScanInterval, rpcErr = time.ParseDuration(env("RPC_LOG_SCAN_INTERVAL", "30s"))
+	if rpcErr != nil || c.RPCLogScanInterval < time.Second || c.RPCLogScanInterval > time.Hour {
+		return c, errors.New("RPC_LOG_SCAN_INTERVAL must be between 1s and 1h")
 	}
 	var enabledErr error
 	c.LeaderboardEnabled, enabledErr = strconv.ParseBool(env("LEADERBOARD_ENABLED", "false"))

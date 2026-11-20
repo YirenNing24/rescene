@@ -263,6 +263,7 @@ func TestPulseReceiptRequiresPaymentAndDelivery(t *testing.T) {
 	}
 	f.bad = false
 	j.TxHash = ""
+	releaseScanBudget(a.shop.client.star.p)
 	if ok, err := a.shop.client.pulseConfirmed(context.Background(), j); err != nil || !ok {
 		t.Fatal("canonical receipt recovery failed", err)
 	}

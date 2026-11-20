@@ -11,6 +11,7 @@ import (
 )
 
 type starlightJob struct {
+	Recovery                                                          recoveryState
 	Key, Owner, Recipient, Status, EngineID, TxHash, ErrorCode, Lease string
 	Amount, Sequence, Generation, FromBlock                           int64
 }
@@ -57,7 +58,7 @@ func starlightParameters(params map[string]interface{}, target, owner string, se
 	params["star_key"], params["star_target"], params["star_sequence"], params["star_amount"], params["star_now"] = hex.EncodeToString(sum[:]), target, sequence, amount, time.Now().UnixMilli()
 }
 
-const starlightFields = ` RETURN j.key,j.owner,j.amount,j.recipient,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code,j.sequence`
+const starlightFields = ` RETURN j.key,j.owner,j.amount,j.recipient,j.status,j.engine_id,j.tx_hash,j.generation,j.from_block,j.error_code,j.sequence,coalesce(j.recovery,'{}')`
 
 func (s *graphStore) claimStarlight(target string, now time.Time) (starlightJob, bool, error) {
 	return s.claimReward("StarlightPayout", target, now)
@@ -80,12 +81,12 @@ SET j.lease_token=$lease,j.lease_until=$until`+starlightFields, map[string]inter
 		return starlightJob{}, false, nil
 	}
 	row := r.Record().Values()
-	if len(row) != 11 {
+	if len(row) != 12 {
 		return starlightJob{}, false, errors.New("invalid_starlight_job")
 	}
 	text := func(i int) string { v, _ := row[i].(string); return v }
 	number := func(i int) int64 { v, _ := row[i].(int64); return v }
-	j := starlightJob{Key: text(0), Owner: text(1), Amount: number(2), Recipient: text(3), Status: text(4), EngineID: text(5), TxHash: text(6), Generation: number(7), FromBlock: number(8), ErrorCode: text(9), Sequence: number(10), Lease: lease}
+	j := starlightJob{Key: text(0), Owner: text(1), Amount: number(2), Recipient: text(3), Status: text(4), EngineID: text(5), TxHash: text(6), Generation: number(7), FromBlock: number(8), ErrorCode: text(9), Sequence: number(10), Lease: lease, Recovery: decodeRecovery(row[11])}
 	if !validHex(j.Key, 32) || j.Amount <= 0 || j.Owner == "" {
 		return j, false, errors.New("invalid_starlight_job")
 	}
@@ -97,7 +98,7 @@ func (s *graphStore) saveStarlight(j starlightJob, next time.Time) error {
 func (s *graphStore) saveReward(label string, j starlightJob, next time.Time) error {
 	_, err := s.query(`MATCH(j:`+label+` {key:$key}) WHERE j.lease_token=$lease
 SET j.recipient=$recipient,j.status=$status,j.engine_id=$engine,j.tx_hash=$hash,j.generation=$generation,j.from_block=$from,
-j.error_code=$error,j.next_attempt_at=$next,j.lease_until=0 RETURN j.key`, map[string]interface{}{"key": j.Key, "lease": j.Lease, "recipient": j.Recipient, "status": j.Status, "engine": j.EngineID, "hash": j.TxHash, "generation": j.Generation, "from": j.FromBlock, "error": j.ErrorCode, "next": next.UnixMilli()})
+j.error_code=$error,j.recovery=$recovery,j.next_attempt_at=$next,j.lease_until=0 RETURN j.key`, map[string]interface{}{"key": j.Key, "lease": j.Lease, "recipient": j.Recipient, "status": j.Status, "engine": j.EngineID, "hash": j.TxHash, "generation": j.Generation, "from": j.FromBlock, "error": j.ErrorCode, "recovery": encodeRecovery(j.Recovery), "next": next.UnixMilli()})
 	return err
 }
 func (s *graphStore) backfillStarlight(c config) error {

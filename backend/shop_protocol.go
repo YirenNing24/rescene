@@ -301,33 +301,24 @@ func (c *shopClient) eventMatches(log scoreLog, j shopJob) bool {
 }
 func (c *shopClient) confirmed(ctx context.Context, j *shopJob) (bool, error) {
 	if j.TxHash == "" {
-		head, err := c.star.p.head(ctx)
+		topic := purchasedTopic
+		if j.Kind == "consume" {
+			topic = consumedTopic
+		} else if j.Kind == "enhance" {
+			topic = enhancedTopic
+		}
+		logs, err := c.star.p.recoveryLogs(ctx, &j.Recovery, j.FromBlock, c.cfg.StarlightConfirmations, c.cfg.ShopRouter, []string{topic, "0x" + j.Key, "0x" + addressWord(j.Wallet)})
 		if err != nil {
 			return false, err
 		}
-		for scanned := 0; j.FromBlock <= head && scanned < 8; scanned++ {
-			end := min(head, j.FromBlock+2047)
-			var logs []scoreLog
-			topic := purchasedTopic
-			if j.Kind == "consume" {
-				topic = consumedTopic
-			} else if j.Kind == "enhance" {
-				topic = enhancedTopic
-			}
-			err = c.star.p.rpc(ctx, "eth_getLogs", []any{map[string]any{"address": c.cfg.ShopRouter, "fromBlock": fmt.Sprintf("0x%x", j.FromBlock), "toBlock": fmt.Sprintf("0x%x", end), "topics": []string{topic, "0x" + j.Key, "0x" + addressWord(j.Wallet)}}}, &logs)
-			if err != nil {
-				return false, err
-			}
-			for _, log := range logs {
-				if c.eventMatches(log, *j) {
-					j.TxHash = log.TxHash
-					break
-				}
-			}
-			if j.TxHash != "" || end == head {
+		for _, log := range logs {
+			if c.eventMatches(log, *j) && validHex(log.TxHash, 32) {
+				j.TxHash = log.TxHash
 				break
 			}
-			j.FromBlock = end + 1
+		}
+		if j.TxHash == "" {
+			return false, scanPending()
 		}
 	}
 	if !validHex(j.TxHash, 32) {

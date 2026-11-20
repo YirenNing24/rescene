@@ -19,6 +19,7 @@ type starlightStore interface {
 	ReadWallet(string, string, string) (walletInfo, error)
 }
 type starlightService struct {
+	demand chainDemand
 	store  starlightStore
 	client *starlightClient
 	target string
@@ -43,7 +44,7 @@ func startStarlightService(store userStore, c config) (*starlightService, error)
 		return nil, err
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	s := &starlightService{store: db, client: newStarlightClient(c), target: starlightTarget(c), ctx: ctx, cancel: cancel}
+	s := &starlightService{demand: newChainDemand(), store: db, client: newStarlightClient(c), target: starlightTarget(c), ctx: ctx, cancel: cancel}
 	s.wg.Add(1)
 	go s.run()
 	return s, nil
@@ -57,32 +58,19 @@ func (s *starlightService) close() error {
 }
 func (s *starlightService) run() {
 	defer s.wg.Done()
-	tick := time.NewTicker(2 * time.Second)
-	defer tick.Stop()
-	for {
-		if s.ctx.Err() != nil {
-			return
-		}
+	runChainWorker(s.ctx, &s.demand, s.client.cfg.ChainBackgroundWorkers, func() {
 		if err := s.process(); err != nil {
 			log.Print("Reward delivery: " + err.Error())
 		}
-		select {
-		case <-s.ctx.Done():
-			return
-		case <-tick.C:
-		}
-	}
+	})
 }
 func (s *starlightService) process() error {
+	if s.client.p.rpcCoolingDown() {
+		return nil
+	}
 	ctx, cancel := context.WithTimeout(s.ctx, 20*time.Second)
 	defer cancel()
-	if !s.ready {
-		if err := s.client.preflight(ctx); err != nil {
-			return err
-		}
-		s.ready = true
-		log.Printf("Reward delivery connected: chain=%d token=%s item=%t", s.client.cfg.StarlightChainID, s.client.cfg.StarlightToken, s.client.item)
-	}
+
 	j, ok, err := s.store.claimStarlight(s.target, time.Now())
 	if err != nil {
 		return errors.New("starlight_storage_unavailable")
@@ -90,14 +78,29 @@ func (s *starlightService) process() error {
 	if !ok {
 		return nil
 	}
-	next := time.Now().Add(3 * time.Second)
-	err = s.advance(ctx, &j, &next)
+	if j.Status == "confirmed" && !s.client.cfg.ChainBackgroundWorkers {
+		return s.store.saveStarlight(j, time.Now().Add(24*time.Hour))
+	}
+	next := time.Now().Add(15 * time.Second)
+	err = func() error {
+		if !s.ready {
+			if err := s.client.preflight(ctx); err != nil {
+				return err
+			}
+			s.ready = true
+			log.Printf("Reward delivery connected: chain=%d token=%s item=%t", s.client.cfg.StarlightChainID, s.client.cfg.StarlightToken, s.client.item)
+		}
+		return s.advance(ctx, &j, &next)
+	}()
 	if err != nil {
 		j.ErrorCode = err.Error()
-		next = time.Now().Add(30 * time.Second)
 	}
+	next = recoveryNext(&j.Recovery, err, next)
 	if saveErr := s.store.saveStarlight(j, next); saveErr != nil {
 		return errors.New("starlight_storage_unavailable")
+	}
+	if recoveryPending(err) {
+		return nil
 	}
 	return err
 }
@@ -127,8 +130,18 @@ func (s *starlightService) advance(ctx context.Context, j *starlightJob, next *t
 		return err
 	}
 	if processed {
+		if !validHex(j.TxHash, 32) && j.EngineID != "" {
+			hash, err := recoveryEngineHash(&j.Recovery, func() (enginePublicationTx, error) { return p.transaction(ctx, *j) })
+			if err != nil {
+				return err
+			}
+			j.TxHash = hash
+		}
 		confirmed, err := p.confirmed(ctx, *j)
-		if err != nil || !confirmed {
+		if err != nil && err.Error() != "starlight_receipt_mismatch" {
+			return err
+		}
+		if !validHex(j.TxHash, 32) || err != nil {
 			hash, findErr := p.findPaid(ctx, j)
 			if findErr != nil {
 				return findErr
@@ -143,11 +156,12 @@ func (s *starlightService) advance(ctx context.Context, j *starlightJob, next *t
 		j.ErrorCode = ""
 		if confirmed {
 			j.Status = "confirmed"
-			*next = time.Now().Add(5 * time.Minute)
+			*next = time.Now().Add(24 * time.Hour)
 		}
 		return nil
 	}
 	if j.Status == "confirmed" || j.Status == "confirming" {
+		j.Recovery = recoveryState{}
 		j.Generation++
 		j.EngineID = ""
 		j.TxHash = ""
@@ -215,6 +229,12 @@ func (a *api) progressionView(p progression, now time.Time) fiber.Map {
 	return view
 }
 func (a *api) getStarlight(c fiber.Ctx) error {
+	if a.starlight != nil {
+		defer a.starlight.demand.request()
+	}
+	if a.eventRewards != nil {
+		defer a.eventRewards.demand.request()
+	}
 	if a.starlight == nil {
 		return c.JSON(fiber.Map{"starlight": fiber.Map{"status": "not_configured"}})
 	}

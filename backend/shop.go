@@ -20,6 +20,7 @@ type shopStore interface {
 	finishShop(shopJob) error
 }
 type shopService struct {
+	demand chainDemand
 	store  shopStore
 	client *shopClient
 	ctx    context.Context
@@ -37,7 +38,7 @@ func startShopService(store userStore, c config) (*shopService, error) {
 		return nil, errors.New("shop storage unavailable")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	s := &shopService{store: db, client: newShopClient(c), ctx: ctx, cancel: cancel}
+	s := &shopService{demand: newChainDemand(), store: db, client: newShopClient(c), ctx: ctx, cancel: cancel}
 	s.wg.Add(1)
 	go s.run()
 	return s, nil
@@ -51,42 +52,19 @@ func (s *shopService) close() error {
 }
 func (s *shopService) run() {
 	defer s.wg.Done()
-	tick := time.NewTicker(2 * time.Second)
-	defer tick.Stop()
-	for {
-		if s.ctx.Err() != nil {
-			return
-		}
+	runChainWorker(s.ctx, &s.demand, s.client.cfg.ChainBackgroundWorkers, func() {
 		if err := s.process(); err != nil {
 			log.Print("shop worker: " + err.Error())
 		}
-		select {
-		case <-s.ctx.Done():
-			return
-		case <-tick.C:
-		}
-	}
+	})
 }
 func (s *shopService) process() error {
+	if s.client.star.p.rpcCoolingDown() {
+		return nil
+	}
 	ctx, cancel := context.WithTimeout(s.ctx, 20*time.Second)
 	defer cancel()
-	if !s.ready {
-		if err := s.client.preflight(ctx); err != nil {
-			return err
-		}
-		if s.client.cfg.CardsEnabled && s.client.cfg.PulseRouter == "" {
-			card, _ := s.client.forItem(s.client.itemIDs()[1])
-			if err := card.preflight(ctx); err != nil {
-				return err
-			}
-		}
-		if s.client.cfg.PulseRouter != "" {
-			if err := s.client.pulsePreflight(ctx); err != nil {
-				return err
-			}
-		}
-		s.ready = true
-	}
+
 	j, ok, err := s.store.claimShop(shopTarget(s.client.cfg))
 	if err != nil {
 		return errors.New("shop_storage_unavailable")
@@ -94,19 +72,41 @@ func (s *shopService) process() error {
 	if !ok {
 		return nil
 	}
-	err = s.advance(ctx, &j)
+	err = func() error {
+		if !s.ready {
+			if err := s.client.preflight(ctx); err != nil {
+				return err
+			}
+			if s.client.cfg.CardsEnabled && s.client.cfg.PulseRouter == "" {
+				card, _ := s.client.forItem(s.client.itemIDs()[1])
+				if err := card.preflight(ctx); err != nil {
+					return err
+				}
+			}
+			if s.client.cfg.PulseRouter != "" {
+				if err := s.client.pulsePreflight(ctx); err != nil {
+					return err
+				}
+			}
+			s.ready = true
+		}
+		return s.advance(ctx, &j)
+	}()
 	if err == nil && (j.Status == "confirmed" || j.Status == "failed") {
 		return s.store.finishShop(j)
 	}
-	next := time.Now().Add(2 * time.Second)
+	next := time.Now().Add(15 * time.Second)
 	if err != nil {
 		j.Error = "Still processing. Your request is saved; please refresh shortly."
-		next = time.Now().Add(15 * time.Second)
 	} else {
 		j.Error = ""
 	}
+	next = recoveryNext(&j.Recovery, err, next)
 	if saveErr := s.store.saveShop(j, next); saveErr != nil {
 		return errors.New("shop_storage_unavailable")
+	}
+	if recoveryPending(err) {
+		return nil
 	}
 	return err
 }
@@ -134,6 +134,13 @@ func (s *shopService) advance(ctx context.Context, j *shopJob) error {
 		if j.Stage != "execute" {
 			j.TxHash = ""
 		}
+		if j.TxHash == "" && j.EngineID != "" && j.Stage == "execute" {
+			hash, err := recoveryEngineHash(&j.Recovery, func() (enginePublicationTx, error) { return c.transaction(ctx, *j) })
+			if err != nil {
+				return err
+			}
+			j.TxHash = hash
+		}
 		ok, err := c.confirmed(ctx, j)
 		if err != nil {
 			return err
@@ -148,6 +155,9 @@ func (s *shopService) advance(ctx context.Context, j *shopJob) error {
 		tx, err := c.transaction(ctx, *j)
 		if err != nil {
 			return err
+		}
+		if j.Stage == "execute" && validHex(tx.Hash, 32) {
+			j.TxHash = tx.Hash
 		}
 		switch tx.Status {
 		case "queued", "signing", "submitted", "retrying":
@@ -376,6 +386,9 @@ func catalogProduct(ctx context.Context, client *shopClient, block, on int64) (f
 	return product, nil
 }
 func (a *api) getInventory(c fiber.Ctx) error {
+	if a.shop != nil {
+		defer a.shop.demand.request()
+	}
 	if a.shop == nil {
 		return c.JSON(fiber.Map{"items": []any{}, "enabled": false})
 	}

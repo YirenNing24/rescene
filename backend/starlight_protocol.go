@@ -245,30 +245,14 @@ func (s *starlightClient) confirmed(ctx context.Context, j starlightJob) (bool, 
 	return canonical != nil && strings.EqualFold(canonical.Hash, receipt.BlockHash), nil
 }
 func (s *starlightClient) findPaid(ctx context.Context, j *starlightJob) (string, error) {
-	head, err := s.p.head(ctx)
+	logs, err := s.p.recoveryLogs(ctx, &j.Recovery, j.FromBlock, s.cfg.StarlightConfirmations, s.cfg.StarlightDistributor, []string{starlightPaidTopic, "0x" + j.Key, "0x" + addressWord(j.Recipient)})
 	if err != nil {
 		return "", err
 	}
-	if j.FromBlock <= 0 {
-		return "", errors.New("starlight_scan_boundary_missing")
+	for _, log := range logs {
+		if s.matchesPaid(log, *j) && validHex(log.TxHash, 32) {
+			return log.TxHash, nil
+		}
 	}
-	for scanned := 0; j.FromBlock <= head && scanned < 8; scanned++ {
-		end := min(j.FromBlock+2047, head)
-		var logs []scoreLog
-		filter := map[string]any{"address": s.cfg.StarlightDistributor, "fromBlock": fmt.Sprintf("0x%x", j.FromBlock), "toBlock": fmt.Sprintf("0x%x", end), "topics": []string{starlightPaidTopic, "0x" + j.Key, "0x" + addressWord(j.Recipient)}}
-		if err = s.p.rpc(ctx, "eth_getLogs", []any{filter}, &logs); err != nil {
-			return "", err
-		}
-		for _, log := range logs {
-			if s.matchesPaid(log, *j) && validHex(log.TxHash, 32) {
-				return log.TxHash, nil
-			}
-		}
-		// Keep a small overlap for a chain reorganization at the scan boundary.
-		if end == head {
-			break
-		}
-		j.FromBlock = end + 1
-	}
-	return "", errors.New("starlight_receipt_pending")
+	return "", scanPending()
 }
